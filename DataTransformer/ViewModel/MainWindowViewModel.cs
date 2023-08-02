@@ -2649,24 +2649,6 @@ namespace DataTransformer.ViewModel
                 }
                 catch (Exception e)
                 {
-                    if ((string)e.Data["Type"] == "ClassNotFound")
-                    {
-                        Logger.Error(e.Message);
-                        runNotSuccessed = true;
-                        Stop();
-                    }
-                    else if ((string)e.Data["Type"] == "SyntaxError")
-                    {
-                        Logger.Error(e.Message);
-                        runNotSuccessed = true;
-                        Stop();
-                    }
-                    else if ((string)e.Data["Type"] == "Error")
-                    {
-                        Logger.Error(e.Message);
-                        runNotSuccessed = true;
-                        Stop();
-                    }
                     Logger.Error(e.Message);
                     runNotSuccessed = true;
                     Stop();
