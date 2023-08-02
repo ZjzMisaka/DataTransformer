@@ -156,16 +156,6 @@ namespace DataTransformer.ViewModel
             }
         }
 
-        private bool btnEditIsEnabled = false;
-        public bool BtnEditIsEnabled
-        {
-            get { return btnEditIsEnabled; }
-            set
-            {
-                SetProperty<bool>(ref btnEditIsEnabled, value);
-            }
-        }
-
         private ObservableCollection<DocumentViewModel> itemsSource;
 
         public ObservableCollection<DocumentViewModel> ItemsSource
@@ -611,10 +601,10 @@ namespace DataTransformer.ViewModel
             }
 
             BtnDeleteIsEnabled = SelectedAnalyzersIndex >= 1 ? true : false;
-            BtnEditIsEnabled = SelectedAnalyzersIndex >= 1 ? true : false;
 
             if (SelectedAnalyzersIndex == 0)
             {
+                this.analyzer = new Analyzer();
                 editor.Text = GlobalObjects.GlobalObjects.GetDefaultCode();
                 paramDicForChange = new Dictionary<string, ParamInfo>();
                 globalizationSetterForChange = new GlobalizationSetter();
@@ -921,13 +911,16 @@ namespace DataTransformer.ViewModel
                     paramDicForChange = changedParamDic;
                 }
 
-                paramEditor.Close();
+                paramEditor.DialogResult = true;
             };
             Grid.SetRow(btnOk, 1);
             Grid.SetColumnSpan(btnOk, 5);
             paramEditor.g_btn.Children.Add(btnOk);
 
-            paramEditor.ShowDialog();
+            if ((bool)paramEditor.ShowDialog())
+            {
+                this.analyzer.paramDic = paramDicForChange;
+            }
         }
 
         private void BtnEditGlobalizationClick()
@@ -1124,13 +1117,16 @@ namespace DataTransformer.ViewModel
                     globalizationSetterForChange = changedGlobalizationSetter;
                 }
 
-                globalizationEditor.Close();
+                globalizationEditor.DialogResult = true;
             };
             Grid.SetRow(btnOk, 0);
             Grid.SetColumnSpan(btnOk, 5);
             globalizationEditor.g_btn.Children.Add(btnOk);
 
-            globalizationEditor.ShowDialog();
+            if ((bool)globalizationEditor.ShowDialog())
+            {
+                this.analyzer.globalizationSetter = globalizationSetterForChange;
+            }
         }
 
         private void ItemLoaded(object e)
