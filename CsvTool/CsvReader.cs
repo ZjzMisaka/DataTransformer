@@ -22,7 +22,7 @@ namespace CsvTool
             string line;
             while ((line = _reader.ReadLine()) != null)
             {
-                var data = ParseLine(line, _csvOption.spliter, _csvOption.hasQuotes);
+                var data = ParseLine(line, Constant.splitorDic[_csvOption.spliter], _csvOption.hasQuotes);
                 yield return data;
             }
         }

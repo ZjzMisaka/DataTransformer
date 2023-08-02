@@ -15,7 +15,7 @@ namespace CsvTool
         public CsvWriter(CsvOption csvOption)
         {
             _csvOption = csvOption;
-            _separator = csvOption.spliter;
+            _separator = Constant.splitorDic[csvOption.spliter];
         }
 
         public void Write(IEnumerable<IEnumerable<string>> data, string filePath)

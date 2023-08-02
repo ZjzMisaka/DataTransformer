@@ -63,17 +63,17 @@ namespace DataTransformer.ViewModel
             }
         }
 
-        private string inputOptionSpliter;
+        private int inputOptionSpliterIndex;
 
-        public string InputOptionSpliter
+        public int InputOptionSpliterIndex
         {
             get
             {
-                return inputOptionSpliter;
+                return inputOptionSpliterIndex;
             }
             set
             {
-                SetProperty<string>(ref inputOptionSpliter, value);
+                SetProperty<int>(ref inputOptionSpliterIndex, value);
             }
         }
 
@@ -119,17 +119,17 @@ namespace DataTransformer.ViewModel
             }
         }
 
-        private string outputOptionSpliter;
+        private int outputOptionSpliterIndex;
 
-        public string OutputOptionSpliter
+        public int OutputOptionSpliterIndex
         {
             get
             {
-                return outputOptionSpliter;
+                return outputOptionSpliterIndex;
             }
             set
             {
-                SetProperty<string>(ref outputOptionSpliter, value);
+                SetProperty<int>(ref outputOptionSpliterIndex, value);
             }
         }
 
@@ -219,7 +219,14 @@ namespace DataTransformer.ViewModel
                     inputOptionHeaderList = string.Join('\n', inputOption.headerList);
                 }
 
-                inputOptionSpliter = inputOption.spliter;
+                if (inputOption.spliter == "Comma")
+                {
+                    inputOptionSpliterIndex = 0;
+                }
+                else if (inputOption.spliter == "TAB")
+                {
+                    inputOptionSpliterIndex = 1;
+                }
 
                 inputOption.hasQuotes = inputOptionHasQuotes;
 
@@ -238,7 +245,14 @@ namespace DataTransformer.ViewModel
                     outputOptionHeaderList = string.Join('\n', outputOption.headerList);
                 }
 
-                outputOptionSpliter = outputOption.spliter;
+                if (outputOption.spliter == "Comma")
+                {
+                    outputOptionSpliterIndex = 0;
+                }
+                else if (outputOption.spliter == "TAB")
+                {
+                    outputOptionSpliterIndex = 1;
+                }
 
                 outputOptionHasQuotes = outputOption.hasQuotes;
 
@@ -262,14 +276,28 @@ namespace DataTransformer.ViewModel
             if (inputOption != null)
             {
                 inputOption.headerList = inputOptionHeaderList.Replace("\r", "").Split('\n').Where(str => str.Trim() != "").ToList();
-                inputOption.spliter = inputOptionSpliter;
+                if (inputOptionSpliterIndex == 0)
+                {
+                    inputOption.spliter = "Comma";
+                }
+                else if (inputOptionSpliterIndex == 1)
+                {
+                    inputOption.spliter = "TAB";
+                }
                 inputOption.hasQuotes = inputOptionHasQuotes;
                 inputOption.showHeader = inputOptionShowHeader;
             }
             else
             {
                 outputOption.headerList = outputOptionHeaderList.Replace("\r", "").Split('\n').Where(str => str.Trim() != "").ToList();
-                outputOption.spliter = outputOptionSpliter;
+                if (outputOptionSpliterIndex == 0)
+                {
+                    outputOption.spliter = "Comma";
+                }
+                else if (outputOptionSpliterIndex == 1)
+                {
+                    outputOption.spliter = "TAB";
+                }
                 outputOption.hasQuotes = outputOptionHasQuotes;
                 outputOption.showHeader = outputOptionShowHeader;
                 outputOption.outputPath = outputOptionOutputPath; outputOption.outputFileName = outputOptionOutputFileName;

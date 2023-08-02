@@ -40,7 +40,10 @@
                         <TextBox Text="{Binding InputOptionHeaderList, Mode=TwoWay}" Grid.Row="0" Grid.Column="1" AcceptsReturn="True"></TextBox>
 
                         <TextBlock Text="{DynamicResource Spliter}" Grid.Row="1" Grid.Column="0" Padding="0, 0, 5, 0"></TextBlock>
-                        <TextBox Text="{Binding InputOptionSpliter, Mode=TwoWay}" Grid.Row="1" Grid.Column="1"></TextBox>
+                        <ComboBox SelectedIndex="{Binding InputOptionSpliterIndex, Mode=TwoWay}" Grid.Row="1" Grid.Column="1">
+                            <ComboBoxItem Content="Comma"></ComboBoxItem>
+                            <ComboBoxItem Content="TAB"></ComboBoxItem>
+                        </ComboBox>
 
                         <TextBlock Text="{DynamicResource HasQuotes}" Grid.Row="2" Grid.Column="0" Padding="0, 0, 5, 0"></TextBlock>
                         <CheckBox IsChecked="{Binding InputOptionHasQuotes, Mode=TwoWay}" Grid.Row="2" Grid.Column="1"></CheckBox>
@@ -71,7 +74,10 @@
                         <TextBox Text="{Binding OutputOptionHeaderList, Mode=TwoWay}" Grid.Row="0" Grid.Column="1" AcceptsReturn="True"></TextBox>
 
                         <TextBlock Text="{DynamicResource Spliter}" Grid.Row="1" Grid.Column="0" Padding="0, 0, 5, 0"></TextBlock>
-                        <TextBox Text="{Binding OutputOptionSpliter, Mode=TwoWay}" Grid.Row="1" Grid.Column="1"></TextBox>
+                        <ComboBox SelectedIndex="{Binding OutputOptionSpliterIndex, Mode=TwoWay}" Grid.Row="1" Grid.Column="1">
+                            <ComboBoxItem Content="Comma"></ComboBoxItem>
+                            <ComboBoxItem Content="TAB"></ComboBoxItem>
+                        </ComboBox>
 
                         <TextBlock Text="{DynamicResource HasQuotes}" Grid.Row="2" Grid.Column="0" Padding="0, 0, 5, 0"></TextBlock>
                         <CheckBox IsChecked="{Binding OutputOptionHasQuotes, Mode=TwoWay}" Grid.Row="2" Grid.Column="1"></CheckBox>
