@@ -1,7 +1,7 @@
 ﻿<ResourceDictionary xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
                     xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
                     xmlns:sys="clr-namespace:System;assembly=mscorlib">
-    <sys:String x:Key="WinTitle">Excel分析工具</sys:String>
+    <sys:String x:Key="WinTitle">数据转换工具</sys:String>
 
     <sys:String x:Key="MenuOpen">打开 (_O)</sys:String>
     <sys:String x:Key="MenuCsvExplainerFolder">检索信息文件夹 (_E)</sys:String>
@@ -145,8 +145,7 @@
     <sys:String x:Key="FileNotFound">文件{0}未找到</sys:String>
     <sys:String x:Key="FileNotSupported">.Dll文件 "{0}" 不被支持. </sys:String>
     <sys:String x:Key="UnrecognizedParameter">参数无法识别</sys:String>
-    <sys:String x:Key="Code" xml:space="preserve">using ClosedXML.Excel;
-using GlobalObjects;
+    <sys:String x:Key="Code" xml:space="preserve">using GlobalObjects;
 using GlobalObjects.Model;
 using System;
 using System.Collections.Concurrent;
@@ -164,52 +163,40 @@ namespace AnalyzeCode
         /// &lt;param name="allFilePathList">将会分析的所有文件路径列表&lt;/param>
         /// &lt;param name="globalizationSetter">获取国际化字符串&lt;/param>
         /// &lt;param name="isExecuteInSequence">是否顺序执行&lt;/param>
-        public void RunBeforeAnalyzeCsv(Param param, ref Object globalObject, List&lt;string> allFilePathList, GlobalizationSetter globalizationSetter, bool isExecuteInSequence)
+        /// &lt;param name="outputter">用于输出CSV数据&lt;/param>
+        public void RunBeforeAnalyzeCsv(Param param, ref Object globalObject, List&lt;string> allFilePathList, GlobalizationSetter globalizationSetter, bool isExecuteInSequence, Outputter outputter)
         {
             
         }
 
         /// &lt;summary>
-        /// 分析一个csv
+        /// 按行处理csv数据
         /// &lt;/summary>
         /// &lt;param name="param">传入的参数&lt;/param>
-        /// &lt;param name="csv">被分析的csv&lt;/param>
+        /// &lt;param name="record">一行CSV数据&lt;/param>
         /// &lt;param name="filePath">文件路径&lt;/param>
         /// &lt;param name="globalObject">全局存在, 可以保存需要在其他调用时使用的数据, 如当前行号等&lt;/param>
         /// &lt;param name="globalizationSetter">获取国际化字符串&lt;/param>
         /// &lt;param name="isExecuteInSequence">是否顺序执行&lt;/param>
         /// &lt;param name="invokeCount">此分析函数被调用的次数&lt;/param>
-        public void AnalyzeCsv(Param param, IXLWorkcsv csv, string filePath, ref Object globalObject, GlobalizationSetter globalizationSetter, bool isExecuteInSequence, int invokeCount)
+        /// &lt;param name="outputter">用于输出CSV数据&lt;/param>
+        public void AnalyzePerRecord(Param param, Dictionary&lt;string, string> record, string filePath, ref Object globalObject, GlobalizationSetter globalizationSetter, bool isExecuteInSequence, int invokeCount, Outputter outputter)
         {
             
         }
 
         /// &lt;summary>
-        /// 在所有输出前调用
+        /// 整体处理所有csv数据
         /// &lt;/summary>
         /// &lt;param name="param">传入的参数&lt;/param>
-        /// &lt;param name="workbook">用于输出的excel文件&lt;/param>
-        /// &lt;param name="globalObject">全局存在, 可以保存需要在其他调用时使用的数据, 如当前行号等&lt;/param>
-        /// &lt;param name="allFilePathList">分析的所有文件路径列表&lt;/param>
-        /// &lt;param name="globalizationSetter">获取国际化字符串&lt;/param>
-        /// &lt;param name="isExecuteInSequence">是否顺序执行&lt;/param>
-        public void RunBeforeSetResult(Param param, XLWorkbook workbook, ref Object globalObject, List&lt;string> allFilePathList, GlobalizationSetter globalizationSetter, bool isExecuteInSequence)
-        {
-            
-        }
-
-        /// &lt;summary>
-        /// 根据分析结果输出到excel中
-        /// &lt;/summary>
-        /// &lt;param name="param">传入的参数&lt;/param>
-        /// &lt;param name="workbook">用于输出的excel文件&lt;/param>
+        /// &lt;param name="records">CSV数据的集合&lt;/param>
         /// &lt;param name="filePath">文件路径&lt;/param>
         /// &lt;param name="globalObject">全局存在, 可以保存需要在其他调用时使用的数据, 如当前行号等&lt;/param>
         /// &lt;param name="globalizationSetter">获取国际化字符串&lt;/param>
         /// &lt;param name="isExecuteInSequence">是否顺序执行&lt;/param>
-        /// &lt;param name="invokeCount">此输出函数被调用的次数&lt;/param>
-        /// &lt;param name="totalCount">总共需要调用的输出函数的次数&lt;/param>
-        public void SetResult(Param param, XLWorkbook workbook, string filePath, ref Object globalObject, GlobalizationSetter globalizationSetter, bool isExecuteInSequence, int invokeCount, int totalCount)
+        /// &lt;param name="invokeCount">此分析函数被调用的次数&lt;/param>
+        /// &lt;param name="outputter">用于输出CSV数据&lt;/param>
+        public void AnalyzeRecords(Param param, IEnumerable&lt;IEnumerable&lt;string>> records, string filePath, ref Object globalObject, GlobalizationSetter globalizationSetter, bool isExecuteInSequence, int invokeCount, Outputter outputter)
         {
             
         }
@@ -218,12 +205,12 @@ namespace AnalyzeCode
         /// 所有调用结束后调用
         /// &lt;/summary>
         /// &lt;param name="param">传入的参数&lt;/param>
-        /// &lt;param name="workbook">用于输出的excel文件&lt;/param>
         /// &lt;param name="globalObject">全局存在, 可以保存需要在其他调用时使用的数据, 如当前行号等&lt;/param>
         /// &lt;param name="allFilePathList">分析的所有文件路径列表&lt;/param>
         /// &lt;param name="globalizationSetter">获取国际化字符串&lt;/param>
         /// &lt;param name="isExecuteInSequence">是否顺序执行&lt;/param>
-        public void RunEnd(Param param, XLWorkbook workbook, ref Object globalObject, List&lt;string> allFilePathList, GlobalizationSetter globalizationSetter, bool isExecuteInSequence)
+        /// &lt;param name="outputter">用于输出CSV数据&lt;/param>
+        public void RunEnd(Param param, XLWorkbook workbook, ref Object globalObject, List&lt;string> allFilePathList, GlobalizationSetter globalizationSetter, bool isExecuteInSequence, Outputter outputter)
         {
             
         }

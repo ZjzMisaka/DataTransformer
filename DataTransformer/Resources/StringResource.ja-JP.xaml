@@ -1,11 +1,11 @@
 ﻿<ResourceDictionary xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
                     xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
                     xmlns:sys="clr-namespace:System;assembly=mscorlib">
-    <sys:String x:Key="WinTitle">エクセルツール</sys:String>
+    <sys:String x:Key="WinTitle">データトランスフォーマー</sys:String>
 
     <sys:String x:Key="MenuOpen">開く (_O)</sys:String>
     <sys:String x:Key="MenuCsvExplainerFolder">検索情報フォルダ (_E)</sys:String>
-    <sys:String x:Key="MenuAnalyzerFolder">エクセルファイル処理のロジックフォルダ (_A)</sys:String>
+    <sys:String x:Key="MenuAnalyzerFolder">CSVファイル処理のロジックフォルダ (_A)</sys:String>
     <sys:String x:Key="MenuDLLFolder">DLLフォルダ (_D)</sys:String>
     <sys:String x:Key="MenuRuleFolder">ルールフォルダ (_R)</sys:String>
     <sys:String x:Key="MenuWorkFolder">作業ベース (_W)</sys:String>
@@ -60,10 +60,10 @@
     <sys:String x:Key="WordWrap">自動改行</sys:String>
     <sys:String x:Key="ShowLineNumbers">行番号の表示</sys:String>
 
-    <sys:String x:Key="Analyzer">エクセルファイル処理のロジック</sys:String>
+    <sys:String x:Key="Analyzer">CSVファイル処理のロジック</sys:String>
     <sys:String x:Key="CsvExplainer">検索情報</sys:String>
     <sys:String x:Key="SetCsvExplainer">検索情報の設定</sys:String>
-    <sys:String x:Key="SetAnalyzer">エクセルファイル処理のロジックの設定</sys:String>
+    <sys:String x:Key="SetAnalyzer">CSVファイル処理のロジックの設定</sys:String>
     <sys:String x:Key="Parameter">パラメータ</sys:String>
     <sys:String x:Key="Edit">編集</sys:String>
     <sys:String x:Key="Lock">ロック</sys:String>
@@ -124,7 +124,7 @@
     <sys:String x:Key="SetManual">手動に設定</sys:String>
     <sys:String x:Key="SuccessfullySaved">正常に保存されました</sys:String>
     <sys:String x:Key="Copied">クリップボードにコピーしました</sys:String>
-    <sys:String x:Key="ParameterEditor">パラメータエクセル</sys:String>
+    <sys:String x:Key="ParameterEditor">パラメータエディタ</sys:String>
     <sys:String x:Key="ActiveThreads">アクティブスレッド</sys:String>
     <sys:String x:Key="InUseThreads">使用中のスレッド</sys:String>
     <sys:String x:Key="SelectFile">ファイルを選択してください</sys:String>
@@ -163,26 +163,39 @@ namespace AnalyzeCode
         /// &lt;param name="allFilePathList">分析されるすべてのファイルパスのリスト&lt;/param>
         /// &lt;param name="globalizationSetter">国際化文字列の取得&lt;/param>
         /// &lt;param name="isExecuteInSequence">順番実行する&lt;/param>
+        /// &lt;param name="outputter">CSVデータ出力クラス&lt;/param>
         public void RunBeforeAnalyzeCsv(Param param, ref Object globalObject, List&lt;string> allFilePathList, GlobalizationSetter globalizationSetter, bool isExecuteInSequence, Outputter outputter)
         {
             
         }
 
         /// &lt;summary>
-        /// シートを分析する
+        /// データを行ごとに処理する
         /// &lt;/summary>
         /// &lt;param name="param">着信パラメータ&lt;/param>
-        /// &lt;param name="csv">分析するシート&lt;/param>
+        /// &lt;param name="record">データ&lt;/param>
         /// &lt;param name="filePath">ファイルパス&lt;/param>
         /// &lt;param name="globalObject">グローバルに存在し、現在の行番号など、他の呼び出しで使用する必要のあるデータを保存できます。&lt;/param>
         /// &lt;param name="globalizationSetter">国際化文字列の取得&lt;/param>
         /// &lt;param name="isExecuteInSequence">順番実行する&lt;/param>
         /// &lt;param name="invokeCount">この分析関数が呼び出された回数&lt;/param>
+        /// &lt;param name="outputter">CSVデータ出力クラス&lt;/param>
         public void AnalyzePerRecord(Param param, Dictionary&lt;string, string> record, string filePath, ref Object globalObject, GlobalizationSetter globalizationSetter, bool isExecuteInSequence, int invokeCount, Outputter outputter)
         {
             
         }
         
+        /// &lt;summary>
+        /// 全てのデータ一緒にを処理する
+        /// &lt;/summary>
+        /// &lt;param name="param">着信パラメータ&lt;/param>
+        /// &lt;param name="record">データリスト&lt;/param>
+        /// &lt;param name="filePath">ファイルパス&lt;/param>
+        /// &lt;param name="globalObject">グローバルに存在し、現在の行番号など、他の呼び出しで使用する必要のあるデータを保存できます。&lt;/param>
+        /// &lt;param name="globalizationSetter">国際化文字列の取得&lt;/param>
+        /// &lt;param name="isExecuteInSequence">順番実行する&lt;/param>
+        /// &lt;param name="invokeCount">この分析関数が呼び出された回数&lt;/param>
+        /// &lt;param name="outputter">CSVデータ出力クラス&lt;/param>
         public void AnalyzeRecords(Param param, IEnumerable&lt;IEnumerable&lt;string>> records, string filePath, ref Object globalObject, GlobalizationSetter globalizationSetter, bool isExecuteInSequence, int invokeCount, Outputter outputter)
         {
             
@@ -192,11 +205,11 @@ namespace AnalyzeCode
         /// すべての通話が終了した後に呼び出されます
         /// &lt;/summary>
         /// &lt;param name="param">着信パラメータ&lt;/param>
-        /// &lt;param name="workbook">出力用のExcelファイル&lt;/param>
         /// &lt;param name="globalObject">グローバルに存在し、現在の行番号など、他の呼び出しで使用する必要のあるデータを保存できます。&lt;/param>
         /// &lt;param name="allFilePathList">分析されたすべてのファイルパスのリスト&lt;/param>
         /// &lt;param name="globalizationSetter">国際化文字列の取得&lt;/param>
         /// &lt;param name="isExecuteInSequence">順番実行する&lt;/param>
+        /// &lt;param name="outputter">CSVデータ出力クラス&lt;/param>
         public void RunEnd(Param param, ref Object globalObject, List&lt;string> allFilePathList, GlobalizationSetter globalizationSetter, bool isExecuteInSequence, Outputter outputter)
         {
             

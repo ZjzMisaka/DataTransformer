@@ -145,8 +145,7 @@
     <sys:String x:Key="FileNotFound">File {0} not found</sys:String>
     <sys:String x:Key="FileNotSupported">The .Dll file "{0}" is not supported.</sys:String>
     <sys:String x:Key="UnrecognizedParameter">Unrecognized parameter</sys:String>
-    <sys:String x:Key="Code" xml:space="preserve">using ClosedXML.Excel;
-using GlobalObjects;
+    <sys:String x:Key="Code" xml:space="preserve">using GlobalObjects;
 using GlobalObjects.Model;
 using System;
 using System.Collections.Concurrent;
@@ -164,52 +163,40 @@ namespace AnalyzeCode
         /// &lt;param name="allFilePathList">A list of all file paths that will be analyzed&lt;/param>
         /// &lt;param name="globalizationSetter">Get internationalization string&lt;/param>
         /// &lt;param name="isExecuteInSequence">Whether to execute sequentially&lt;/param>
-        public void RunBeforeAnalyzeCsv(Param param, ref Object globalObject, List&lt;string> allFilePathList, GlobalizationSetter globalizationSetter, bool isExecuteInSequence)
+        /// &lt;param name="outputter">CSV data outputter&lt;/param>
+        public void RunBeforeAnalyzeCsv(Param param, ref Object globalObject, List&lt;string> allFilePathList, GlobalizationSetter globalizationSetter, bool isExecuteInSequence, Outputter outputter)
         {
             
         }
 
         /// &lt;summary>
-        /// Analyze a csv
+        /// Process csv data by row
         /// &lt;/summary>
         /// &lt;param name="param">Parameters passed in&lt;/param>
-        /// &lt;param name="csv">Csv to be analyzed&lt;/param>
+        /// &lt;param name="record">Csv data&lt;/param>
         /// &lt;param name="filePath">File path&lt;/param>
         /// &lt;param name="globalObject">Global existence, can save data that needs to be used in other calls, such as the current line number, etc.&lt;/param>
         /// &lt;param name="globalizationSetter">Get internationalization string&lt;/param>
         /// &lt;param name="isExecuteInSequence">Whether to execute sequentially&lt;/param>
         /// &lt;param name="invokeCount">The number of times this analysis function was called&lt;/param>
-        public void AnalyzeCsv(Param param, IXLWorkcsv csv, string filePath, ref Object globalObject, GlobalizationSetter globalizationSetter, bool isExecuteInSequence, int invokeCount)
+        /// &lt;param name="outputter">CSV data outputter&lt;/param>
+        public void AnalyzePerRecord(Param param, Dictionary&lt;string, string> record, string filePath, ref Object globalObject, GlobalizationSetter globalizationSetter, bool isExecuteInSequence, int invokeCount, Outputter outputter)
         {
             
         }
 
         /// &lt;summary>
-        /// call before all output
+        /// Process all csv data as a whole
         /// &lt;/summary>
         /// &lt;param name="param">Parameters passed in&lt;/param>
-        /// &lt;param name="workbook">Excel file for output&lt;/param>
-        /// &lt;param name="globalObject">Global existence, can save data that needs to be used in other calls, such as the current line number, etc.&lt;/param>
-        /// &lt;param name="allFilePathList">List of all file paths analyzed&lt;/param>
-        /// &lt;param name="globalizationSetter">Get internationalization string&lt;/param>
-        /// &lt;param name="isExecuteInSequence">Whether to execute sequentially&lt;/param>
-        public void RunBeforeSetResult(Param param, XLWorkbook workbook, ref Object globalObject, List&lt;string> allFilePathList, GlobalizationSetter globalizationSetter, bool isExecuteInSequence)
-        {
-            
-        }
-
-        /// &lt;summary>
-        /// Export the analysis results to excel
-        /// &lt;/summary>
-        /// &lt;param name="param">Parameters passed in&lt;/param>
-        /// &lt;param name="workbook">Excel file for output&lt;/param>
+        /// &lt;param name="records">Csv data list&lt;/param>
         /// &lt;param name="filePath">File path&lt;/param>
         /// &lt;param name="globalObject">Global existence, can save data that needs to be used in other calls, such as the current line number, etc.&lt;/param>
         /// &lt;param name="globalizationSetter">Get internationalization string&lt;/param>
         /// &lt;param name="isExecuteInSequence">Whether to execute sequentially&lt;/param>
-        /// &lt;param name="invokeCount">The number of times this output function was called&lt;/param>
-        /// &lt;param name="totalCount">The total number of times the output function needs to be called&lt;/param>
-        public void SetResult(Param param, XLWorkbook workbook, string filePath, ref Object globalObject, GlobalizationSetter globalizationSetter, bool isExecuteInSequence, int invokeCount, int totalCount)
+        /// &lt;param name="invokeCount">The number of times this analysis function was called&lt;/param>
+        /// &lt;param name="outputter">CSV data outputter&lt;/param>
+        public void AnalyzeRecords(Param param, IEnumerable&lt;IEnumerable&lt;string>> records, string filePath, ref Object globalObject, GlobalizationSetter globalizationSetter, bool isExecuteInSequence, int invokeCount, Outputter outputter)
         {
             
         }
@@ -223,7 +210,8 @@ namespace AnalyzeCode
         /// &lt;param name="allFilePathList">List of all file paths analyzed&lt;/param>
         /// &lt;param name="globalizationSetter">Get internationalization string&lt;/param>
         /// &lt;param name="isExecuteInSequence">Whether to execute sequentially&lt;/param>
-        public void RunEnd(Param param, XLWorkbook workbook, ref Object globalObject, List&lt;string> allFilePathList, GlobalizationSetter globalizationSetter, bool isExecuteInSequence)
+        /// &lt;param name="outputter">CSV data outputter&lt;/param>
+        public void RunEnd(Param param, ref Object globalObject, List&lt;string> allFilePathList, GlobalizationSetter globalizationSetter, bool isExecuteInSequence, Outputter outputter)
         {
             
         }
