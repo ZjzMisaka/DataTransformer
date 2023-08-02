@@ -1,0 +1,93 @@
+﻿<Window x:Class="DataTransformer.View.CsvOptionEditor"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        xmlns:local="clr-namespace:DataTransformer.View"
+        xmlns:Behavior="clr-namespace:Behavior"
+        xmlns:dd="urn:gong-wpf-dragdrop"
+        xmlns:i="http://schemas.microsoft.com/xaml/behaviors"
+        xmlns:ui="http://schemas.modernwpf.com/2019"
+        ui:WindowHelper.UseModernWindowStyle="True"
+        mc:Ignorable="d"
+        Title="CsvOptionEditor" Height="300" Width="300">
+    <i:Interaction.Triggers>
+        <i:EventTrigger EventName="Loaded">
+            <i:InvokeCommandAction Command="{Binding WindowLoadedCommand}" PassEventArgsToCommand="True" />
+        </i:EventTrigger>
+    </i:Interaction.Triggers>
+    <Grid>
+        <Grid.RowDefinitions>
+            <RowDefinition Height="*"></RowDefinition>
+            <RowDefinition Height="35px"></RowDefinition>
+        </Grid.RowDefinitions>
+        <TabControl Grid.Row="0">
+            <TabItem Name="t_input" Header="Input" IsEnabled="{Binding IsInputOption}" IsSelected="{Binding IsInputOption}">
+                <ScrollViewer HorizontalScrollBarVisibility="Auto" VerticalScrollBarVisibility="Auto" Padding="4, 0, 4, 0">
+                    <Grid>
+                        <Grid.RowDefinitions>
+                            <RowDefinition Height="100px"></RowDefinition>
+                            <RowDefinition Height="35px"></RowDefinition>
+                            <RowDefinition Height="35px"></RowDefinition>
+                            <RowDefinition Height="35px"></RowDefinition>
+                        </Grid.RowDefinitions>
+                        <Grid.ColumnDefinitions>
+                            <ColumnDefinition Width="80px"></ColumnDefinition>
+                            <ColumnDefinition Width="*"></ColumnDefinition>
+                        </Grid.ColumnDefinitions>
+                        
+                        <TextBlock Text="HeaderList" Grid.Row="0" Grid.Column="0"></TextBlock>
+                        <TextBox Text="{Binding InputOptionHeaderList, Mode=TwoWay}" Grid.Row="0" Grid.Column="1" AcceptsReturn="True"></TextBox>
+
+                        <TextBlock Text="spliter" Grid.Row="1" Grid.Column="0"></TextBlock>
+                        <TextBox Text="{Binding InputOptionSpliter, Mode=TwoWay}" Grid.Row="1" Grid.Column="1"></TextBox>
+
+                        <TextBlock Text="HasQuotes" Grid.Row="2" Grid.Column="0"></TextBlock>
+                        <CheckBox IsChecked="{Binding InputOptionHasQuotes, Mode=TwoWay}" Grid.Row="2" Grid.Column="1"></CheckBox>
+
+                        <TextBlock Text="ShowHeader" Grid.Row="3" Grid.Column="0"></TextBlock>
+                        <CheckBox IsChecked="{Binding InputOptionShowHeader, Mode=TwoWay}" Grid.Row="3" Grid.Column="1"></CheckBox>
+                    </Grid>
+                </ScrollViewer>
+            </TabItem>
+
+            <TabItem Name="t_output" Header="Output" IsEnabled="{Binding IsOutputOption}" IsSelected="{Binding IsOutputOption}">
+                <ScrollViewer HorizontalScrollBarVisibility="Auto" VerticalScrollBarVisibility="Auto" Padding="4, 0, 4, 0">
+                    <Grid>
+                        <Grid.RowDefinitions>
+                            <RowDefinition Height="100px"></RowDefinition>
+                            <RowDefinition Height="35px"></RowDefinition>
+                            <RowDefinition Height="35px"></RowDefinition>
+                            <RowDefinition Height="35px"></RowDefinition>
+                            <RowDefinition Height="35px"></RowDefinition>
+                            <RowDefinition Height="35px"></RowDefinition>
+                        </Grid.RowDefinitions>
+                        <Grid.ColumnDefinitions>
+                            <ColumnDefinition Width="80px"></ColumnDefinition>
+                            <ColumnDefinition Width="*"></ColumnDefinition>
+                        </Grid.ColumnDefinitions>
+
+                        <TextBlock Text="HeaderList" Grid.Row="0" Grid.Column="0"></TextBlock>
+                        <TextBox Text="{Binding OutputOptionHeaderList, Mode=TwoWay}" Grid.Row="0" Grid.Column="1" AcceptsReturn="True"></TextBox>
+
+                        <TextBlock Text="spliter" Grid.Row="1" Grid.Column="0"></TextBlock>
+                        <TextBox Text="{Binding OutputOptionSpliter, Mode=TwoWay}" Grid.Row="1" Grid.Column="1"></TextBox>
+
+                        <TextBlock Text="HasQuotes" Grid.Row="2" Grid.Column="0"></TextBlock>
+                        <CheckBox IsChecked="{Binding OutputOptionHasQuotes, Mode=TwoWay}" Grid.Row="2" Grid.Column="1"></CheckBox>
+
+                        <TextBlock Text="ShowHeader" Grid.Row="3" Grid.Column="0"></TextBlock>
+                        <CheckBox IsChecked="{Binding OutputOptionShowHeader, Mode=TwoWay}" Grid.Row="3" Grid.Column="1"></CheckBox>
+
+                        <TextBlock Text="OutputPath" Grid.Row="4" Grid.Column="0"></TextBlock>
+                        <TextBox Text="{Binding OutputOptionOutputPath, Mode=TwoWay}" Grid.Row="4" Grid.Column="1"></TextBox>
+
+                        <TextBlock Text="FileName" Grid.Row="5" Grid.Column="0"></TextBlock>
+                        <TextBox Text="{Binding OutputOptionOutputFileName, Mode=TwoWay}" Grid.Row="5" Grid.Column="1"></TextBox>
+                    </Grid>
+                </ScrollViewer>
+            </TabItem>
+        </TabControl>
+        <Button Command="{Binding OkCommand}" Content="OK" Grid.Row="1" Margin="0, 5, 0, 0" HorizontalAlignment="Stretch" VerticalAlignment="Center"></Button>
+    </Grid>
+</Window>

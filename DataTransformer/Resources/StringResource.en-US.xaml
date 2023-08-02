@@ -1,0 +1,235 @@
+﻿<ResourceDictionary xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+                    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+                    xmlns:sys="clr-namespace:System;assembly=mscorlib">
+    <sys:String x:Key="WinTitle">Data Transformer</sys:String>
+
+    <sys:String x:Key="MenuOpen">_Open</sys:String>
+    <sys:String x:Key="MenuCsvExplainerFolder">Csv explainer folder (_E)</sys:String>
+    <sys:String x:Key="MenuAnalyzerFolder">_Analyzer folder</sys:String>
+    <sys:String x:Key="MenuDLLFolder">_DLL folder</sys:String>
+    <sys:String x:Key="MenuRuleFolder">_Rule folder</sys:String>
+    <sys:String x:Key="MenuWorkFolder">_Workbase</sys:String>
+    <sys:String x:Key="MenuOutputFolder">_Output folder</sys:String>
+    <sys:String x:Key="MenuOutputFile">Output file (_F)</sys:String>
+    <sys:String x:Key="MenuHelp">_Help</sys:String>
+    <sys:String x:Key="MenuSetting">_Setting</sys:String>
+    <sys:String x:Key="Setting">Setting</sys:String>
+    <sys:String x:Key="MenuTheme">Theme (_T)</sys:String>
+    <sys:String x:Key="MenuLanguage">_Language</sys:String>
+    <sys:String x:Key="SetLanguage">Language setting</sys:String>
+    <sys:String x:Key="IsEnable">Is enable</sys:String>
+    <sys:String x:Key="MenuThreadRelated">_Thread related</sys:String>
+    <sys:String x:Key="MenuMaxThreadCount">_Maximum number of threads</sys:String>
+    <sys:String x:Key="MenuEnableTimeoutSetting">Enable timeout setting (_E)</sys:String>
+    <sys:String x:Key="MenuTotalTimeoutLimitAnalyze">Analysis stage timeout (_T)</sys:String>
+    <sys:String x:Key="MenuPerTimeoutLimitAnalyze">Single analysis timeout (_P)</sys:String>
+    <sys:String x:Key="MenuTotalTimeoutLimitOutput">Output stage timeout (_T)</sys:String>
+    <sys:String x:Key="MenuPerTimeoutLimitOutput">Single output timeout (_P)</sys:String>
+    <sys:String x:Key="MenuFileSystemWatcherInvokeDalay">Watch file response time (_D)</sys:String>
+    <sys:String x:Key="MenuFreshInterval">Interface refresh interval in thread (_F)</sys:String>
+    <sys:String x:Key="MaxThreadCount">_Maximum number of threads</sys:String>
+    <sys:String x:Key="EnableTimeoutSetting">Enable timeout setting</sys:String>
+    <sys:String x:Key="TotalTimeoutLimitAnalyze">Analysis stage timeout (ms)</sys:String>
+    <sys:String x:Key="PerTimeoutLimitAnalyze">Single analysis timeout (ms)</sys:String>
+    <sys:String x:Key="TotalTimeoutLimitOutput">Output stage timeout (ms)</sys:String>
+    <sys:String x:Key="PerTimeoutLimitOutput">Single output timeout (ms)</sys:String>
+    <sys:String x:Key="FileSystemWatcherInvokeDalay">Watch file response time (ms)</sys:String>
+    <sys:String x:Key="FreshInterval">Interface refresh interval in thread (ms)</sys:String>
+    <sys:String x:Key="MenuSourceCode">Source code (_C)</sys:String>
+    <sys:String x:Key="OpenBrowser">The browser is about to open, do you want to continue?</sys:String>
+    <sys:String x:Key="MenuShowSpaces">_Show spaces</sys:String>
+    <sys:String x:Key="MenuShowTabs">_Show tabs</sys:String>
+    <sys:String x:Key="MenuShowEndOfLine">_Show end of line</sys:String>
+    <sys:String x:Key="MenuShowBoxForControlCharacters">_Show box for control characters</sys:String>
+    <sys:String x:Key="MenuEnableHyperlinks">_Enable hyperlinks</sys:String>
+    <sys:String x:Key="MenuIndentationSize">_Indentation size</sys:String>
+    <sys:String x:Key="MenuConvertTabsToSpaces">_Convert tabs to spaces</sys:String>
+    <sys:String x:Key="MenuHighlightCurrentLine">_Highlight current line</sys:String>
+    <sys:String x:Key="MenuHideCursorWhileTyping">_Hide cursor while typing</sys:String>
+    <sys:String x:Key="MenuWordWrap">_Word wrap</sys:String>
+    <sys:String x:Key="MenuShowLineNumbers">_Show line numbers</sys:String>
+    <sys:String x:Key="ShowSpaces">Show spaces</sys:String>
+    <sys:String x:Key="ShowTabs">Show tabs</sys:String>
+    <sys:String x:Key="ShowEndOfLine">Show end of line</sys:String>
+    <sys:String x:Key="ShowBoxForControlCharacters">Show box for control characters</sys:String>
+    <sys:String x:Key="EnableHyperlinks">Enable hyperlinks</sys:String>
+    <sys:String x:Key="IndentationSize">Indentation size</sys:String>
+    <sys:String x:Key="ConvertTabsToSpaces">Convert tabs to spaces</sys:String>
+    <sys:String x:Key="HighlightCurrentLine">Highlight current line</sys:String>
+    <sys:String x:Key="HideCursorWhileTyping">Hide cursor while typing</sys:String>
+    <sys:String x:Key="WordWrap">Word wrap</sys:String>
+    <sys:String x:Key="ShowLineNumbers">Show line numbers</sys:String>
+
+    <sys:String x:Key="Analyzer">Analyzer</sys:String>
+    <sys:String x:Key="CsvExplainer">Csv explainer</sys:String>
+    <sys:String x:Key="SetCsvExplainer">Set csv explainer</sys:String>
+    <sys:String x:Key="SetAnalyzer">Set analyzer</sys:String>
+    <sys:String x:Key="Parameter">Parameter</sys:String>
+    <sys:String x:Key="Edit">Edit</sys:String>
+    <sys:String x:Key="Lock">Lock</sys:String>
+    <sys:String x:Key="Unlock">Unlock</sys:String>
+    <sys:String x:Key="Workbase">Workbase [If you enter relative pathes in the csv explainer]</sys:String>
+    <sys:String x:Key="Select">Select</sys:String>
+    <sys:String x:Key="OutputPath">Output path</sys:String>
+    <sys:String x:Key="Open">Open</sys:String>
+    <sys:String x:Key="OutputFileName">Output file name</sys:String>
+    <sys:String x:Key="Rule">Rule</sys:String>
+    <sys:String x:Key="Save">Save</sys:String>
+    <sys:String x:Key="Close">Close</sys:String>
+    <sys:String x:Key="Delete">Delete</sys:String>
+    <sys:String x:Key="ToBeDeletedSoon">To be deleted soon: {0}</sys:String>
+    <sys:String x:Key="ClearTemp">Clear temporary config</sys:String>
+    <sys:String x:Key="AutomaticallyOpening">Opens automatically when finished</sys:String>
+    <sys:String x:Key="Stop">Stop</sys:String>
+    <sys:String x:Key="Start">Start</sys:String>
+    <sys:String x:Key="AnalyzerEditor">Analyzere ditor</sys:String>
+    <sys:String x:Key="EditParameter">Edit parameter</sys:String>
+    <sys:String x:Key="Internationalization">Internationalization</sys:String>
+    <sys:String x:Key="CsvExplainerEditor">Csv explainer editor</sys:String>
+    <sys:String x:Key="PathList">Path list</sys:String>
+    <sys:String x:Key="FileNameList">File name list</sys:String>
+    <sys:String x:Key="Same">Same</sys:String>
+    <sys:String x:Key="Contain">Contain</sys:String>
+    <sys:String x:Key="RegExp">Regular expression</sys:String>
+    <sys:String x:Key="All">All</sys:String>
+    <sys:String x:Key="CsvNameList">Csv name list</sys:String>
+    <sys:String x:Key="Error">Error</sys:String>
+    <sys:String x:Key="PathNotExists">Path does not exist</sys:String>
+    <sys:String x:Key="Ok">Ok</sys:String>
+    <sys:String x:Key="Timeout">Timeout</sys:String>
+    <sys:String x:Key="TotalTimeout">Total timeout</sys:String>
+    <sys:String x:Key="Analyzing">Analyzing...</sys:String>
+    <sys:String x:Key="ExceptionHasBeenThrowed">Exception has been thrown</sys:String>
+    <sys:String x:Key="Outputting">Outputting...</sys:String>
+    <sys:String x:Key="Info">Info</sys:String>
+    <sys:String x:Key="FileNotSaved">File not saved</sys:String>
+    <sys:String x:Key="OpenFile">Open file</sys:String>
+    <sys:String x:Key="OpenPath">Open path</sys:String>
+    <sys:String x:Key="FileSaved">File saved</sys:String>
+    <sys:String x:Key="AutoOpened">The file was opened automatically</sys:String>
+    <sys:String x:Key="FailedToSaveFile">Failed to save. Please try again.</sys:String>
+    <sys:String x:Key="Yes">Yes</sys:String>
+    <sys:String x:Key="No">No</sys:String>
+    <sys:String x:Key="FailedToCreateANewFolder">Failed to create a new folder</sys:String>
+    <sys:String x:Key="Warning">Warning</sys:String>
+    <sys:String x:Key="ProgramClosingCheck">At least one child window that isn't closed, continue?</sys:String>
+    <sys:String x:Key="Cancel">Cancel</sys:String>
+    <sys:String x:Key="Saving">Saving</sys:String>
+    <sys:String x:Key="Name">Name</sys:String>
+    <sys:String x:Key="WatchPath">Please enter the expression for matching files</sys:String>
+    <sys:String x:Key="WatchFilter">Please enter the monitoring path</sys:String>
+    <sys:String x:Key="WatchPathNotExists">Monitoring path does not exist</sys:String>
+    <sys:String x:Key="Unknown">Unknown</sys:String>
+    <sys:String x:Key="SetAuto">Set to automatic</sys:String>
+    <sys:String x:Key="SetManual">Set to manual</sys:String>
+    <sys:String x:Key="SuccessfullySaved">Saved successfully</sys:String>
+    <sys:String x:Key="Copied">Copied to the clipboard successfully</sys:String>
+    <sys:String x:Key="ParameterEditor">Parameter editor</sys:String>
+    <sys:String x:Key="ActiveThreads">Active threads</sys:String>
+    <sys:String x:Key="InUseThreads">In use threads</sys:String>
+    <sys:String x:Key="SelectFile">Please select a file</sys:String>
+    <sys:String x:Key="File">file</sys:String>
+    <sys:String x:Key="ParamKey">Param key</sys:String>
+    <sys:String x:Key="ParamDescription">Param description</sys:String>
+    <sys:String x:Key="ParamPossibleValues">Possible values</sys:String>
+    <sys:String x:Key="DefaultLanguageName">Default language name</sys:String>
+    <sys:String x:Key="EnableGlobalizationForParamSetter">Enable globalization of parameter descriptions</sys:String>
+    <sys:String x:Key="LanguageName">Language name</sys:String>
+    <sys:String x:Key="StrID">String ID</sys:String>
+    <sys:String x:Key="Str">String</sys:String>
+    <sys:String x:Key="ExecuteInSequence">Execute in sequence</sys:String>
+    <sys:String x:Key="RunFailed">Run failed</sys:String>
+    <sys:String x:Key="FileIsInUse">File {0} is in use</sys:String>
+    <sys:String x:Key="FileIsDamaged">File {0} is damaged</sys:String>
+    <sys:String x:Key="MethodNotFound">Method {0} not found</sys:String>
+    <sys:String x:Key="FileNotFound">File {0} not found</sys:String>
+    <sys:String x:Key="FileNotSupported">The .Dll file "{0}" is not supported.</sys:String>
+    <sys:String x:Key="UnrecognizedParameter">Unrecognized parameter</sys:String>
+    <sys:String x:Key="Code" xml:space="preserve">using ClosedXML.Excel;
+using GlobalObjects;
+using GlobalObjects.Model;
+using System;
+using System.Collections.Concurrent;
+using System.Collections.Generic;
+
+namespace AnalyzeCode
+{
+    class Analyze
+    {
+        /// &lt;summary>
+        /// Call before all analyses
+        /// &lt;/summary>
+        /// &lt;param name="param">Parameters passed in&lt;/param>
+        /// &lt;param name="globalObject">Global existence, can save data that needs to be used in other calls, such as the current line number, etc.&lt;/param>
+        /// &lt;param name="allFilePathList">A list of all file paths that will be analyzed&lt;/param>
+        /// &lt;param name="globalizationSetter">Get internationalization string&lt;/param>
+        /// &lt;param name="isExecuteInSequence">Whether to execute sequentially&lt;/param>
+        public void RunBeforeAnalyzeCsv(Param param, ref Object globalObject, List&lt;string> allFilePathList, GlobalizationSetter globalizationSetter, bool isExecuteInSequence)
+        {
+            
+        }
+
+        /// &lt;summary>
+        /// Analyze a csv
+        /// &lt;/summary>
+        /// &lt;param name="param">Parameters passed in&lt;/param>
+        /// &lt;param name="csv">Csv to be analyzed&lt;/param>
+        /// &lt;param name="filePath">File path&lt;/param>
+        /// &lt;param name="globalObject">Global existence, can save data that needs to be used in other calls, such as the current line number, etc.&lt;/param>
+        /// &lt;param name="globalizationSetter">Get internationalization string&lt;/param>
+        /// &lt;param name="isExecuteInSequence">Whether to execute sequentially&lt;/param>
+        /// &lt;param name="invokeCount">The number of times this analysis function was called&lt;/param>
+        public void AnalyzeCsv(Param param, IXLWorkcsv csv, string filePath, ref Object globalObject, GlobalizationSetter globalizationSetter, bool isExecuteInSequence, int invokeCount)
+        {
+            
+        }
+
+        /// &lt;summary>
+        /// call before all output
+        /// &lt;/summary>
+        /// &lt;param name="param">Parameters passed in&lt;/param>
+        /// &lt;param name="workbook">Excel file for output&lt;/param>
+        /// &lt;param name="globalObject">Global existence, can save data that needs to be used in other calls, such as the current line number, etc.&lt;/param>
+        /// &lt;param name="allFilePathList">List of all file paths analyzed&lt;/param>
+        /// &lt;param name="globalizationSetter">Get internationalization string&lt;/param>
+        /// &lt;param name="isExecuteInSequence">Whether to execute sequentially&lt;/param>
+        public void RunBeforeSetResult(Param param, XLWorkbook workbook, ref Object globalObject, List&lt;string> allFilePathList, GlobalizationSetter globalizationSetter, bool isExecuteInSequence)
+        {
+            
+        }
+
+        /// &lt;summary>
+        /// Export the analysis results to excel
+        /// &lt;/summary>
+        /// &lt;param name="param">Parameters passed in&lt;/param>
+        /// &lt;param name="workbook">Excel file for output&lt;/param>
+        /// &lt;param name="filePath">File path&lt;/param>
+        /// &lt;param name="globalObject">Global existence, can save data that needs to be used in other calls, such as the current line number, etc.&lt;/param>
+        /// &lt;param name="globalizationSetter">Get internationalization string&lt;/param>
+        /// &lt;param name="isExecuteInSequence">Whether to execute sequentially&lt;/param>
+        /// &lt;param name="invokeCount">The number of times this output function was called&lt;/param>
+        /// &lt;param name="totalCount">The total number of times the output function needs to be called&lt;/param>
+        public void SetResult(Param param, XLWorkbook workbook, string filePath, ref Object globalObject, GlobalizationSetter globalizationSetter, bool isExecuteInSequence, int invokeCount, int totalCount)
+        {
+            
+        }
+
+        /// &lt;summary>
+        /// Call after all calls have finished
+        /// &lt;/summary>
+        /// &lt;param name="param">Parameters passed in&lt;/param>
+        /// &lt;param name="workbook">Excel file for output&lt;/param>
+        /// &lt;param name="globalObject">Global existence, can save data that needs to be used in other calls, such as the current line number, etc.&lt;/param>
+        /// &lt;param name="allFilePathList">List of all file paths analyzed&lt;/param>
+        /// &lt;param name="globalizationSetter">Get internationalization string&lt;/param>
+        /// &lt;param name="isExecuteInSequence">Whether to execute sequentially&lt;/param>
+        public void RunEnd(Param param, XLWorkbook workbook, ref Object globalObject, List&lt;string> allFilePathList, GlobalizationSetter globalizationSetter, bool isExecuteInSequence)
+        {
+            
+        }
+    }
+}</sys:String>
+    <sys:String x:Key="FileNameEmptyError">Filename cannot be empty</sys:String>
+    <sys:String x:Key="ErrorWhileParsingJsonFile">Error while parsing Json file: {0}</sys:String>
+    <sys:String x:Key="ReplaceFile">A file with the same name already exists, do you want to replace it? {0}</sys:String>
+</ResourceDictionary>

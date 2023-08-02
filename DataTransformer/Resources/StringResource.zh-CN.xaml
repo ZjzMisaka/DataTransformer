@@ -1,0 +1,235 @@
+﻿<ResourceDictionary xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+                    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+                    xmlns:sys="clr-namespace:System;assembly=mscorlib">
+    <sys:String x:Key="WinTitle">Excel分析工具</sys:String>
+
+    <sys:String x:Key="MenuOpen">打开 (_O)</sys:String>
+    <sys:String x:Key="MenuCsvExplainerFolder">检索信息文件夹 (_E)</sys:String>
+    <sys:String x:Key="MenuAnalyzerFolder">处理逻辑文件夹 (_A)</sys:String>
+    <sys:String x:Key="MenuDLLFolder">DLL文件夹 (_D)</sys:String>
+    <sys:String x:Key="MenuRuleFolder">规则文件夹 (_R)</sys:String>
+    <sys:String x:Key="MenuWorkFolder">工作目录 (_W)</sys:String>
+    <sys:String x:Key="MenuOutputFolder">输出目录 (_O)</sys:String>
+    <sys:String x:Key="MenuOutputFile">输出文件 (_F)</sys:String>
+    <sys:String x:Key="MenuHelp">帮助 (_H)</sys:String>
+    <sys:String x:Key="MenuSetting">设置 (_S)</sys:String>
+    <sys:String x:Key="Setting">设置</sys:String>
+    <sys:String x:Key="MenuTheme">主题 (_T)</sys:String>
+    <sys:String x:Key="MenuLanguage">语言 (_L)</sys:String>
+    <sys:String x:Key="SetLanguage">设置语言</sys:String>
+    <sys:String x:Key="IsEnable">是否启用</sys:String>
+    <sys:String x:Key="MenuThreadRelated">线程相关 (_T)</sys:String>
+    <sys:String x:Key="MenuMaxThreadCount">最大线程数 (_M)</sys:String>
+    <sys:String x:Key="MenuEnableTimeoutSetting">启用超时时间设置 (_E)</sys:String>
+    <sys:String x:Key="MenuTotalTimeoutLimitAnalyze">分析阶段超时时间 (_T)</sys:String>
+    <sys:String x:Key="MenuPerTimeoutLimitAnalyze">单次分析超时时间 (_P)</sys:String>
+    <sys:String x:Key="MenuTotalTimeoutLimitOutput">输出阶段超时时间 (_T)</sys:String>
+    <sys:String x:Key="MenuPerTimeoutLimitOutput">单次输出超时时间 (_P)</sys:String>
+    <sys:String x:Key="MenuFileSystemWatcherInvokeDalay">监视文件响应时间 (_D)</sys:String>
+    <sys:String x:Key="MenuFreshInterval">线程中界面刷新间隔 (_F)</sys:String>
+    <sys:String x:Key="MaxThreadCount">最大线程数</sys:String>
+    <sys:String x:Key="EnableTimeoutSetting">启用超时时间设置</sys:String>
+    <sys:String x:Key="TotalTimeoutLimitAnalyze">分析阶段超时时间 (ms)</sys:String>
+    <sys:String x:Key="PerTimeoutLimitAnalyze">单次分析超时时间 (ms)</sys:String>
+    <sys:String x:Key="TotalTimeoutLimitOutput">输出阶段超时时间 (ms)</sys:String>
+    <sys:String x:Key="PerTimeoutLimitOutput">单次输出超时时间 (ms)</sys:String>
+    <sys:String x:Key="FileSystemWatcherInvokeDalay">监视文件响应时间 (ms)</sys:String>
+    <sys:String x:Key="FreshInterval">线程中界面刷新间隔 (ms)</sys:String>
+    <sys:String x:Key="MenuSourceCode">软件源码 (_C)</sys:String>
+    <sys:String x:Key="OpenBrowser">即将打开浏览器, 是否继续? </sys:String>
+    <sys:String x:Key="MenuShowSpaces">显示空白 (_S)</sys:String>
+    <sys:String x:Key="MenuShowTabs">显示制表符 (_T)</sys:String>
+    <sys:String x:Key="MenuShowEndOfLine">显示行末 (_E)</sys:String>
+    <sys:String x:Key="MenuShowBoxForControlCharacters">显示控制字符框 (_B)</sys:String>
+    <sys:String x:Key="MenuEnableHyperlinks">启用超链接 (_H)</sys:String>
+    <sys:String x:Key="MenuIndentationSize">缩进字符数 (_I)</sys:String>
+    <sys:String x:Key="MenuConvertTabsToSpaces">将制表符转换为空格 (_C)</sys:String>
+    <sys:String x:Key="MenuHighlightCurrentLine">高亮当前行 (_H)</sys:String>
+    <sys:String x:Key="MenuHideCursorWhileTyping">输入时隐藏光标 (_C)</sys:String>
+    <sys:String x:Key="MenuWordWrap">自动换行 (_W)</sys:String>
+    <sys:String x:Key="MenuShowLineNumbers">显示行号 (_N)</sys:String>
+    <sys:String x:Key="ShowSpaces">显示空白</sys:String>
+    <sys:String x:Key="ShowTabs">显示制表符</sys:String>
+    <sys:String x:Key="ShowEndOfLine">显示行末</sys:String>
+    <sys:String x:Key="ShowBoxForControlCharacters">显示控制字符框</sys:String>
+    <sys:String x:Key="EnableHyperlinks">启用超链接</sys:String>
+    <sys:String x:Key="IndentationSize">缩进字符数</sys:String>
+    <sys:String x:Key="ConvertTabsToSpaces">将制表符转换为空格</sys:String>
+    <sys:String x:Key="HighlightCurrentLine">高亮当前行</sys:String>
+    <sys:String x:Key="HideCursorWhileTyping">输入时隐藏光标</sys:String>
+    <sys:String x:Key="WordWrap">自动换行</sys:String>
+    <sys:String x:Key="ShowLineNumbers">显示行号</sys:String>
+
+    <sys:String x:Key="Analyzer">表格文件处理逻辑</sys:String>
+    <sys:String x:Key="CsvExplainer">检索信息</sys:String>
+    <sys:String x:Key="SetCsvExplainer">检索信息设定</sys:String>
+    <sys:String x:Key="SetAnalyzer">表格文件处理逻辑设定</sys:String>
+    <sys:String x:Key="Parameter">参数</sys:String>
+    <sys:String x:Key="Edit">编辑</sys:String>
+    <sys:String x:Key="Lock">锁定</sys:String>
+    <sys:String x:Key="Unlock">解锁</sys:String>
+    <sys:String x:Key="Workbase">工作目录 [检索信息填写相对路径时]</sys:String>
+    <sys:String x:Key="Select">选择</sys:String>
+    <sys:String x:Key="OutputPath">输出目录</sys:String>
+    <sys:String x:Key="Open">打开</sys:String>
+    <sys:String x:Key="OutputFileName">输出文件名</sys:String>
+    <sys:String x:Key="Rule">规则</sys:String>
+    <sys:String x:Key="Save">保存</sys:String>
+    <sys:String x:Key="Close">关闭</sys:String>
+    <sys:String x:Key="Delete">删除</sys:String>
+    <sys:String x:Key="ToBeDeletedSoon">即将删除: {0}</sys:String>
+    <sys:String x:Key="ClearTemp">清除临时配置</sys:String>
+    <sys:String x:Key="AutomaticallyOpening">完成后自动打开</sys:String>
+    <sys:String x:Key="Stop">停止</sys:String>
+    <sys:String x:Key="Start">开始</sys:String>
+    <sys:String x:Key="AnalyzerEditor">逻辑编辑器</sys:String>
+    <sys:String x:Key="EditParameter">编辑参数</sys:String>
+    <sys:String x:Key="Internationalization">多语言</sys:String>
+    <sys:String x:Key="CsvExplainerEditor">检索信息编辑器</sys:String>
+    <sys:String x:Key="PathList">路径列表</sys:String>
+    <sys:String x:Key="FileNameList">文件名列表</sys:String>
+    <sys:String x:Key="Same">一致</sys:String>
+    <sys:String x:Key="Contain">包含</sys:String>
+    <sys:String x:Key="RegExp">正则表达式</sys:String>
+    <sys:String x:Key="All">全部</sys:String>
+    <sys:String x:Key="CsvNameList">Csv名列表</sys:String>
+    <sys:String x:Key="Error">错误</sys:String>
+    <sys:String x:Key="PathNotExists">路径不存在</sys:String>
+    <sys:String x:Key="Ok">确定</sys:String>
+    <sys:String x:Key="Timeout">超时</sys:String>
+    <sys:String x:Key="TotalTimeout">总时间超时</sys:String>
+    <sys:String x:Key="Analyzing">正在分析...</sys:String>
+    <sys:String x:Key="ExceptionHasBeenThrowed">有异常被抛出</sys:String>
+    <sys:String x:Key="Outputting">正在输出...</sys:String>
+    <sys:String x:Key="Info">提示</sys:String>
+    <sys:String x:Key="FileNotSaved">文件保存失败</sys:String>
+    <sys:String x:Key="OpenFile">打开文件</sys:String>
+    <sys:String x:Key="OpenPath">打开路径</sys:String>
+    <sys:String x:Key="FileSaved">文件已保存</sys:String>
+    <sys:String x:Key="AutoOpened">已自动打开文件</sys:String>
+    <sys:String x:Key="FailedToSaveFile">保存失败, 是否重试</sys:String>
+    <sys:String x:Key="Yes">是</sys:String>
+    <sys:String x:Key="No">否</sys:String>
+    <sys:String x:Key="FailedToCreateANewFolder">新建文件夹失败</sys:String>
+    <sys:String x:Key="Warning">警告</sys:String>
+    <sys:String x:Key="ProgramClosingCheck">尚有未关闭的子窗口, 是否关闭程序</sys:String>
+    <sys:String x:Key="Cancel">取消</sys:String>
+    <sys:String x:Key="Saving">正在保存</sys:String>
+    <sys:String x:Key="Name">名字</sys:String>
+    <sys:String x:Key="WatchPath">请输入监视路径</sys:String>
+    <sys:String x:Key="WatchFilter">请输入监视匹配文件的表达式</sys:String>
+    <sys:String x:Key="WatchPathNotExists">监视路径不存在</sys:String>
+    <sys:String x:Key="Unknown">未知的</sys:String>
+    <sys:String x:Key="SetAuto">设为自动</sys:String>
+    <sys:String x:Key="SetManual">设为手动</sys:String>
+    <sys:String x:Key="SuccessfullySaved">保存成功</sys:String>
+    <sys:String x:Key="Copied">已复制到剪贴板</sys:String>
+    <sys:String x:Key="ParameterEditor">参数编辑器</sys:String>
+    <sys:String x:Key="ActiveThreads">活跃线程</sys:String>
+    <sys:String x:Key="InUseThreads">使用中的线程</sys:String>
+    <sys:String x:Key="SelectFile">请选择文件</sys:String>
+    <sys:String x:Key="File">文件</sys:String>
+    <sys:String x:Key="ParamKey">参数键</sys:String>
+    <sys:String x:Key="ParamDescription">参数描述</sys:String>
+    <sys:String x:Key="ParamPossibleValues">参数可能值</sys:String>
+    <sys:String x:Key="DefaultLanguageName">默认语言</sys:String>
+    <sys:String x:Key="EnableGlobalizationForParamSetter">使参数描述应用多语言化</sys:String>
+    <sys:String x:Key="LanguageName">语言</sys:String>
+    <sys:String x:Key="StrID">字符串ID</sys:String>
+    <sys:String x:Key="Str">字符串</sys:String>
+    <sys:String x:Key="ExecuteInSequence">顺序执行</sys:String>
+    <sys:String x:Key="RunFailed">运行失败</sys:String>
+    <sys:String x:Key="FileIsInUse">文件{0}正在被使用中</sys:String>
+    <sys:String x:Key="FileIsDamaged">文件{0}损坏</sys:String>
+    <sys:String x:Key="MethodNotFound">函数{0}未找到</sys:String>
+    <sys:String x:Key="FileNotFound">文件{0}未找到</sys:String>
+    <sys:String x:Key="FileNotSupported">.Dll文件 "{0}" 不被支持. </sys:String>
+    <sys:String x:Key="UnrecognizedParameter">参数无法识别</sys:String>
+    <sys:String x:Key="Code" xml:space="preserve">using ClosedXML.Excel;
+using GlobalObjects;
+using GlobalObjects.Model;
+using System;
+using System.Collections.Concurrent;
+using System.Collections.Generic;
+
+namespace AnalyzeCode
+{
+    class Analyze
+    {
+        /// &lt;summary>
+        /// 在所有分析前调用
+        /// &lt;/summary>
+        /// &lt;param name="param">传入的参数&lt;/param>
+        /// &lt;param name="globalObject">全局存在, 可以保存需要在其他调用时使用的数据, 如当前行号等&lt;/param>
+        /// &lt;param name="allFilePathList">将会分析的所有文件路径列表&lt;/param>
+        /// &lt;param name="globalizationSetter">获取国际化字符串&lt;/param>
+        /// &lt;param name="isExecuteInSequence">是否顺序执行&lt;/param>
+        public void RunBeforeAnalyzeCsv(Param param, ref Object globalObject, List&lt;string> allFilePathList, GlobalizationSetter globalizationSetter, bool isExecuteInSequence)
+        {
+            
+        }
+
+        /// &lt;summary>
+        /// 分析一个csv
+        /// &lt;/summary>
+        /// &lt;param name="param">传入的参数&lt;/param>
+        /// &lt;param name="csv">被分析的csv&lt;/param>
+        /// &lt;param name="filePath">文件路径&lt;/param>
+        /// &lt;param name="globalObject">全局存在, 可以保存需要在其他调用时使用的数据, 如当前行号等&lt;/param>
+        /// &lt;param name="globalizationSetter">获取国际化字符串&lt;/param>
+        /// &lt;param name="isExecuteInSequence">是否顺序执行&lt;/param>
+        /// &lt;param name="invokeCount">此分析函数被调用的次数&lt;/param>
+        public void AnalyzeCsv(Param param, IXLWorkcsv csv, string filePath, ref Object globalObject, GlobalizationSetter globalizationSetter, bool isExecuteInSequence, int invokeCount)
+        {
+            
+        }
+
+        /// &lt;summary>
+        /// 在所有输出前调用
+        /// &lt;/summary>
+        /// &lt;param name="param">传入的参数&lt;/param>
+        /// &lt;param name="workbook">用于输出的excel文件&lt;/param>
+        /// &lt;param name="globalObject">全局存在, 可以保存需要在其他调用时使用的数据, 如当前行号等&lt;/param>
+        /// &lt;param name="allFilePathList">分析的所有文件路径列表&lt;/param>
+        /// &lt;param name="globalizationSetter">获取国际化字符串&lt;/param>
+        /// &lt;param name="isExecuteInSequence">是否顺序执行&lt;/param>
+        public void RunBeforeSetResult(Param param, XLWorkbook workbook, ref Object globalObject, List&lt;string> allFilePathList, GlobalizationSetter globalizationSetter, bool isExecuteInSequence)
+        {
+            
+        }
+
+        /// &lt;summary>
+        /// 根据分析结果输出到excel中
+        /// &lt;/summary>
+        /// &lt;param name="param">传入的参数&lt;/param>
+        /// &lt;param name="workbook">用于输出的excel文件&lt;/param>
+        /// &lt;param name="filePath">文件路径&lt;/param>
+        /// &lt;param name="globalObject">全局存在, 可以保存需要在其他调用时使用的数据, 如当前行号等&lt;/param>
+        /// &lt;param name="globalizationSetter">获取国际化字符串&lt;/param>
+        /// &lt;param name="isExecuteInSequence">是否顺序执行&lt;/param>
+        /// &lt;param name="invokeCount">此输出函数被调用的次数&lt;/param>
+        /// &lt;param name="totalCount">总共需要调用的输出函数的次数&lt;/param>
+        public void SetResult(Param param, XLWorkbook workbook, string filePath, ref Object globalObject, GlobalizationSetter globalizationSetter, bool isExecuteInSequence, int invokeCount, int totalCount)
+        {
+            
+        }
+
+        /// &lt;summary>
+        /// 所有调用结束后调用
+        /// &lt;/summary>
+        /// &lt;param name="param">传入的参数&lt;/param>
+        /// &lt;param name="workbook">用于输出的excel文件&lt;/param>
+        /// &lt;param name="globalObject">全局存在, 可以保存需要在其他调用时使用的数据, 如当前行号等&lt;/param>
+        /// &lt;param name="allFilePathList">分析的所有文件路径列表&lt;/param>
+        /// &lt;param name="globalizationSetter">获取国际化字符串&lt;/param>
+        /// &lt;param name="isExecuteInSequence">是否顺序执行&lt;/param>
+        public void RunEnd(Param param, XLWorkbook workbook, ref Object globalObject, List&lt;string> allFilePathList, GlobalizationSetter globalizationSetter, bool isExecuteInSequence)
+        {
+            
+        }
+    }
+}</sys:String>
+    <sys:String x:Key="FileNameEmptyError">文件名不能为空</sys:String>
+    <sys:String x:Key="ErrorWhileParsingJsonFile">解析Json文件时出现错误: {0}</sys:String>
+    <sys:String x:Key="ReplaceFile">同名文件已经存在, 是否替换? {0}</sys:String>
+</ResourceDictionary>

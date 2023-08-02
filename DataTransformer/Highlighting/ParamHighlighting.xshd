@@ -1,0 +1,36 @@
+<?xml version="1.0"?>
+<SyntaxDefinition name="Custom Highlighting" xmlns="http://icsharpcode.net/sharpdevelop/syntaxdefinition/2008">
+    <RuleSet>
+        <Rule foreground="DodgerBlue">
+            [:]{1}
+        </Rule>
+        <Rule foreground="DeepPink">
+            [|]{1}
+        </Rule>
+        <Rule foreground="Green">
+            [\+]{1}
+        </Rule>
+        <Rule foreground="DarkOrange">
+            [{}]{1}
+        </Rule>
+
+        <Rule foreground="Gray">
+            \\:
+        </Rule>
+        <Rule foreground="Gray">
+            \\\|
+        </Rule>
+        <Rule foreground="Gray">
+            \\\+
+        </Rule>
+        <Rule foreground="Gray">
+            \\{
+        </Rule>
+        <Rule foreground="Gray">
+            \\}
+        </Rule>
+        <Rule foreground="Gray">
+            \\\\
+        </Rule>
+    </RuleSet>
+</SyntaxDefinition>
