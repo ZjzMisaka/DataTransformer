@@ -46,7 +46,7 @@
             <ComboBox Name="cb_csvexplainers" ItemsSource="{Binding CsvExplainersItems, Mode=TwoWay}" SelectedIndex="{Binding SelectedCsvExplainersIndex, Mode=TwoWay}" SelectedItem="{Binding SelectedCsvExplainersItem, Mode=TwoWay}" Grid.Row="0" Margin="10 2" Width="300" VerticalContentAlignment="Center" HorizontalAlignment="Left" Grid.Column="0" Grid.ColumnSpan="3" Behavior:PreviewMouseLeftButtonDown.Command="{Binding CbCsvExplainersPreviewMouseLeftButtonDownCommand}" Behavior:SelectionChanged.Command="{Binding CbCsvExplainersSelectionChangedCommand}"/>
             <StackPanel Grid.Row="0" Grid.ColumnSpan="3" Orientation="Horizontal" HorizontalAlignment="Right" Margin="10 2">
                 <Button Name="btn_clear_temp" Content="{DynamicResource ClearTemp}" Width="auto" Grid.Row="0" Grid.ColumnSpan="3" HorizontalAlignment="Right" Command="{Binding BtnClearTempClickCommand}" Margin="5 0"/>
-                <Button Name="btn_set_option" Content="SetOption" Width="auto" Grid.Row="0" Grid.ColumnSpan="3" HorizontalAlignment="Right" Command="{Binding BtnSetOptionClickCommand}" Margin="5 0"/>
+                <Button Name="btn_set_option" Content="{DynamicResource SetOption}" Width="auto" Grid.Row="0" Grid.ColumnSpan="3" HorizontalAlignment="Right" Command="{Binding BtnSetOptionClickCommand}" Margin="5 0"/>
                 <Button Name="btn_delete" Content="{DynamicResource Delete}" IsEnabled="{Binding BtnDeleteIsEnabled, Mode=TwoWay}" Width="auto" HorizontalAlignment="Right" Command="{Binding BtnDeleteClickCommand}"/>
             </StackPanel>
             <Label Grid.Row="1" Grid.Column="0" Content="{DynamicResource PathList}" Margin="10 2"/>

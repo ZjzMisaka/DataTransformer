@@ -84,6 +84,7 @@
     <sys:String x:Key="Start">Start</sys:String>
     <sys:String x:Key="AnalyzerEditor">Analyzere ditor</sys:String>
     <sys:String x:Key="EditParameter">Edit parameter</sys:String>
+    <sys:String x:Key="SetOption">Set option</sys:String>
     <sys:String x:Key="Internationalization">Internationalization</sys:String>
     <sys:String x:Key="CsvExplainerEditor">Csv explainer editor</sys:String>
     <sys:String x:Key="PathList">Path list</sys:String>
@@ -96,6 +97,13 @@
     <sys:String x:Key="Error">Error</sys:String>
     <sys:String x:Key="PathNotExists">Path does not exist</sys:String>
     <sys:String x:Key="Ok">Ok</sys:String>
+    <sys:String x:Key="Input">Input</sys:String>
+    <sys:String x:Key="Output">Output</sys:String>
+    <sys:String x:Key="HeaderList">Header list</sys:String>
+    <sys:String x:Key="Spliter">Spliter</sys:String>
+    <sys:String x:Key="HasQuotes">Has quotes</sys:String>
+    <sys:String x:Key="ShowHeader">Show header</sys:String>
+    <sys:String x:Key="FileName">File name</sys:String>
     <sys:String x:Key="Timeout">Timeout</sys:String>
     <sys:String x:Key="TotalTimeout">Total timeout</sys:String>
     <sys:String x:Key="Analyzing">Analyzing...</sys:String>

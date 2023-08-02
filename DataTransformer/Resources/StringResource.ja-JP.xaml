@@ -84,6 +84,7 @@
     <sys:String x:Key="Start">開始</sys:String>
     <sys:String x:Key="AnalyzerEditor">ロジックエディタ</sys:String>
     <sys:String x:Key="EditParameter">パラメータ編集</sys:String>
+    <sys:String x:Key="SetOption">オプションの設定</sys:String>
     <sys:String x:Key="Internationalization">多言語化</sys:String>
     <sys:String x:Key="CsvExplainerEditor">検索情報エディタ</sys:String>
     <sys:String x:Key="PathList">パス一覧</sys:String>
@@ -96,6 +97,13 @@
     <sys:String x:Key="Error">エラー</sys:String>
     <sys:String x:Key="PathNotExists">パスが存在しません</sys:String>
     <sys:String x:Key="Ok">OK</sys:String>
+    <sys:String x:Key="Input">インプット</sys:String>
+    <sys:String x:Key="Output">アウトプット</sys:String>
+    <sys:String x:Key="HeaderList">ヘッダーリスト</sys:String>
+    <sys:String x:Key="Spliter">デリミタ</sys:String>
+    <sys:String x:Key="HasQuotes">引用符を使用する</sys:String>
+    <sys:String x:Key="ShowHeader">ヘッダーを表示します</sys:String>
+    <sys:String x:Key="FileName">ファイルネーム</sys:String>
     <sys:String x:Key="Timeout">タイムアウト</sys:String>
     <sys:String x:Key="TotalTimeout">合計時間タイムアウト</sys:String>
     <sys:String x:Key="Analyzing">分析しています...</sys:String>

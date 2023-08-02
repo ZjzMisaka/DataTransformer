@@ -73,7 +73,7 @@
         <StackPanel Grid.Row="1" Grid.ColumnSpan="2" Orientation="Horizontal" HorizontalAlignment="Right" Margin="10 2">
             <Button Name="btn_editglobalization" Content="{DynamicResource Internationalization}" IsEnabled="{Binding BtnEditIsEnabled}" Width="auto" Margin="5 0" HorizontalAlignment="Right" Command="{Binding BtnEditGlobalizationClickCommand}"/>
             <Button Name="btn_editparam" Content="{DynamicResource EditParameter}" IsEnabled="{Binding BtnEditIsEnabled}" Width="auto" Margin="5 0" HorizontalAlignment="Right" Command="{Binding BtnEditParamClickCommand}"/>
-            <Button Name="btn_set_option" Content="SetOption" Width="auto" Grid.Row="0" Grid.ColumnSpan="3" HorizontalAlignment="Right" Command="{Binding BtnSetOptionClickCommand}" Margin="5 0"/>
+            <Button Name="btn_set_option" Content="{DynamicResource SetOption}" Width="auto" Grid.Row="0" Grid.ColumnSpan="3" HorizontalAlignment="Right" Command="{Binding BtnSetOptionClickCommand}" Margin="5 0"/>
             <Button Name="btn_delete" Content="{DynamicResource Delete}" IsEnabled="{Binding BtnDeleteIsEnabled}" Width="auto" HorizontalAlignment="Right" Command="{Binding BtnDeleteClickCommand}"/>
         </StackPanel>
         <ItemsControl Name="items" ItemsSource="{Binding ItemsSource}" Grid.Row="2" Grid.Column="0" Grid.ColumnSpan="2">
