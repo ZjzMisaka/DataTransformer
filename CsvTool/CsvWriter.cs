@@ -40,7 +40,7 @@ namespace CsvTool
             var finalRow = new StringBuilder();
             foreach (var field in row)
             {
-                if (_csvOption.hasQuotes)
+                if (_csvOption.hasQuotes || needQuotes(field))
                 {
                     finalRow.Append("\"" + field.Replace("\"", "\"\"") + "\"" + _separator);
                 }
@@ -51,6 +51,16 @@ namespace CsvTool
             }
 
             writer.WriteLine(finalRow.ToString().TrimEnd(_separator.ToCharArray()));
+        }
+
+        private bool needQuotes(string field)
+        {
+            if (_separator == "," && field.Contains(","))
+            {
+                return true;
+            }
+
+            return false;
         }
     }
 }
