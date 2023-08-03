@@ -1,9 +1,7 @@
-# ExcelTool
-![ICON](https://om.namanime.com/Pictures/ExcelTool/ExcelTool.ico)  
-事前に作成したc#スクリプトを実行することにより、excelの一括読み取り、分析、出力操作を行う。  
-[中文ReadMe](https://github.com/ZjzMisaka/ExcelTool/blob/main/README_zh-CN.md) | [English ReadMe](https://github.com/ZjzMisaka/ExcelTool/blob/main/README.md)  
-[例](https://github.com/ZjzMisaka/AnalyzersForExcelTool)  
-[実行中のgif画像](https://www.namanime.com/ZjzMisaka/ExcelTool/ExcelTool.gif?20220603)
+# DataTransformer
+![ICON](https://raw.githubusercontent.com/ZjzMisaka/DataTransformer/main/DataTransformer/DataTransformer.ico)  
+事前に作成したc#スクリプトを実行することにより、CSVの一括読み取り、分析、出力操作を行う。  
+[中文ReadMe](README_zh-CN.md) | [English ReadMe](README.md)  
 
 ### 多言語
 - [x] 简体中文
@@ -18,18 +16,17 @@
     - ルールを選択した後、いくつかのフォルダとファイルを監視するように監視を設定し、変更があったときにこのルールを自動的に実行できます。 
 
 ### 検索情報設定インターフェース
-**指定されたパスで指定されたExcelファイルを見つける必要がある指定されたシートを設定するために使用されます**
+**指定されたパスで指定されたCSVファイルを設定するために使用されます**
 - 検索方法は、すべて、完全一致、部分包含、正規表現を選択できます
 
 ### 処理ロジック（プラグインコーディング）インターフェース
-**特定の種類のシートの処理ロジックと処理後の出力ロジックを設定するために使用されます**
+**特定の種類のCSVファイルの処理ロジックと処理後の出力ロジックを設定するために使用されます**
 - エディターでコードを書くと、操作中に順番に実行されます。 
 - パラメータを設定でき、プラグインユーザーはメインインターフェイスでパラメータを編集し、実行時に使用するコードにそれらを渡すことができます。 
 - パラメータ記述と実行中のlog出力は多言語化可能。 
 
 #### コーディング関連
 - プロセス全体の自動完了と色付け、dllファイルを自分でDllsフォルダーに追加でき、追加後に直接参照できます。 
-- コンテンツのエンコードは、[ClosedXML](https://github.com/ClosedXML/ClosedXML)オープンソースライブラリに依存します。 
 - 追加の提供された関数とプロパティを使用して、オンザフライで実行できます。 
     - メインインターフェイスのログ領域にあるログのリアルタイム出力。 
     - ハングして待って、ユーザー入力を読む。 
@@ -79,25 +76,17 @@ string WaitInput();
 string LastInputValue { get => lastInputValue; set => lastInputValue = value; }
 ```
 
-##### Output (静的クラス)
+##### Outputter (クラス)
 ```c#
-// ---- Excelファイルの操作 ----
-// 新しいexcelファイルを作成する
-XLWorkbook CreateWorkbook(string name);
-// CreateWorkbookで作成されたExcelファイルを取得する
-XLWorkbook GetWorkbook(string name);
-// シート取得します
-IXLWorksheet GetSheet(string workbookName, string sheetName);
-IXLWorksheet GetSheet(XLWorkbook workbook, string sheetName);
-// 作成されたすべてのexcelファイルを取得する
-Dictionary<string, XLWorkbook> GetAllWorkbooks();
-// 作成したすべてのExcelファイルをクリアする
-void ClearWorkbooks();
-
-// ---- デフォルトの出力ファイルを保存するかどうか ----
-bool IsSaveDefaultWorkBook { get => isSaveDefaultWorkBook; set => isSaveDefaultWorkBook = value; }
-// ---- 出力ファイルの位置 ----
-string OutputPath { get => outputPath; set => outputPath = value; }
+// ---- CSVファイル操作 ----
+// 出力設定
+CsvOption csvOption;
+// 出力するデータ
+IEnumerable<IEnumerable<string>> CsvDatas
+// データ行を追加する
+void SetData(IEnumerable<string> data)
+// ヘッダー-データの辞書に基づいてデータ行を追加する
+void SetData(Dictionary<string, string> dataWithHeader)
 ```
 
 ##### Param (クラス)
@@ -120,57 +109,49 @@ bool UserStop { get => userStop; set => userStop = value; }
 bool NowRunning { get => nowRunning; set => nowRunning = value; }
 ```
 
-##### RunBeforeAnalyze関数
-|パラメータ|タイプ|説明|メモ|
+##### RunBeforeAnalyzeCsv関数
+|引数|型|説明|備考|
 |----|----|----|----|
-|param|Param|着信パラメータ||
-|globalObjects|Object|グローバルに存在し、現在の行番号など、他の呼び出しで使用する必要のあるデータを保存できます。||
-|allFilePathList|List\<string>|分析されるすべてのファイルパスのリスト||
-|globalizationSetter|GlobalizationSetter|国際化文字列の取得|globalizationSetter.Find("Code");|
-|isExecuteInSequence|bool|順番実行する||
+|param|Param|パラメータを渡す||
+|globalObjects|Object|グローバルに存在し、他の呼び出しで使用するデータを保存できます、例えば現在の行番号など||
+|allFilePathList|List\<string>|処理されるすべてのファイルパスのリスト||
+|globalizationSetter|GlobalizationSetter|国際化文字列を取得|globalizationSetter.Find("Code");|
+|isExecuteInSequence|bool|順序に実行するかどうか||
+|outputter|Outputter|CSVデータを出力するためのもの||
 
-##### AnalyzeSheet関数
-|パラメータ|タイプ|説明|メモ|
+##### AnalyzePerRecord関数
+|引数|型|説明|備考|
 |----|----|----|----|
-|param|Param|着信パラメータ||
-|sheet|IXLWorksheet|分析するシート||
+|param|Param|パラメータを渡す||
+|record|Dictionary\<string, string>|現在処理されているシート||
 |filePath|string|ファイルパス||
-|globalObjects|Object|グローバルに存在し、現在の行番号など、他の呼び出しで使用する必要のあるデータを保存できます。||
-|globalizationSetter|GlobalizationSetter|国際化文字列の取得|globalizationSetter.Find("Code");|
-|isExecuteInSequence|bool|順番実行する||
-|invokeCount|int|この分析関数が呼び出された回数|最初の呼び出しでの値は1です|
+|globalObjects|Object|グローバルに存在し、他の呼び出しで使用するデータを保存できます、例えば現在の行番号など||
+|globalizationSetter|GlobalizationSetter|国際化文字列を取得|globalizationSetter.Find("Code");|
+|isExecuteInSequence|bool|順序に実行するかどうか||
+|invokeCount|int|この処理関数が呼び出された回数|初めて呼び出されたときの値は1|
+|outputter|Outputter|CSVデータを出力するためのもの||
 
-##### RunBeforeSetResult関数
-|パラメータ|タイプ|説明|メモ|
+##### AnalyzeRecords関数
+|引数|型|説明|備考|
 |----|----|----|----|
-|param|Param|着信パラメータ||
-|workbook|XLWorkbook|出力用のExcelファイル||
-|globalObjects|Object|グローバルに存在し、現在の行番号など、他の呼び出しで使用する必要のあるデータを保存できます。||
-|allFilePathList|List\<string>|分析されたすべてのファイルパスのリスト||
-|globalizationSetter|GlobalizationSetter|国際化文字列の取得|globalizationSetter.Find("Code");|
-|isExecuteInSequence|bool|順番実行する||
-
-##### SetResult関数
-|パラメータ|タイプ|説明|メモ|
-|----|----|----|----|
-|param|Param|着信パラメータ||
-|workbook|XLWorkbook|出力用のExcelファイル||
+|param|Param|パラメータを渡す||
+|records|IEnumerable\<IEnumerable\<string>>|現在処理されているシート||
 |filePath|string|ファイルパス||
-|globalObjects|Object|グローバルに存在し、現在の行番号など、他の呼び出しで使用する必要のあるデータを保存できます。||
-|globalizationSetter|GlobalizationSetter|国際化文字列の取得|globalizationSetter.Find("Code");|
-|isExecuteInSequence|bool|順番実行する||
-|invokeCount|int|この出力関数が呼び出された回数|最初の呼び出しでの値は1です|
-|totalCount|int|出力関数を呼び出す必要がある合計回数|最後の呼び出しは、invokeCountがtotalCountと同じ場合です|
+|globalObjects|Object|グローバルに存在し、他の呼び出しで使用するデータを保存できます、例えば現在の行番号など||
+|globalizationSetter|GlobalizationSetter|国際化文字列を取得|globalizationSetter.Find("Code");|
+|isExecuteInSequence|bool|順序に実行するかどうか||
+|invokeCount|int|この処理関数が呼び出された回数|初めて呼び出されたときの値は1|
+|outputter|Outputter|CSVデータを出力するためのもの||
 
 ##### RunEnd関数
-|パラメータ|タイプ|説明|メモ|
+|引数|型|説明|備考|
 |----|----|----|----|
-|param|Param|着信パラメータ||
-|workbook|XLWorkbook|出力用のExcelファイル||
-|globalObjects|Object|グローバルに存在し、現在の行番号など、他の呼び出しで使用する必要のあるデータを保存できます。||
-|allFilePathList|List\<string>|分析されたすべてのファイルパスのリスト||
-|globalizationSetter|GlobalizationSetter|国際化文字列の取得|globalizationSetter.Find("Code");|
-|isExecuteInSequence|bool|順番実行する||
+|param|Param|パラメータを渡す||
+|globalObjects|Object|グローバルに存在し、他の呼び出しで使用するデータを保存できます、例えば現在の行番号など||
+|allFilePathList|List\<string>|処理されたすべてのファイルパスのリスト||
+|globalizationSetter|GlobalizationSetter|国際化文字列を取得|globalizationSetter.Find("Code");|
+|isExecuteInSequence|bool|順序に実行するかどうか||
+|outputter|Outputter|CSVデータを出力するためのもの||
 
 # 使用されるオープンソースライブラリ
 |オープンソースライブラリ|オープンソースプロトコル|
@@ -178,7 +159,6 @@ bool NowRunning { get => nowRunning; set => nowRunning = value; }
 |[roslynpad/roslynpad](https://github.com/roslynpad/roslynpad)|MIT|
 |[icsharpcode/AvalonEdit](https://github.com/icsharpcode/AvalonEdit)|MIT|
 |[JamesNK/Newtonsoft.Json](https://github.com/JamesNK/Newtonsoft.Json)|MIT|
-|[ClosedXML/ClosedXML](https://github.com/ClosedXML/ClosedXML)|MIT|
 |[~~rickyah/ini-parser~~ rickyah/ini-parser-netstandard](https://github.com/rickyah/ini-parser)|MIT|
 |[amibar/SmartThreadPool](https://github.com/amibar/SmartThreadPool)|MS-PL|
 |[punker76/gong-wpf-dragdrop](https://github.com/punker76/gong-wpf-dragdrop)|BSD-3-Clause|

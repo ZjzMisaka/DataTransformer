@@ -1,9 +1,7 @@
-# ExcelTool
-![ICON](https://om.namanime.com/Pictures/ExcelTool/ExcelTool.ico)  
-通过执行预编写好的c#脚本, 进行Excel的批量读取, 分析, 输出操作.  
-[English ReadMe](https://github.com/ZjzMisaka/ExcelTool/blob/main/README.md) | [日本語ReadMe](https://github.com/ZjzMisaka/ExcelTool/blob/main/README_ja-JP.md)  
-[查看示例](https://github.com/ZjzMisaka/AnalyzersForExcelTool)  
-[执行时的gif图](https://www.namanime.com/ZjzMisaka/ExcelTool/ExcelTool.gif?20220603)
+# DataTransformer
+![ICON](https://raw.githubusercontent.com/ZjzMisaka/DataTransformer/main/DataTransformer/DataTransformer.ico)  
+通过执行预编写好的c#脚本, 进行CSV的批量读取, 分析, 输出操作.  
+[English ReadMe](README.md) | [日本語ReadMe](README_ja-JP.md)  
 
 ### 多语言
 - [x] 简体中文
@@ -18,18 +16,17 @@
     - 选择规则后可以设定监视对一些文件夹和文件进行监视, 出现变动后自动执行这项规则. 
 
 ### 检索信息设定界面
-**用于设定需要查找指定路径下指定Excel文件的指定Sheet**
+**用于设定需要查找指定路径下指定的CSV文件**
 - 查找的方式可以有选择全部, 完整匹配, 部分包含和正则表达式. 
 
 ### 处理逻辑 (插件编码) 界面
-**用于设定对某一类Sheet进行的处理逻辑以及处理完毕后的输出逻辑**
+**用于设定对某一类CSV文件进行的处理逻辑以及处理完毕后的输出逻辑**
 - 在编辑器中编写代码, 运行中会依次执行.  
 - 可以设定参数, 插件使用者可以在主界面中编辑参数, 并且在运行中传递给代码使用.  
 - 参数描述与运行中log输出可以多语言化. 
 
 #### 编码相关
 - 全程自动补全与着色, 可以自行向Dlls文件夹添加dll文件, 添加后可以直接引用. 
-- 编码内容依赖[ClosedXML](https://github.com/ClosedXML/ClosedXML)开源库. 
 - 可以使用额外提供的函数与属性, 在运行中进行. 
     - 实时在主界面Log区域输出Log. 
     - 挂起并等待, 读取用户输入. 
@@ -79,25 +76,17 @@ string WaitInput();
 string LastInputValue { get => lastInputValue; set => lastInputValue = value; }
 ```
 
-##### Output (静态类)
+##### Outputter (类)
 ```c#
-// ---- Excel文件操作 ----
-// 新建一个excel文件
-XLWorkbook CreateWorkbook(string name);
-// 获得一个通过CreateWorkbook创建的excel文件
-XLWorkbook GetWorkbook(string name);
-// 获取一个sheet
-IXLWorksheet GetSheet(string workbookName, string sheetName);
-IXLWorksheet GetSheet(XLWorkbook workbook, string sheetName);
-// 获取创建的所有excel文件
-Dictionary<string, XLWorkbook> GetAllWorkbooks();
-// 清除创建的所有excel文件
-void ClearWorkbooks();
-
-// ---- 是否保存默认输出文件属性 ----
-bool IsSaveDefaultWorkBook { get => isSaveDefaultWorkBook; set => isSaveDefaultWorkBook = value; }
-// ---- 输出文件的位置 ----
-string OutputPath { get => outputPath; set => outputPath = value; }
+// ---- CSV文件操作 ----
+// 输出设置
+CsvOption csvOption;
+// 输出的数据
+IEnumerable<IEnumerable<string>> CsvDatas
+// 添加一行数据
+void SetData(IEnumerable<string> data)
+// 根据标头-数据的字典添加一行数据
+void SetData(Dictionary<string, string> dataWithHeader)
 ```
 
 ##### Param (类)
@@ -120,7 +109,7 @@ bool UserStop { get => userStop; set => userStop = value; }
 bool NowRunning { get => nowRunning; set => nowRunning = value; }
 ```
 
-##### RunBeforeAnalyze函数
+##### RunBeforeAnalyzeCsv函数
 |参数|类型|描述|备注|
 |----|----|----|----|
 |param|Param|传入的参数||
@@ -128,49 +117,41 @@ bool NowRunning { get => nowRunning; set => nowRunning = value; }
 |allFilePathList|List\<string>|将会处理的所有文件路径列表||
 |globalizationSetter|GlobalizationSetter|获取国际化字符串|globalizationSetter.Find("Code");|
 |isExecuteInSequence|bool|是否顺序执行||
+|outputter|Outputter|用于输出CSV数据||
 
-##### AnalyzeSheet函数
+##### AnalyzePerRecord函数
 |参数|类型|描述|备注|
 |----|----|----|----|
 |param|Param|传入的参数||
-|sheet|IXLWorksheet|当前被处理的sheet||
+|record|Dictionary\<string, string>|当前被处理的sheet||
 |filePath|string|文件路径||
 |globalObjects|Object|全局存在, 可以保存需要在其他调用时使用的数据, 如当前行号等||
 |globalizationSetter|GlobalizationSetter|获取国际化字符串|globalizationSetter.Find("Code");|
 |isExecuteInSequence|bool|是否顺序执行||
 |invokeCount|int|此处理函数被调用的次数|第一次调用时值为1|
+|outputter|Outputter|用于输出CSV数据||
 
-##### RunBeforeSetResult函数
+##### AnalyzeRecords函数
 |参数|类型|描述|备注|
 |----|----|----|----|
 |param|Param|传入的参数||
-|workbook|XLWorkbook|用于输出的Excel文件||
-|globalObjects|Object|全局存在, 可以保存需要在其他调用时使用的数据, 如当前行号等||
-|allFilePathList|List\<string>|处理的所有文件路径列表||
-|globalizationSetter|GlobalizationSetter|获取国际化字符串|globalizationSetter.Find("Code");|
-|isExecuteInSequence|bool|是否顺序执行||
-
-##### SetResult函数
-|参数|类型|描述|备注|
-|----|----|----|----|
-|param|Param|传入的参数||
-|workbook|XLWorkbook|用于输出的Excel文件||
+|records|IEnumerable\<IEnumerable\<string>>|当前被处理的sheet||
 |filePath|string|文件路径||
 |globalObjects|Object|全局存在, 可以保存需要在其他调用时使用的数据, 如当前行号等||
 |globalizationSetter|GlobalizationSetter|获取国际化字符串|globalizationSetter.Find("Code");|
 |isExecuteInSequence|bool|是否顺序执行||
-|invokeCount|int|此输出函数被调用的次数|第一次调用时值为1|
-|totalCount|int|总共需要调用的输出函数的次数|当invokeCount与totalCount值相同时即为最后一次调用|
+|invokeCount|int|此处理函数被调用的次数|第一次调用时值为1|
+|outputter|Outputter|用于输出CSV数据||
 
 ##### RunEnd函数
 |参数|类型|描述|备注|
 |----|----|----|----|
 |param|Param|传入的参数||
-|workbook|XLWorkbook|用于输出的Excel文件||
 |globalObjects|Object|全局存在, 可以保存需要在其他调用时使用的数据, 如当前行号等||
 |allFilePathList|List\<string>|处理的所有文件路径列表||
 |globalizationSetter|GlobalizationSetter|获取国际化字符串|globalizationSetter.Find("Code");|
 |isExecuteInSequence|bool|是否顺序执行||
+|outputter|Outputter|用于输出CSV数据||
 
 # 使用的开源库
 |开源库|开源协议|
@@ -178,7 +159,6 @@ bool NowRunning { get => nowRunning; set => nowRunning = value; }
 |[roslynpad/roslynpad](https://github.com/roslynpad/roslynpad)|MIT|
 |[icsharpcode/AvalonEdit](https://github.com/icsharpcode/AvalonEdit)|MIT|
 |[JamesNK/Newtonsoft.Json](https://github.com/JamesNK/Newtonsoft.Json)|MIT|
-|[ClosedXML/ClosedXML](https://github.com/ClosedXML/ClosedXML)|MIT|
 |[~~rickyah/ini-parser~~ rickyah/ini-parser-netstandard](https://github.com/rickyah/ini-parser)|MIT|
 |[amibar/SmartThreadPool](https://github.com/amibar/SmartThreadPool)|MS-PL|
 |[punker76/gong-wpf-dragdrop](https://github.com/punker76/gong-wpf-dragdrop)|BSD-3-Clause|

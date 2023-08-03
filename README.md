@@ -1,9 +1,7 @@
-# ExcelTool
-![ICON](https://raw.githubusercontent.com/ZjzMisaka/ExcelTool/main/ExcelTool/ExcelTool.ico)  
-Perform batch reading, analysis, and output operations of Excel by executing pre-written c# scripts.  
-[中文ReadMe](https://github.com/ZjzMisaka/ExcelTool/blob/main/README_zh-CN.md) | [日本語ReadMe](https://github.com/ZjzMisaka/ExcelTool/blob/main/README_ja-JP.md)  
-[View example](https://github.com/ZjzMisaka/AnalyzersForExcelTool)  
-[Gif image when executing](https://www.namanime.com/ZjzMisaka/ExcelTool/ExcelTool.gif?20220603)
+# DataTransformer
+![ICON](https://raw.githubusercontent.com/ZjzMisaka/DataTransformer/main/DataTransformer/DataTransformer.ico)  
+Perform batch reading, analysis, and output operations of CSV by executing pre-written c# scripts.  
+[中文ReadMe](README_zh-CN.md) | [日本語ReadMe](README_ja-JP.md)  
 
 ### Multi-language
 - [x] 简体中文
@@ -18,18 +16,17 @@ Perform batch reading, analysis, and output operations of Excel by executing pre
     - After selecting a rule, you can set monitoring to monitor some folders and files, and automatically execute this rule when there is a change. 
 
 ### Search information setting interface
-**Used to set the specified Sheet that needs to find the specified Excel file in the specified path**
+**Used to find the specified CSV file in the specified path**
 - The search method can be selected all, complete match, partial contain and regular expression. 
 
 ### Processing logic (plug-in coding) interface
-**Used to set the processing logic for a certain type of Sheet and the output logic after processing**
+**Used to set the processing logic for a certain type of CSV file and the output logic after processing**
 - Write code in the editor, and it will be executed in sequence during operation.
 - Parameters can be set, plug-in users can edit the parameters in the main interface, and pass them to the code to use at runtime.  
 - Parameter description and running log output can be multilingualized. 
 
 #### Coding related
 - Automatic completion and coloring throughout the process, you can add dll files to the Dlls folder by yourself, and you can directly reference them after adding. 
-- Encoding content depends on the [ClosedXML](https://github.com/ClosedXML/ClosedXML) open source library. 
 - Can use additional provided functions and properties to perform on-the-fly. 
     - Real-time output of Log in the Log area of the main interface. 
     - Hang and wait, read user input. 
@@ -79,25 +76,17 @@ string WaitInput();
 string LastInputValue { get => lastInputValue; set => lastInputValue = value; }
 ```
 
-##### Output (static class)
+##### Outputter (class)
 ```c#
-// ---- Excel file operations ----
-// Create a new excel file
-XLWorkbook CreateWorkbook(string name);
-// Get an excel file created via CreateWorkbook
-XLWorkbook GetWorkbook(string name);
-// Get a sheet
-IXLWorksheet GetSheet(string workbookName, string sheetName);
-IXLWorksheet GetSheet(XLWorkbook workbook, string sheetName);
-// Get all excel files created
-Dictionary<string, XLWorkbook> GetAllWorkbooks();
-// Clear all created excel files
-void ClearWorkbooks();
-
-// ---- Whether to save the default output file ----
-bool IsSaveDefaultWorkBook { get => isSaveDefaultWorkBook; set => isSaveDefaultWorkBook = value; }
-// ---- The location of the output file ----
-string OutputPath { get => outputPath; set => outputPath = value; }
+// ---- CSV file operations ----
+// Output settings
+CsvOption csvOption;
+// Data to be output
+IEnumerable<IEnumerable<string>> CsvDatas
+// Add a row of data
+void SetData(IEnumerable<string> data)
+// Add a row of data based on a dictionary of headers-data
+void SetData(Dictionary<string, string> dataWithHeader)
 ```
 
 ##### Param (class)
@@ -120,57 +109,49 @@ bool UserStop { get => userStop; set => userStop = value; }
 bool NowRunning { get => nowRunning; set => nowRunning = value; }
 ```
 
-##### RunBeforeAnalyze Function
+##### RunBeforeAnalyzeCsv Function
 |Parameter|Type|Description|Remarks|
 |----|----|----|----|
-|param|Param|Parameters passed in||
-|globalObjects|Object|Global existence, can save data that needs to be used in other calls, such as the current line number, etc.||
-|allFilePathList|List\<string>|A list of all file paths that will be analyzed||
-|globalizationSetter|GlobalizationSetter|Get internationalization string|globalizationSetter.Find("Code");|
-|isExecuteInSequence|bool|Whether to execute sequentially||
+|param|Param|The parameter passed in||
+|globalObjects|Object|Globally existing, can save data that needs to be used in other calls, such as the current line number, etc.||
+|allFilePathList|List\<string>|The list of all file paths that will be processed||
+|globalizationSetter|GlobalizationSetter|Get internationalized strings|globalizationSetter.Find("Code");|
+|isExecuteInSequence|bool|Whether to execute in sequence||
+|outputter|Outputter|Used to output CSV data||
 
-##### AnalyzeSheet Function
+##### AnalyzePerRecord Function
 |Parameter|Type|Description|Remarks|
 |----|----|----|----|
-|param|Param|Parameters passed in||
-|sheet|IXLWorksheet|Sheet to be analyzed||
+|param|Param|The parameter passed in||
+|record|Dictionary\<string, string>|The sheet currently being processed||
 |filePath|string|File path||
-|globalObjects|Object|Global existence, can save data that needs to be used in other calls, such as the current line number, etc.||
-|globalizationSetter|GlobalizationSetter|Get internationalization string|globalizationSetter.Find("Code");|
-|isExecuteInSequence|bool|Whether to execute sequentially||
-|invokeCount|int|The number of times this analysis function was called|The value is 1 on the first call|
+|globalObjects|Object|Globally existing, can save data that needs to be used in other calls, such as the current line number, etc.||
+|globalizationSetter|GlobalizationSetter|Get internationalized strings|globalizationSetter.Find("Code");|
+|isExecuteInSequence|bool|Whether to execute in sequence||
+|invokeCount|int|The number of times this processing function has been called|Value is 1 when called for the first time|
+|outputter|Outputter|Used to output CSV data||
 
-##### RunBeforeSetResult Function
+##### AnalyzeRecords Function
 |Parameter|Type|Description|Remarks|
 |----|----|----|----|
-|param|Param|Parameters passed in||
-|workbook|XLWorkbook|Excel file for output||
-|globalObjects|Object|Global existence, can save data that needs to be used in other calls, such as the current line number, etc.||
-|allFilePathList|List\<string>|List of all file paths analyzed||
-|globalizationSetter|GlobalizationSetter|Get internationalization string|globalizationSetter.Find("Code");|
-|isExecuteInSequence|bool|Whether to execute sequentially||
-
-##### SetResult Function
-|Parameter|Type|Description|Remarks|
-|----|----|----|----|
-|param|Param|Parameters passed in||
-|workbook|XLWorkbook|Excel file for output||
+|param|Param|The parameter passed in||
+|records|IEnumerable\<IEnumerable\<string>>|The sheet currently being processed||
 |filePath|string|File path||
-|globalObjects|Object|Global existence, can save data that needs to be used in other calls, such as the current line number, etc.||
-|globalizationSetter|GlobalizationSetter|Get internationalization string|globalizationSetter.Find("Code");|
-|isExecuteInSequence|bool|Whether to execute sequentially||
-|invokeCount|int|The number of times this output function was called|The value is 1 on the first call|
-|totalCount|int|The total number of times the output function needs to be called|The last call is when invokeCount is the same as totalCount|
+|globalObjects|Object|Globally existing, can save data that needs to be used in other calls, such as the current line number, etc.||
+|globalizationSetter|GlobalizationSetter|Get internationalized strings|globalizationSetter.Find("Code");|
+|isExecuteInSequence|bool|Whether to execute in sequence||
+|invokeCount|int|The number of times this processing function has been called|Value is 1 when called for the first time|
+|outputter|Outputter|Used to output CSV data||
 
 ##### RunEnd Function
 |Parameter|Type|Description|Remarks|
 |----|----|----|----|
-|param|Param|Parameters passed in||
-|workbook|XLWorkbook|Excel file for output||
-|globalObjects|Object|Global existence, can save data that needs to be used in other calls, such as the current line number, etc.||
-|allFilePathList|List\<string>|List of all file paths analyzed||
-|globalizationSetter|GlobalizationSetter|Get internationalization string|globalizationSetter.Find("Code");|
-|isExecuteInSequence|bool|Whether to execute sequentially||
+|param|Param|The parameter passed in||
+|globalObjects|Object|Globally existing, can save data that needs to be used in other calls, such as the current line number, etc.||
+|allFilePathList|List\<string>|The list of all file paths processed||
+|globalizationSetter|GlobalizationSetter|Get internationalized strings|globalizationSetter.Find("Code");|
+|isExecuteInSequence|bool|Whether to execute in sequence||
+|outputter|Outputter|Used to output CSV data||
 
 # Open Source Libraries Used
 |Open source library|Open source protocol|
@@ -178,7 +159,6 @@ bool NowRunning { get => nowRunning; set => nowRunning = value; }
 |[roslynpad/roslynpad](https://github.com/roslynpad/roslynpad)|MIT|
 |[icsharpcode/AvalonEdit](https://github.com/icsharpcode/AvalonEdit)|MIT|
 |[JamesNK/Newtonsoft.Json](https://github.com/JamesNK/Newtonsoft.Json)|MIT|
-|[ClosedXML/ClosedXML](https://github.com/ClosedXML/ClosedXML)|MIT|
 |[~~rickyah/ini-parser~~ rickyah/ini-parser-netstandard](https://github.com/rickyah/ini-parser)|MIT|
 |[amibar/SmartThreadPool](https://github.com/amibar/SmartThreadPool)|MS-PL|
 |[punker76/gong-wpf-dragdrop](https://github.com/punker76/gong-wpf-dragdrop)|BSD-3-Clause|
