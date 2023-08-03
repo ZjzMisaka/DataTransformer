@@ -3109,7 +3109,7 @@ namespace DataTransformer.ViewModel
             try
             {
                 StreamReader reader = new StreamReader(filePath);
-                CsvReader csv = new CsvReader(reader, new CsvOption() { headerList = new List<string>() { "1", "2", "3" }, spliter = "," });
+                CsvReader csv = new CsvReader(reader, csvExplainer.inputOption);
                 IEnumerable<IEnumerable<string>> records;
 
                 if (readedWorkbookDic.ContainsKey(filePath))
