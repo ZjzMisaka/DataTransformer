@@ -97,6 +97,7 @@
     <sys:String x:Key="Error">错误</sys:String>
     <sys:String x:Key="PathNotExists">路径不存在</sys:String>
     <sys:String x:Key="Ok">确定</sys:String>
+    <sys:String x:Key="CsvOptionEditor">CSV选项编辑器</sys:String>
     <sys:String x:Key="Input">输入</sys:String>
     <sys:String x:Key="Output">输出</sys:String>
     <sys:String x:Key="HeaderList">标头列表</sys:String>

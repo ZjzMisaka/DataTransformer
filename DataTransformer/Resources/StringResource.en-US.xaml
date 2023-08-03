@@ -97,6 +97,7 @@
     <sys:String x:Key="Error">Error</sys:String>
     <sys:String x:Key="PathNotExists">Path does not exist</sys:String>
     <sys:String x:Key="Ok">Ok</sys:String>
+    <sys:String x:Key="CsvOptionEditor">Csv option editor</sys:String>
     <sys:String x:Key="Input">Input</sys:String>
     <sys:String x:Key="Output">Output</sys:String>
     <sys:String x:Key="HeaderList">Header list</sys:String>
