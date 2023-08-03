@@ -220,7 +220,7 @@ namespace AnalyzeCode
         /// &lt;param name="globalizationSetter">获取国际化字符串&lt;/param>
         /// &lt;param name="isExecuteInSequence">是否顺序执行&lt;/param>
         /// &lt;param name="outputter">用于输出CSV数据&lt;/param>
-        public void RunEnd(Param param, XLWorkbook workbook, ref Object globalObject, List&lt;string> allFilePathList, GlobalizationSetter globalizationSetter, bool isExecuteInSequence, Outputter outputter)
+        public void RunEnd(Param param, ref Object globalObject, List&lt;string> allFilePathList, GlobalizationSetter globalizationSetter, bool isExecuteInSequence, Outputter outputter)
         {
             
         }

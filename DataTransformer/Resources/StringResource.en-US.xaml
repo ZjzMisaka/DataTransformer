@@ -215,7 +215,6 @@ namespace AnalyzeCode
         /// Call after all calls have finished
         /// &lt;/summary>
         /// &lt;param name="param">Parameters passed in&lt;/param>
-        /// &lt;param name="workbook">Excel file for output&lt;/param>
         /// &lt;param name="globalObject">Global existence, can save data that needs to be used in other calls, such as the current line number, etc.&lt;/param>
         /// &lt;param name="allFilePathList">List of all file paths analyzed&lt;/param>
         /// &lt;param name="globalizationSetter">Get internationalization string&lt;/param>
