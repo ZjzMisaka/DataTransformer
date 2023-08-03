@@ -60,10 +60,10 @@
     <sys:String x:Key="WordWrap">自动换行</sys:String>
     <sys:String x:Key="ShowLineNumbers">显示行号</sys:String>
 
-    <sys:String x:Key="Analyzer">表格文件处理逻辑</sys:String>
+    <sys:String x:Key="Analyzer">CSV文件处理逻辑</sys:String>
     <sys:String x:Key="CsvExplainer">检索信息</sys:String>
     <sys:String x:Key="SetCsvExplainer">检索信息设定</sys:String>
-    <sys:String x:Key="SetAnalyzer">表格文件处理逻辑设定</sys:String>
+    <sys:String x:Key="SetAnalyzer">CSV文件处理逻辑设定</sys:String>
     <sys:String x:Key="Parameter">参数</sys:String>
     <sys:String x:Key="Edit">编辑</sys:String>
     <sys:String x:Key="Lock">锁定</sys:String>
