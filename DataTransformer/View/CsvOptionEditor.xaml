@@ -36,19 +36,21 @@
                             <ColumnDefinition Width="*"></ColumnDefinition>
                         </Grid.ColumnDefinitions>
 
-                        <TextBlock Text="{DynamicResource HeaderList}" Grid.Row="0" Grid.Column="0" ></TextBlock>
+                        <Grid Height="35px" Grid.Row="0" Grid.Column="0" VerticalAlignment="Top" Margin="10 0 0 0 ">
+                            <TextBlock Text="{DynamicResource HeaderList}" VerticalAlignment="Center"></TextBlock>
+                        </Grid>
                         <TextBox Text="{Binding InputOptionHeaderList, Mode=TwoWay}" Grid.Row="0" Grid.Column="1" AcceptsReturn="True" Margin="10 2" VerticalContentAlignment="Top" HorizontalAlignment="Stretch" VerticalAlignment="Stretch"></TextBox>
 
-                        <TextBlock Text="{DynamicResource Spliter}" Grid.Row="1" Grid.Column="0"></TextBlock>
+                        <TextBlock Text="{DynamicResource Spliter}" Grid.Row="1" Grid.Column="0" VerticalAlignment="Center" Margin="10 0 0 0 "></TextBlock>
                         <ComboBox SelectedValue="{Binding InputOptionSpliterValue, Mode=TwoWay}" SelectedValuePath="Tag" Grid.Row="1" Grid.Column="1" Margin="10 2" VerticalContentAlignment="Center" HorizontalAlignment="Stretch" VerticalAlignment="Stretch">
                             <ComboBoxItem Content="{DynamicResource Comma}" Tag="Comma"></ComboBoxItem>
                             <ComboBoxItem Content="{DynamicResource TAB}" Tag="TAB"></ComboBoxItem>
                         </ComboBox>
 
-                        <TextBlock Text="{DynamicResource HasQuotes}" Grid.Row="2" Grid.Column="0"></TextBlock>
+                        <TextBlock Text="{DynamicResource HasQuotes}" Grid.Row="2" Grid.Column="0" VerticalAlignment="Center" Margin="10 0 0 0 "></TextBlock>
                         <CheckBox IsChecked="{Binding InputOptionHasQuotes, Mode=TwoWay}" Grid.Row="2" Grid.Column="1" Margin="10 2" VerticalContentAlignment="Center" HorizontalAlignment="Stretch" VerticalAlignment="Stretch"></CheckBox>
 
-                        <TextBlock Text="{DynamicResource ShowHeader}" Grid.Row="3" Grid.Column="0"></TextBlock>
+                        <TextBlock Text="{DynamicResource ShowHeader}" Grid.Row="3" Grid.Column="0" VerticalAlignment="Center" Margin="10 0 0 0 "></TextBlock>
                         <CheckBox IsChecked="{Binding InputOptionShowHeader, Mode=TwoWay}" Grid.Row="3" Grid.Column="1" Margin="10 2" VerticalContentAlignment="Center" HorizontalAlignment="Stretch" VerticalAlignment="Stretch"></CheckBox>
                     </Grid>
                 </ScrollViewer>
@@ -70,25 +72,27 @@
                             <ColumnDefinition Width="*"></ColumnDefinition>
                         </Grid.ColumnDefinitions>
 
-                        <TextBlock Text="{DynamicResource HeaderList}" Grid.Row="0" Grid.Column="0"></TextBlock>
+                        <Grid Height="35px" Grid.Row="0" Grid.Column="0" VerticalAlignment="Top" Margin="10 0 0 0 ">
+                            <TextBlock Text="{DynamicResource HeaderList}" VerticalAlignment="Center"></TextBlock>
+                        </Grid>
                         <TextBox Text="{Binding OutputOptionHeaderList, Mode=TwoWay}" Grid.Row="0" Grid.Column="1" AcceptsReturn="True" Margin="10 2" VerticalContentAlignment="Top" HorizontalAlignment="Stretch" VerticalAlignment="Stretch"></TextBox>
 
-                        <TextBlock Text="{DynamicResource Spliter}" Grid.Row="1" Grid.Column="0"></TextBlock>
+                        <TextBlock Text="{DynamicResource Spliter}" Grid.Row="1" Grid.Column="0" VerticalAlignment="Center" Margin="10 0 0 0 "></TextBlock>
                         <ComboBox SelectedValue="{Binding OutputOptionSpliterValue, Mode=TwoWay}" SelectedValuePath="Tag" Grid.Row="1" Grid.Column="1" Margin="10 2" VerticalContentAlignment="Center" HorizontalAlignment="Stretch" VerticalAlignment="Stretch">
                             <ComboBoxItem Content="{DynamicResource Comma}" Tag="Comma"></ComboBoxItem>
                             <ComboBoxItem Content="{DynamicResource TAB}" Tag="TAB"></ComboBoxItem>
                         </ComboBox>
 
-                        <TextBlock Text="{DynamicResource HasQuotes}" Grid.Row="2" Grid.Column="0"></TextBlock>
+                        <TextBlock Text="{DynamicResource HasQuotes}" Grid.Row="2" Grid.Column="0" VerticalAlignment="Center" Margin="10 0 0 0 "></TextBlock>
                         <CheckBox IsChecked="{Binding OutputOptionHasQuotes, Mode=TwoWay}" Grid.Row="2" Grid.Column="1" Margin="10 2" VerticalContentAlignment="Center" HorizontalAlignment="Stretch" VerticalAlignment="Stretch"></CheckBox>
 
-                        <TextBlock Text="{DynamicResource ShowHeader}" Grid.Row="3" Grid.Column="0"></TextBlock>
+                        <TextBlock Text="{DynamicResource ShowHeader}" Grid.Row="3" Grid.Column="0" VerticalAlignment="Center" Margin="10 0 0 0 "></TextBlock>
                         <CheckBox IsChecked="{Binding OutputOptionShowHeader, Mode=TwoWay}" Grid.Row="3" Grid.Column="1" Margin="10 2" VerticalContentAlignment="Center" HorizontalAlignment="Stretch" VerticalAlignment="Stretch"></CheckBox>
 
-                        <TextBlock Text="{DynamicResource OutputPath}" Grid.Row="4" Grid.Column="0"></TextBlock>
+                        <TextBlock Text="{DynamicResource OutputPath}" Grid.Row="4" Grid.Column="0" VerticalAlignment="Center" Margin="10 0 0 0 "></TextBlock>
                         <TextBox Text="{Binding OutputOptionOutputPath, Mode=TwoWay}" Grid.Row="4" Grid.Column="1" Margin="10 2" VerticalContentAlignment="Center" HorizontalAlignment="Stretch" VerticalAlignment="Stretch"></TextBox>
 
-                        <TextBlock Text="{DynamicResource FileName}" Grid.Row="5" Grid.Column="0"></TextBlock>
+                        <TextBlock Text="{DynamicResource FileName}" Grid.Row="5" Grid.Column="0" VerticalAlignment="Center" Margin="10 0 0 0 "></TextBlock>
                         <TextBox Text="{Binding OutputOptionOutputFileName, Mode=TwoWay}" Grid.Row="5" Grid.Column="1" Margin="10 2" VerticalContentAlignment="Center" HorizontalAlignment="Stretch" VerticalAlignment="Stretch"></TextBox>
                     </Grid>
                 </ScrollViewer>
