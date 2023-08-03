@@ -1,8 +1,12 @@
 ﻿using CsvTool;
 using DataTransformer;
 using DataTransformer.Helper;
+using GlobalObjects;
+using ICSharpCode.AvalonEdit;
 using Microsoft.Toolkit.Mvvm.ComponentModel;
 using Microsoft.Toolkit.Mvvm.Input;
+using Microsoft.VisualBasic.Logging;
+using ModernWpf;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -10,7 +14,9 @@ using System.Runtime.Versioning;
 using System.Text;
 using System.Threading.Tasks;
 using System.Windows;
+using System.Windows.Controls;
 using System.Windows.Input;
+using System.Windows.Media;
 
 namespace DataTransformer.ViewModel
 {
@@ -20,6 +26,26 @@ namespace DataTransformer.ViewModel
         private Window window;
         public CsvOption inputOption { get; set; }
         public CsvOption outputOption { get; set; }
+
+        private Brush themeControlFocusBackground;
+        public Brush ThemeControlFocusBackground
+        {
+            get { return themeControlFocusBackground; }
+            set
+            {
+                SetProperty<Brush>(ref themeControlFocusBackground, value);
+            }
+        }
+
+        private Brush themeControlForeground;
+        public Brush ThemeControlForeground
+        {
+            get { return themeControlForeground; }
+            set
+            {
+                SetProperty<Brush>(ref themeControlForeground, value);
+            }
+        }
 
         private bool isInputOption;
 
@@ -49,17 +75,17 @@ namespace DataTransformer.ViewModel
             }
         }
 
-        private string inputOptionHeaderList;
+        private ICSharpCode.AvalonEdit.Document.TextDocument inputOptionHeaderListDocument;
 
-        public string InputOptionHeaderList 
+        public ICSharpCode.AvalonEdit.Document.TextDocument InputOptionHeaderListDocument
         {
             get 
             {
-                return inputOptionHeaderList; 
+                return inputOptionHeaderListDocument; 
             }
             set
             {
-                SetProperty<string>(ref inputOptionHeaderList, value);
+                SetProperty<ICSharpCode.AvalonEdit.Document.TextDocument>(ref inputOptionHeaderListDocument, value);
             }
         }
 
@@ -105,17 +131,17 @@ namespace DataTransformer.ViewModel
             }
         }
 
-        private string outputOptionHeaderList;
+        private ICSharpCode.AvalonEdit.Document.TextDocument outputOptionHeaderListDocument;
 
-        public string OutputOptionHeaderList
+        public ICSharpCode.AvalonEdit.Document.TextDocument OutputOptionHeaderListDocument
         {
             get
             {
-                return outputOptionHeaderList;
+                return outputOptionHeaderListDocument;
             }
             set
             {
-                SetProperty<string>(ref outputOptionHeaderList, value);
+                SetProperty<ICSharpCode.AvalonEdit.Document.TextDocument>(ref outputOptionHeaderListDocument, value);
             }
         }
 
@@ -212,11 +238,11 @@ namespace DataTransformer.ViewModel
 
                 if (inputOption.headerList == null)
                 {
-                    inputOptionHeaderList = "";
+                    inputOptionHeaderListDocument = new ICSharpCode.AvalonEdit.Document.TextDocument("");
                 }
                 else
                 {
-                    inputOptionHeaderList = string.Join('\n', inputOption.headerList);
+                    inputOptionHeaderListDocument = new ICSharpCode.AvalonEdit.Document.TextDocument(string.Join('\n', inputOption.headerList));
                 }
 
                 InputOptionSpliterValue = inputOption.spliter;
@@ -231,11 +257,11 @@ namespace DataTransformer.ViewModel
 
                 if (outputOption.headerList == null)
                 {
-                    outputOptionHeaderList = "";
+                    outputOptionHeaderListDocument = new ICSharpCode.AvalonEdit.Document.TextDocument("");
                 }
                 else
                 {
-                    outputOptionHeaderList = string.Join('\n', outputOption.headerList);
+                    outputOptionHeaderListDocument = new ICSharpCode.AvalonEdit.Document.TextDocument(string.Join('\n', outputOption.headerList));
                 }
 
                 outputOptionSpliterValue = outputOption.spliter;
@@ -248,12 +274,24 @@ namespace DataTransformer.ViewModel
 
                 outputOptionOutputFileName = outputOption.outputFileName;
             }
-            
+
+            ModernWpf.ThemeManager.Current.ActualApplicationThemeChanged += ActualApplicationThemeChanged;
         }
 
         private void WindowLoaded(RoutedEventArgs e)
         {
             this.window = (Window)e.Source;
+
+            ActualApplicationThemeChanged(null, null);
+        }
+
+        private void ActualApplicationThemeChanged(ThemeManager themeManager, object obj)
+        {
+            GlobalObjects.GlobalObjects.ClearPropertiesSetter();
+
+            GlobalObjects.Theme.SetTheme();
+            ThemeControlFocusBackground = Theme.ThemeControlFocusBackground;
+            ThemeControlForeground = Theme.ThemeControlForeground;
         }
 
 
@@ -261,14 +299,14 @@ namespace DataTransformer.ViewModel
         {
             if (inputOption != null)
             {
-                inputOption.headerList = inputOptionHeaderList.Replace("\r", "").Split('\n').Where(str => str.Trim() != "").ToList();
+                inputOption.headerList = inputOptionHeaderListDocument.Text.Replace("\r", "").Split('\n').Where(str => str.Trim() != "").ToList();
                 inputOption.spliter = inputOptionSpliterValue;
                 inputOption.hasQuotes = inputOptionHasQuotes;
                 inputOption.showHeader = inputOptionShowHeader;
             }
             else
             {
-                outputOption.headerList = outputOptionHeaderList.Replace("\r", "").Split('\n').Where(str => str.Trim() != "").ToList();
+                outputOption.headerList = outputOptionHeaderListDocument.Text.Replace("\r", "").Split('\n').Where(str => str.Trim() != "").ToList();
                 outputOption.spliter = outputOptionSpliterValue;
                 outputOption.hasQuotes = outputOptionHasQuotes;
                 outputOption.showHeader = outputOptionShowHeader;
