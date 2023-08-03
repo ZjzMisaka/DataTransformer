@@ -40,9 +40,9 @@
                         <TextBox Text="{Binding InputOptionHeaderList, Mode=TwoWay}" Grid.Row="0" Grid.Column="1" AcceptsReturn="True" Margin="10 2" VerticalContentAlignment="Top" HorizontalAlignment="Stretch" VerticalAlignment="Stretch"></TextBox>
 
                         <TextBlock Text="{DynamicResource Spliter}" Grid.Row="1" Grid.Column="0"></TextBlock>
-                        <ComboBox SelectedIndex="{Binding InputOptionSpliterIndex, Mode=TwoWay}" Grid.Row="1" Grid.Column="1" Margin="10 2" VerticalContentAlignment="Center" HorizontalAlignment="Stretch" VerticalAlignment="Stretch">
-                            <ComboBoxItem Content="Comma"></ComboBoxItem>
-                            <ComboBoxItem Content="TAB"></ComboBoxItem>
+                        <ComboBox SelectedValue="{Binding InputOptionSpliterValue, Mode=TwoWay}" SelectedValuePath="Tag" Grid.Row="1" Grid.Column="1" Margin="10 2" VerticalContentAlignment="Center" HorizontalAlignment="Stretch" VerticalAlignment="Stretch">
+                            <ComboBoxItem Content="{DynamicResource Comma}" Tag="Comma"></ComboBoxItem>
+                            <ComboBoxItem Content="{DynamicResource TAB}" Tag="TAB"></ComboBoxItem>
                         </ComboBox>
 
                         <TextBlock Text="{DynamicResource HasQuotes}" Grid.Row="2" Grid.Column="0"></TextBlock>
@@ -74,9 +74,9 @@
                         <TextBox Text="{Binding OutputOptionHeaderList, Mode=TwoWay}" Grid.Row="0" Grid.Column="1" AcceptsReturn="True" Margin="10 2" VerticalContentAlignment="Top" HorizontalAlignment="Stretch" VerticalAlignment="Stretch"></TextBox>
 
                         <TextBlock Text="{DynamicResource Spliter}" Grid.Row="1" Grid.Column="0"></TextBlock>
-                        <ComboBox SelectedIndex="{Binding OutputOptionSpliterIndex, Mode=TwoWay}" Grid.Row="1" Grid.Column="1" Margin="10 2" VerticalContentAlignment="Center" HorizontalAlignment="Stretch" VerticalAlignment="Stretch">
-                            <ComboBoxItem Content="Comma"></ComboBoxItem>
-                            <ComboBoxItem Content="TAB"></ComboBoxItem>
+                        <ComboBox SelectedValue="{Binding OutputOptionSpliterValue, Mode=TwoWay}" SelectedValuePath="Tag" Grid.Row="1" Grid.Column="1" Margin="10 2" VerticalContentAlignment="Center" HorizontalAlignment="Stretch" VerticalAlignment="Stretch">
+                            <ComboBoxItem Content="{DynamicResource Comma}" Tag="Comma"></ComboBoxItem>
+                            <ComboBoxItem Content="{DynamicResource TAB}" Tag="TAB"></ComboBoxItem>
                         </ComboBox>
 
                         <TextBlock Text="{DynamicResource HasQuotes}" Grid.Row="2" Grid.Column="0"></TextBlock>

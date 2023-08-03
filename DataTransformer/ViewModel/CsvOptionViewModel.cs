@@ -63,17 +63,17 @@ namespace DataTransformer.ViewModel
             }
         }
 
-        private int inputOptionSpliterIndex;
+        private string inputOptionSpliterValue;
 
-        public int InputOptionSpliterIndex
+        public string InputOptionSpliterValue
         {
             get
             {
-                return inputOptionSpliterIndex;
+                return inputOptionSpliterValue;
             }
             set
             {
-                SetProperty<int>(ref inputOptionSpliterIndex, value);
+                SetProperty<string>(ref inputOptionSpliterValue, value);
             }
         }
 
@@ -119,17 +119,17 @@ namespace DataTransformer.ViewModel
             }
         }
 
-        private int outputOptionSpliterIndex;
+        private string outputOptionSpliterValue;
 
-        public int OutputOptionSpliterIndex
+        public string OutputOptionSpliterValue
         {
             get
             {
-                return outputOptionSpliterIndex;
+                return outputOptionSpliterValue;
             }
             set
             {
-                SetProperty<int>(ref outputOptionSpliterIndex, value);
+                SetProperty<string>(ref outputOptionSpliterValue, value);
             }
         }
 
@@ -219,16 +219,9 @@ namespace DataTransformer.ViewModel
                     inputOptionHeaderList = string.Join('\n', inputOption.headerList);
                 }
 
-                if (inputOption.spliter == "Comma")
-                {
-                    inputOptionSpliterIndex = 0;
-                }
-                else if (inputOption.spliter == "TAB")
-                {
-                    inputOptionSpliterIndex = 1;
-                }
+                InputOptionSpliterValue = inputOption.spliter;
 
-                inputOption.hasQuotes = inputOptionHasQuotes;
+                inputOptionHasQuotes = inputOption.hasQuotes;
 
                 inputOptionShowHeader = inputOption.showHeader;
             }
@@ -245,14 +238,7 @@ namespace DataTransformer.ViewModel
                     outputOptionHeaderList = string.Join('\n', outputOption.headerList);
                 }
 
-                if (outputOption.spliter == "Comma")
-                {
-                    outputOptionSpliterIndex = 0;
-                }
-                else if (outputOption.spliter == "TAB")
-                {
-                    outputOptionSpliterIndex = 1;
-                }
+                outputOptionSpliterValue = outputOption.spliter;
 
                 outputOptionHasQuotes = outputOption.hasQuotes;
 
@@ -276,28 +262,14 @@ namespace DataTransformer.ViewModel
             if (inputOption != null)
             {
                 inputOption.headerList = inputOptionHeaderList.Replace("\r", "").Split('\n').Where(str => str.Trim() != "").ToList();
-                if (inputOptionSpliterIndex == 0)
-                {
-                    inputOption.spliter = "Comma";
-                }
-                else if (inputOptionSpliterIndex == 1)
-                {
-                    inputOption.spliter = "TAB";
-                }
+                inputOption.spliter = inputOptionSpliterValue;
                 inputOption.hasQuotes = inputOptionHasQuotes;
                 inputOption.showHeader = inputOptionShowHeader;
             }
             else
             {
                 outputOption.headerList = outputOptionHeaderList.Replace("\r", "").Split('\n').Where(str => str.Trim() != "").ToList();
-                if (outputOptionSpliterIndex == 0)
-                {
-                    outputOption.spliter = "Comma";
-                }
-                else if (outputOptionSpliterIndex == 1)
-                {
-                    outputOption.spliter = "TAB";
-                }
+                outputOption.spliter = outputOptionSpliterValue;
                 outputOption.hasQuotes = outputOptionHasQuotes;
                 outputOption.showHeader = outputOptionShowHeader;
                 outputOption.outputPath = outputOptionOutputPath; outputOption.outputFileName = outputOptionOutputFileName;
