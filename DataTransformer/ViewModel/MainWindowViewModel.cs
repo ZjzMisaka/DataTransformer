@@ -53,7 +53,7 @@ namespace DataTransformer.ViewModel
         private ConcurrentDictionary<string, long> currentAnalizingDictionary;
         private ConcurrentDictionary<string, long> currentOutputtingDictionary;
         private ConcurrentDictionary<string, Analyzer> analyzerListForSetResult;
-        private ConcurrentDictionary<string, IEnumerable<IEnumerable<string>>> readedWorkbookDic;
+        private ConcurrentDictionary<string, IEnumerable<IEnumerable<string>>> readedCsvDic;
         private Dictionary<FileSystemWatcher, string> fileSystemWatcherDic;
         private Stopwatch stopwatchBeforeFileSystemWatcherInvoke;
         private int analyzeCsvInvokeCount;
@@ -2528,7 +2528,7 @@ namespace DataTransformer.ViewModel
             analyzerListForSetResult = new ConcurrentDictionary<string, Analyzer>();
             currentAnalizingDictionary = new ConcurrentDictionary<string, long>();
             currentOutputtingDictionary = new ConcurrentDictionary<string, long>();
-            readedWorkbookDic = new ConcurrentDictionary<string, IEnumerable<IEnumerable<string>>>();
+            readedCsvDic = new ConcurrentDictionary<string, IEnumerable<IEnumerable<string>>>();
             GlobalObjects.GlobalObjects.ClearGlobalParamDic();
 
             GlobalDic.Reset();
@@ -3112,14 +3112,14 @@ namespace DataTransformer.ViewModel
                 CsvReader csv = new CsvReader(reader, csvExplainer.inputOption);
                 IEnumerable<IEnumerable<string>> records;
 
-                if (readedWorkbookDic.ContainsKey(filePath))
+                if (readedCsvDic.ContainsKey(filePath))
                 {
-                    records = readedWorkbookDic[filePath];
+                    records = readedCsvDic[filePath];
                 }
                 else
                 {
                     records = csv.GetLists();
-                    readedWorkbookDic.AddOrUpdate(filePath, records, (key, oldValue) => records);
+                    readedCsvDic.AddOrUpdate(filePath, records, (key, oldValue) => records);
                 }
 
                 foreach (IEnumerable<string> record in records)

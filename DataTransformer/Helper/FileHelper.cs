@@ -85,7 +85,7 @@ namespace DataTransformer.Helper
                         }
                         else if (csvExplainer.fileNames.Key == FindingMethod.ALL)
                         {
-                            Regex rgx = new Regex("[\\s\\S]*.xls[xm]", RegexOptions.IgnoreCase);
+                            Regex rgx = new Regex("[\\s\\S]*.csv", RegexOptions.IgnoreCase);
                             if (rgx.IsMatch(fileInfo.Name))
                             {
                                 string fileName = System.IO.Path.Combine(fileInfo.DirectoryName, fileInfo.Name);
