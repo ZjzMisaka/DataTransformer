@@ -24,18 +24,18 @@ namespace CsvTool
 
             if (_csvOption.showHeader && _csvOption.headerList != null)
             {
-                WriteRow(_csvOption.headerList, filePath, writer);
+                WriteRow(_csvOption.headerList, writer);
             }
 
             foreach (var row in data)
             {
-                WriteRow(row, filePath, writer);
+                WriteRow(row, writer);
             }
 
             writer.Dispose();
         }
 
-        private void WriteRow(IEnumerable<string> row, string filePath, StreamWriter writer)
+        private void WriteRow(IEnumerable<string> row, StreamWriter writer)
         {
             var finalRow = new StringBuilder();
             foreach (var field in row)
