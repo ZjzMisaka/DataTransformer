@@ -2828,29 +2828,29 @@ namespace DataTransformer.ViewModel
             foreach (Analyzer analyzer in compilerDic.Keys)
             {
                 string resPath = outputPath.Replace("\\", "/");
-
                 if (analyzer.outputter.csvOption.outputPath != null && analyzer.outputter.csvOption.outputPath != "")
                 {
-                    resPath = analyzer.outputter.csvOption.outputPath;
+                    resPath = analyzer.outputter.csvOption.outputPath.Replace("\\", "/");
                 }
 
-                string filePath;
                 string fileName = outputName;
                 if (analyzer.outputter.csvOption.outputFileName != null && analyzer.outputter.csvOption.outputFileName != "")
                 {
                     fileName = analyzer.outputter.csvOption.outputFileName;
                 }
-                if (outputPath.EndsWith("/"))
+
+                string fullPath;
+                if (resPath.EndsWith("/"))
                 {
-                    filePath = $"{resPath}{fileName}.csv";
+                    fullPath = $"{resPath}{fileName}.csv";
                 }
                 else
                 {
-                    filePath = $"{resPath}/{fileName}.csv";
+                    fullPath = $"{resPath}/{fileName}.csv";
                 }
 
                 CsvWriter csvWriter = new CsvWriter(analyzer.outputter.csvOption);
-                FileHelper.SaveWorkbook(isAuto, filePath, csvWriter, CbIsAutoOpenIsChecked, isExecuteInSequence, analyzer.outputter);
+                FileHelper.SaveCsv(isAuto, fullPath, csvWriter, CbIsAutoOpenIsChecked, isExecuteInSequence, analyzer.outputter);
             }
 
             if (runNotSuccessed)

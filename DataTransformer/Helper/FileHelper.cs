@@ -199,7 +199,7 @@ namespace DataTransformer.Helper
             return newParamsList;
         }
 
-        public static void SaveWorkbook(bool isAuto, string filePath, CsvWriter csvWriter, bool isAutoOpen, bool isExecuteInSequence, Outputter outputter)
+        public static void SaveCsv(bool isAuto, string filePath, CsvWriter csvWriter, bool isAutoOpen, bool isExecuteInSequence, Outputter outputter)
         {
             bool saveResult = false;
             SaveFile(isAuto, isExecuteInSequence, filePath, csvWriter, out saveResult, outputter);
