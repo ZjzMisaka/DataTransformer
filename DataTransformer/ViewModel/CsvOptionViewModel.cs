@@ -187,34 +187,6 @@ namespace DataTransformer.ViewModel
             }
         }
 
-        private string outputOptionOutputPath;
-
-        public string OutputOptionOutputPath
-        {
-            get
-            {
-                return outputOptionOutputPath;
-            }
-            set
-            {
-                SetProperty<string>(ref outputOptionOutputPath, value);
-            }
-        }
-
-        private string outputOptionOutputFileName;
-
-        public string OutputOptionOutputFileName
-        {
-            get
-            {
-                return outputOptionOutputFileName;
-            }
-            set
-            {
-                SetProperty<string>(ref outputOptionOutputFileName, value);
-            }
-        }
-
         public ICommand WindowLoadedCommand { get; set; }
         public ICommand OkCommand { get; set; }
 
@@ -269,10 +241,6 @@ namespace DataTransformer.ViewModel
                 outputOptionHasQuotes = outputOption.hasQuotes;
 
                 outputOptionShowHeader = outputOption.showHeader;
-
-                outputOptionOutputPath = outputOption.outputPath;
-
-                outputOptionOutputFileName = outputOption.outputFileName;
             }
 
             ModernWpf.ThemeManager.Current.ActualApplicationThemeChanged += ActualApplicationThemeChanged;
@@ -310,7 +278,6 @@ namespace DataTransformer.ViewModel
                 outputOption.spliter = outputOptionSpliterValue;
                 outputOption.hasQuotes = outputOptionHasQuotes;
                 outputOption.showHeader = outputOptionShowHeader;
-                outputOption.outputPath = outputOptionOutputPath; outputOption.outputFileName = outputOptionOutputFileName;
             }
 
             this.window.DialogResult = true;

@@ -199,10 +199,10 @@ namespace DataTransformer.Helper
             return newParamsList;
         }
 
-        public static void SaveCsv(bool isAuto, string filePath, CsvWriter csvWriter, bool isAutoOpen, bool isExecuteInSequence, Outputter outputter)
+        public static void SaveCsv(bool isAuto, string filePath, CsvWriter csvWriter, bool isAutoOpen, bool isExecuteInSequence, List<List<string>> datas)
         {
             bool saveResult = false;
-            SaveFile(isAuto, isExecuteInSequence, filePath, csvWriter, out saveResult, outputter);
+            SaveFile(isAuto, isExecuteInSequence, filePath, csvWriter, out saveResult, datas);
             if (!saveResult)
             {
                 string fileNotSavedStr = $"{Application.Current.FindResource("FileNotSaved")}: \n{filePath}";
@@ -270,11 +270,11 @@ namespace DataTransformer.Helper
             }
         }
 
-        private static void SaveFile(bool isAuto, bool isExecuteInSequence, string filePath, CsvWriter csvWriter, out bool result, Outputter outputter)
+        private static void SaveFile(bool isAuto, bool isExecuteInSequence, string filePath, CsvWriter csvWriter, out bool result, List<List<string>> datas)
         {
             try
             {
-                csvWriter.Write(outputter.CsvDatas, filePath);
+                csvWriter.Write(datas, filePath);
                 result = true;
             }
             catch (Exception e)
@@ -290,7 +290,7 @@ namespace DataTransformer.Helper
                 }
                 else
                 {
-                    SaveFile(isAuto, isExecuteInSequence, filePath, csvWriter, out result, outputter);
+                    SaveFile(isAuto, isExecuteInSequence, filePath, csvWriter, out result, datas);
                 }
             }
         }

@@ -8,6 +8,8 @@ using System.Linq;
 using System.Runtime.Versioning;
 using System.Threading;
 using System.Windows;
+using System.Windows.Input;
+using System.Windows.Markup;
 using System.Windows.Media;
 
 namespace GlobalObjects
@@ -392,35 +394,64 @@ namespace GlobalObjects
     public class Outputter
     {
         public CsvOption csvOption;
-        private List<List<string>> csvDatas = new List<List<string>>();
-        public IEnumerable<IEnumerable<string>> CsvDatas { get => csvDatas; }
+        private readonly object LockObj = new object();
+        public Dictionary<string, List<List<string>>> csvDatasDic = new Dictionary<string, List<List<string>>>();
+
+        public string defaultPath;
 
         public Outputter(CsvOption csvOption)
         {
             this.csvOption = csvOption;
         }
+
         public void SetData(IEnumerable<string> data)
         {
-            csvDatas.Add(new List<string>(data));
+            SetData(defaultPath, data);
         }
 
         public void SetData(Dictionary<string, string> dataWithHeader)
         {
-            var row = new List<string>();
+            SetData(defaultPath, dataWithHeader);
+        }
+
+        public void SetData(string path, IEnumerable<string> data)
+        {
+            lock (LockObj)
+            {
+                if (!csvDatasDic.ContainsKey(path))
+                {
+                    csvDatasDic[path] = new List<List<string>>();
+                }
+
+                csvDatasDic[path].Add(data.ToList());
+            }
+        }
+
+        public void SetData(string path, Dictionary<string, string> dataWithHeader)
+        {
+            var data = new List<string>();
 
             foreach (var header in csvOption.headerList)
             {
                 if (dataWithHeader.TryGetValue(header, out string value))
                 {
-                    row.Add(value);
+                    data.Add(value);
                 }
                 else
                 {
-                    row.Add(string.Empty);
+                    data.Add(string.Empty);
                 }
             }
 
-            csvDatas.Add(row);
+            lock (LockObj)
+            {
+                if (!csvDatasDic.ContainsKey(path))
+                {
+                    csvDatasDic[path] = new List<List<string>>();
+                }
+
+                csvDatasDic[path].Add(data);
+            }
         }
     }
 

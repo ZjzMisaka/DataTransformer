@@ -53,7 +53,6 @@ namespace DataTransformer.ViewModel
         private ConcurrentDictionary<string, long> currentAnalizingDictionary;
         private ConcurrentDictionary<string, long> currentOutputtingDictionary;
         private ConcurrentDictionary<string, Analyzer> analyzerListForSetResult;
-        private ConcurrentDictionary<string, IEnumerable<IEnumerable<string>>> readedCsvDic;
         private Dictionary<FileSystemWatcher, string> fileSystemWatcherDic;
         private Stopwatch stopwatchBeforeFileSystemWatcherInvoke;
         private int analyzeCsvInvokeCount;
@@ -2488,6 +2487,19 @@ namespace DataTransformer.ViewModel
                 }
                 csvExplainers.Add(csvExplainer);
             }
+
+            // TODO
+            string resPath = TbOutputPathText.Replace("\\", "/");
+            string resFileName = TbOutputNameText;
+            string fullPath;
+            if (resPath.EndsWith("/"))
+            {
+                fullPath = $"{resPath}{resFileName}.csv";
+            }
+            else
+            {
+                fullPath = $"{resPath}/{resFileName}.csv";
+            }
             foreach (string name in analyzersList)
             {
                 Analyzer analyzer = null;
@@ -2496,6 +2508,7 @@ namespace DataTransformer.ViewModel
                 {
                     return false;
                 }
+                analyzer.outputter.defaultPath = fullPath;
                 analyzers.Add(analyzer);
             }
             return true;
@@ -2528,7 +2541,6 @@ namespace DataTransformer.ViewModel
             analyzerListForSetResult = new ConcurrentDictionary<string, Analyzer>();
             currentAnalizingDictionary = new ConcurrentDictionary<string, long>();
             currentOutputtingDictionary = new ConcurrentDictionary<string, long>();
-            readedCsvDic = new ConcurrentDictionary<string, IEnumerable<IEnumerable<string>>>();
             GlobalObjects.GlobalObjects.ClearGlobalParamDic();
 
             GlobalDic.Reset();
@@ -2703,9 +2715,6 @@ namespace DataTransformer.ViewModel
                 int filesCount = filePathListFromCsvExplainer.Count;
                 foreach (string filePath in filePathListFromCsvExplainer)
                 {
-                    List<string> pathSplit = filePath.Split('\\').ToList<string>();
-                    string fileName = pathSplit[pathSplit.Count - 1];
-                    fileName = fileName.Substring(0, fileName.LastIndexOf('.'));
                     List<object> readFileParams = new List<object>();
                     readFileParams.Add(filePath);
                     readFileParams.Add(i);
@@ -2827,30 +2836,11 @@ namespace DataTransformer.ViewModel
 
             foreach (Analyzer analyzer in compilerDic.Keys)
             {
-                string resPath = outputPath.Replace("\\", "/");
-                if (analyzer.outputter.csvOption.outputPath != null && analyzer.outputter.csvOption.outputPath != "")
-                {
-                    resPath = analyzer.outputter.csvOption.outputPath.Replace("\\", "/");
-                }
-
-                string fileName = outputName;
-                if (analyzer.outputter.csvOption.outputFileName != null && analyzer.outputter.csvOption.outputFileName != "")
-                {
-                    fileName = analyzer.outputter.csvOption.outputFileName;
-                }
-
-                string fullPath;
-                if (resPath.EndsWith("/"))
-                {
-                    fullPath = $"{resPath}{fileName}.csv";
-                }
-                else
-                {
-                    fullPath = $"{resPath}/{fileName}.csv";
-                }
-
                 CsvWriter csvWriter = new CsvWriter(analyzer.outputter.csvOption);
-                FileHelper.SaveCsv(isAuto, fullPath, csvWriter, CbIsAutoOpenIsChecked, isExecuteInSequence, analyzer.outputter);
+                foreach (string key in analyzer.outputter.csvDatasDic.Keys)
+                {
+                    FileHelper.SaveCsv(isAuto, key, csvWriter, CbIsAutoOpenIsChecked, isExecuteInSequence, analyzer.outputter.csvDatasDic[key]);
+                }
             }
 
             if (runNotSuccessed)
@@ -3098,7 +3088,7 @@ namespace DataTransformer.ViewModel
             ConcurrentDictionary<ReadFileReturnType, object> methodResult = new ConcurrentDictionary<ReadFileReturnType, object>();
             methodResult.AddOrUpdate(ReadFileReturnType.ANALYZER, analyzer, (key, oldValue) => null);
 
-            if (filePath.Contains("~$") || IsFileInUse(filePath))
+            if (IsFileInUse(filePath))
             {
                 Logger.Error(Application.Current.FindResource("FileIsInUse").ToString().Replace("{0}", filePath));
                 return methodResult;
@@ -3108,27 +3098,17 @@ namespace DataTransformer.ViewModel
 
             try
             {
-                StreamReader reader = new StreamReader(filePath);
-                CsvReader csv = new CsvReader(reader, csvExplainer.inputOption);
-                IEnumerable<IEnumerable<string>> records;
+                CsvReader csv = new CsvReader(csvExplainer.inputOption, filePath);
 
-                if (readedCsvDic.ContainsKey(filePath))
+                Dictionary<string, string> recordDic;
+                int count = 0;
+                while ((recordDic = csv.ReadNext()) != null)
                 {
-                    records = readedCsvDic[filePath];
-                }
-                else
-                {
-                    records = csv.GetLists();
-                    readedCsvDic.AddOrUpdate(filePath, records, (key, oldValue) => records);
-                }
-
-                foreach (IEnumerable<string> record in records)
-                {
-                    Dictionary<string, string> recordDic = csv.GetDataHeaderDictionary(record);
                     Analyze(recordDic, filePath, analyzer, param, isExecuteInSequence, runOption);
+                    ++count;
                 }
 
-                AnalyzeRecords(records, filePath, analyzer, param, isExecuteInSequence, runOption);
+                AnalyzeRecords(csv.GetLists(), filePath, analyzer, param, isExecuteInSequence, runOption);
             }
             catch
             {

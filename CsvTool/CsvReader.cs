@@ -11,10 +11,27 @@ namespace CsvTool
         private StreamReader _reader;
         private CsvOption _csvOption;
 
-        public CsvReader(StreamReader reader, CsvOption csvOption)
+        public CsvReader(CsvOption csvOption, string filePath)
         {
-            _reader = reader;
+            _reader = new StreamReader(filePath);
             _csvOption = csvOption;
+        }
+
+        public void Dispose()
+        {
+            _reader.Dispose();
+        }
+
+        public Dictionary<string, string> ReadNext()
+        {
+            string line = _reader.ReadLine();
+            if (line == null)
+            {
+                return null;
+            }
+
+            var data = ParseLine(line, Constant.splitorDic[_csvOption.spliter], _csvOption.hasQuotes);
+            return GetDataHeaderDictionary(data);
         }
 
         public IEnumerable<IEnumerable<string>> GetLists()
