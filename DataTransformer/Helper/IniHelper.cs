@@ -42,6 +42,7 @@ namespace DataTransformer
             parsedINIDataToBeSaved["Window"].AddKey("CsvExplainerEditorHeight", "450");
             parsedINIDataToBeSaved["Window"].AddKey("IsExecuteInSequence", "False");
             parsedINIDataToBeSaved["Window"].AddKey("IsAutoOpen", "False");
+            parsedINIDataToBeSaved["Window"].AddKey("IsShowSavedMessageBox", "True");
             parsedINIDataToBeSaved["Window"].AddKey("Theme", "Light");
             parsedINIDataToBeSaved["Window"].AddKey("Language", Thread.CurrentThread.CurrentUICulture.Name);
             parsedINIDataToBeSaved.Sections.AddSection("Value");
