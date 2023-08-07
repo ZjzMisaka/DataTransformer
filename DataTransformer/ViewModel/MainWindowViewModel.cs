@@ -3001,9 +3001,10 @@ namespace DataTransformer.ViewModel
         {
             try
             {
-                runOption.MethodName = functionName;
-                runOption.ParamList = objList;
-                ScriptRunner.Run(runOption);
+                RunOption runOptionTemp = runOption.Copy();
+                runOptionTemp.MethodName = functionName;
+                runOptionTemp.ParamList = objList;
+                ScriptRunner.Run(runOptionTemp);
                 GlobalObjects.GlobalObjects.SetGlobalParam(runOption, objList[globalParamIndex]);
             }
             catch (Exception e)
