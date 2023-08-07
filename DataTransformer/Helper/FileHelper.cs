@@ -199,7 +199,7 @@ namespace DataTransformer.Helper
             return newParamsList;
         }
 
-        public static void SaveCsv(bool isAuto, string filePath, CsvWriter csvWriter, bool isAutoOpen, bool isExecuteInSequence, bool isAutoOpenIsChecked, List<List<string>> datas)
+        public static void SaveCsv(bool isAuto, string filePath, CsvWriter csvWriter, bool isAutoOpen, bool isExecuteInSequence, bool isShowSavedMessageBox, List<List<string>> datas)
         {
             bool saveResult = false;
             SaveFile(isAuto, isExecuteInSequence, filePath, csvWriter, out saveResult, datas);
@@ -209,7 +209,7 @@ namespace DataTransformer.Helper
                 if (!isAuto && !isExecuteInSequence)
                 {
                     Logger.Error(fileNotSavedStr);
-                    if (isAutoOpenIsChecked)
+                    if (isShowSavedMessageBox)
                     {
                         CustomizableMessageBox.MessageBox.Show(new RefreshList { new ButtonSpacer(), Application.Current.FindResource("Ok").ToString().ToString() }, fileNotSavedStr, Application.Current.FindResource("Info").ToString());
                     }
@@ -259,7 +259,7 @@ namespace DataTransformer.Helper
                 {
                     CustomizableMessageBox.MessageBox.CloseNow();
                 };
-                if (isAutoOpenIsChecked)
+                if (isShowSavedMessageBox)
                 {
                     CustomizableMessageBox.MessageBox.Show(new RefreshList { btnClose, new ButtonSpacer(40), btnOpenFile, btnOpenPath }, fileSavedStr, Application.Current.FindResource("Info").ToString());
                 }

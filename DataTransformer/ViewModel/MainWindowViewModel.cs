@@ -2259,7 +2259,7 @@ namespace DataTransformer.ViewModel
             SetStartRunningBtnState();
             if (!CbExecuteInSequenceIsChecked)
             {
-                _ = StartLogic(csvExplainers, analyzer, paramDicEachAnalyzer, TbBasePathText, TbOutputPathText, TbOutputNameText, false, CbExecuteInSequenceIsChecked, CbIsShowSavedMessageBox);
+                _ = StartLogic(csvExplainers, analyzer, paramDicEachAnalyzer, TbBasePathText, TbOutputPathText, TbOutputNameText, false, CbExecuteInSequenceIsChecked);
                 while (Running.NowRunning)
                 {
                     await Task.Delay(freshInterval);
@@ -2269,7 +2269,7 @@ namespace DataTransformer.ViewModel
             {
                 for (int i = 0; i < csvExplainers.Count; ++i)
                 {
-                    if (!await StartLogic(new List<CsvExplainer> { csvExplainers[i] }, new List<Analyzer> { analyzer[i] }, paramDicEachAnalyzer, TbBasePathText, TbOutputPathText, TbOutputNameText, false, CbExecuteInSequenceIsChecked, CbIsShowSavedMessageBox))
+                    if (!await StartLogic(new List<CsvExplainer> { csvExplainers[i] }, new List<Analyzer> { analyzer[i] }, paramDicEachAnalyzer, TbBasePathText, TbOutputPathText, TbOutputNameText, false, CbExecuteInSequenceIsChecked))
                     {
                         break;
                     }
@@ -2397,7 +2397,7 @@ namespace DataTransformer.ViewModel
                             SetStartRunningBtnState();
                             if (!rule.executeInSequence)
                             {
-                                _ = StartLogic(csvExplainers, analyzer, paramDicEachAnalyzer, rule.basePath, rule.outputPath, rule.outputName, true, rule.executeInSequence, CbIsShowSavedMessageBox);
+                                _ = StartLogic(csvExplainers, analyzer, paramDicEachAnalyzer, rule.basePath, rule.outputPath, rule.outputName, true, rule.executeInSequence);
                                 while (Running.NowRunning)
                                 {
                                     Thread.Sleep(freshInterval);
@@ -2407,7 +2407,7 @@ namespace DataTransformer.ViewModel
                             {
                                 for (int i = 0; i < csvExplainers.Count; ++i)
                                 {
-                                    if (!await StartLogic(new List<CsvExplainer> { csvExplainers[i] }, new List<Analyzer> { analyzer[i] }, paramDicEachAnalyzer, rule.basePath, rule.outputPath, rule.outputName, true, rule.executeInSequence, CbIsShowSavedMessageBox))
+                                    if (!await StartLogic(new List<CsvExplainer> { csvExplainers[i] }, new List<Analyzer> { analyzer[i] }, paramDicEachAnalyzer, rule.basePath, rule.outputPath, rule.outputName, true, rule.executeInSequence))
                                     {
                                         break;
                                     }
@@ -2505,7 +2505,7 @@ namespace DataTransformer.ViewModel
             }
         }
 
-        private async Task<bool> StartLogic(List<CsvExplainer> csvExplainers, List<Analyzer> analyzers, Dictionary<string, Dictionary<string, string>> paramDicEachAnalyzer, string basePath, string outputPath, string outputName, bool isAuto, bool isExecuteInSequence, bool isAutoOpenIsChecked)
+        private async Task<bool> StartLogic(List<CsvExplainer> csvExplainers, List<Analyzer> analyzers, Dictionary<string, Dictionary<string, string>> paramDicEachAnalyzer, string basePath, string outputPath, string outputName, bool isAuto, bool isExecuteInSequence)
         {
             Dictionary<CsvExplainer, List<string>> filePathListDic = new Dictionary<CsvExplainer, List<string>>();
 
@@ -2795,7 +2795,7 @@ namespace DataTransformer.ViewModel
                 CsvWriter csvWriter = new CsvWriter(analyzer.outputter.csvOption);
                 foreach (string key in analyzer.outputter.csvDatasDic.Keys)
                 {
-                    FileHelper.SaveCsv(isAuto, key, csvWriter, CbIsAutoOpenIsChecked, isExecuteInSequence, isAutoOpenIsChecked, analyzer.outputter.csvDatasDic[key]);
+                    FileHelper.SaveCsv(isAuto, key, csvWriter, CbIsAutoOpenIsChecked, isExecuteInSequence, CbIsShowSavedMessageBox, analyzer.outputter.csvDatasDic[key]);
                 }
             }
 
