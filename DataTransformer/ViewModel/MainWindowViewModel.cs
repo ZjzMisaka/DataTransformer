@@ -2488,7 +2488,6 @@ namespace DataTransformer.ViewModel
                 csvExplainers.Add(csvExplainer);
             }
 
-            // TODO
             string resPath = TbOutputPathText.Replace("\\", "/");
             string resFileName = TbOutputNameText;
             string fullPath;
@@ -3007,17 +3006,16 @@ namespace DataTransformer.ViewModel
                 ScriptRunner.Run(runOptionTemp);
                 GlobalObjects.GlobalObjects.SetGlobalParam(runOption, objList[globalParamIndex]);
             }
+            catch (MissingMethodException e)
+            {
+                if (Logger.IsOutputMethodNotFoundWarning)
+                {
+                    Logger.Warn(Application.Current.FindResource("MethodNotFound").ToString().Replace("{0}", functionName));
+                }
+                return;
+            }
             catch (Exception e)
             {
-                if (e.Data.Contains("Type") && (string)e.Data["Type"] == "MethodNotFound")
-                {
-                    if (Logger.IsOutputMethodNotFoundWarning)
-                    {
-                        Logger.Warn(Application.Current.FindResource("MethodNotFound").ToString().Replace("{0}", functionName));
-                    }
-                    return;
-                }
-                else
                 {
                     if (e.InnerException != null)
                     {
