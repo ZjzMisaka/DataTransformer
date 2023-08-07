@@ -1,13 +1,8 @@
-﻿using DocumentFormat.OpenXml.Wordprocessing;
-using IniParser;
+﻿using IniParser;
 using IniParser.Model;
 using System;
-using System.Collections.Generic;
 using System.IO;
-using System.Linq;
-using System.Text;
 using System.Threading;
-using System.Threading.Tasks;
 using System.Windows;
 
 namespace DataTransformer
@@ -29,8 +24,6 @@ namespace DataTransformer
             parsedINIDataToBeSaved["Thread"].AddKey("EnableTimeoutSetting", "False");
             parsedINIDataToBeSaved["Thread"].AddKey("TotalTimeoutLimitAnalyze", "120000");
             parsedINIDataToBeSaved["Thread"].AddKey("PerTimeoutLimitAnalyze", "60000");
-            parsedINIDataToBeSaved["Thread"].AddKey("TotalTimeoutLimitOutput", "120000");
-            parsedINIDataToBeSaved["Thread"].AddKey("PerTimeoutLimitOutput", "60000");
             parsedINIDataToBeSaved["Thread"].AddKey("FileSystemWatcherInvokeDalay", "1000");
             parsedINIDataToBeSaved["Thread"].AddKey("FreshInterval", "100");
             parsedINIDataToBeSaved.Sections.AddSection("Window");
@@ -166,55 +159,6 @@ namespace DataTransformer
             FileIniDataParser parser = new FileIniDataParser();
             IniData data = parser.ReadFile("Setting.ini");
             return Int32.Parse(data["Thread"]["PerTimeoutLimitAnalyze"]);
-        }
-
-        public static void SetTotalTimeoutLimitOutput(int count)
-        {
-            if (!File.Exists("Setting.ini"))
-            {
-                return;
-            }
-
-            FileIniDataParser parser = new FileIniDataParser();
-            IniData data = parser.ReadFile("Setting.ini");
-            data["Thread"]["TotalTimeoutLimitOutput"] = count.ToString();
-            parser.WriteFile("Setting.ini", data);
-        }
-
-        public static int GetTotalTimeoutLimitOutput()
-        {
-            if (!File.Exists("Setting.ini"))
-            {
-                return -1;
-            }
-
-            FileIniDataParser parser = new FileIniDataParser();
-            IniData data = parser.ReadFile("Setting.ini");
-            return Int32.Parse(data["Thread"]["TotalTimeoutLimitOutput"]);
-        }
-        public static void SetPerTimeoutLimitOutput(int count)
-        {
-            if (!File.Exists("Setting.ini"))
-            {
-                return;
-            }
-
-            FileIniDataParser parser = new FileIniDataParser();
-            IniData data = parser.ReadFile("Setting.ini");
-            data["Thread"]["PerTimeoutLimitOutput"] = count.ToString();
-            parser.WriteFile("Setting.ini", data);
-        }
-
-        public static int GetPerTimeoutLimitOutput()
-        {
-            if (!File.Exists("Setting.ini"))
-            {
-                return -1;
-            }
-
-            FileIniDataParser parser = new FileIniDataParser();
-            IniData data = parser.ReadFile("Setting.ini");
-            return Int32.Parse(data["Thread"]["PerTimeoutLimitOutput"]);
         }
 
         public static void SetFileSystemWatcherInvokeDalay(int time)

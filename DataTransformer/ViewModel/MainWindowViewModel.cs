@@ -44,14 +44,12 @@ namespace DataTransformer.ViewModel
     {
         private enum ReadFileReturnType { ANALYZER, FILEPATH };
         private SmartThreadPool smartThreadPoolAnalyze = null;
-        private SmartThreadPool smartThreadPoolOutput = null;
         private Thread runningThread;
         private Thread runBeforeAnalyzeCsvThread;
         private Thread runBeforeSetResultThread;
         private Thread runEndThread;
         private Thread fileSystemWatcherInvokeThread;
         private ConcurrentDictionary<string, long> currentAnalizingDictionary;
-        private ConcurrentDictionary<string, long> currentOutputtingDictionary;
         private ConcurrentDictionary<string, Analyzer> analyzerListForSetResult;
         private Dictionary<FileSystemWatcher, string> fileSystemWatcherDic;
         private Stopwatch stopwatchBeforeFileSystemWatcherInvoke;
@@ -60,8 +58,6 @@ namespace DataTransformer.ViewModel
         private bool enableTimeoutSetting;
         private int totalTimeoutLimitAnalyze;
         private int perTimeoutLimitAnalyze;
-        private int totalTimeoutLimitOutput;
-        private int perTimeoutLimitOutput;
         private bool runNotSuccessed;
         private Scanner scanner;
         private int fileSystemWatcherInvokeDalay;
@@ -518,7 +514,6 @@ namespace DataTransformer.ViewModel
             ICSharpCode.AvalonEdit.Search.SearchPanel.Install(TeLog);
 
             currentAnalizingDictionary = new ConcurrentDictionary<string, long>();
-            currentOutputtingDictionary = new ConcurrentDictionary<string, long>();
             fileSystemWatcherDic = new Dictionary<FileSystemWatcher, string>();
             scanner = new Scanner();
 
@@ -643,8 +638,6 @@ namespace DataTransformer.ViewModel
             enableTimeoutSetting = IniHelper.GetEnableTimeoutSetting();
             totalTimeoutLimitAnalyze = IniHelper.GetTotalTimeoutLimitAnalyze();
             perTimeoutLimitAnalyze = IniHelper.GetPerTimeoutLimitAnalyze();
-            totalTimeoutLimitOutput = IniHelper.GetTotalTimeoutLimitOutput();
-            perTimeoutLimitOutput = IniHelper.GetPerTimeoutLimitOutput();
 
             CbExecuteInSequenceIsChecked = IniHelper.GetIsExecuteInSequence();
             CbIsAutoOpenIsChecked = IniHelper.GetIsAutoOpen();
@@ -937,42 +930,6 @@ namespace DataTransformer.ViewModel
                     CustomizableMessageBox.MessageBox.Show(new RefreshList { new ButtonSpacer(), Application.Current.FindResource("Ok").ToString() }, ex.Message, Application.Current.FindResource("Error").ToString(), MessageBoxImage.Error);
                 }
                 IniHelper.SetPerTimeoutLimitAnalyze(perTimeoutLimitAnalyze);
-            }
-            else if (((MenuItem)sender).Name == "menu_total_timeout_limit_output")
-            {
-                textBox.Text = IniHelper.GetTotalTimeoutLimitOutput().ToString();
-                int res = CustomizableMessageBox.MessageBox.Show(new RefreshList { textBox, new ButtonSpacer(1, GridUnitType.Star, true), Application.Current.FindResource("Ok").ToString(), Application.Current.FindResource("Cancel").ToString() }, Application.Current.FindResource("TotalTimeoutLimitOutput").ToString(), Application.Current.FindResource("Setting").ToString());
-                if (res == 3)
-                {
-                    return;
-                }
-                try
-                {
-                    totalTimeoutLimitOutput = int.Parse(textBox.Text.Trim());
-                }
-                catch (Exception ex)
-                {
-                    CustomizableMessageBox.MessageBox.Show(new RefreshList { new ButtonSpacer(), Application.Current.FindResource("Ok").ToString() }, ex.Message, Application.Current.FindResource("Error").ToString(), MessageBoxImage.Error);
-                }
-                IniHelper.SetTotalTimeoutLimitOutput(totalTimeoutLimitOutput);
-            }
-            else if (((MenuItem)sender).Name == "menu_per_timeout_limit_output")
-            {
-                textBox.Text = IniHelper.GetPerTimeoutLimitOutput().ToString();
-                int res = CustomizableMessageBox.MessageBox.Show(new RefreshList { textBox, new ButtonSpacer(1, GridUnitType.Star, true), Application.Current.FindResource("Ok").ToString(), Application.Current.FindResource("Cancel").ToString() }, Application.Current.FindResource("PerTimeoutLimitOutput").ToString(), Application.Current.FindResource("Setting").ToString());
-                if (res == 3)
-                {
-                    return;
-                }
-                try
-                {
-                    perTimeoutLimitOutput = int.Parse(textBox.Text.Trim());
-                }
-                catch (Exception ex)
-                {
-                    CustomizableMessageBox.MessageBox.Show(new RefreshList { new ButtonSpacer(), Application.Current.FindResource("Ok").ToString() }, ex.Message, Application.Current.FindResource("Error").ToString(), MessageBoxImage.Error);
-                }
-                IniHelper.SetPerTimeoutLimitOutput(perTimeoutLimitOutput);
             }
             else if (((MenuItem)sender).Name == "menu_file_system_watcher_invoke_dalay")
             {
@@ -2558,7 +2515,6 @@ namespace DataTransformer.ViewModel
             analyzeCsvInvokeCount = 0;
             analyzerListForSetResult = new ConcurrentDictionary<string, Analyzer>();
             currentAnalizingDictionary = new ConcurrentDictionary<string, long>();
-            currentOutputtingDictionary = new ConcurrentDictionary<string, long>();
             GlobalObjects.GlobalObjects.ClearGlobalParamDic();
 
             GlobalDic.Reset();
@@ -2590,24 +2546,6 @@ namespace DataTransformer.ViewModel
                 }
             };
             RenewSmartThreadPoolAnalyze(stpAnalyze);
-
-            STPStartInfo stpOutput = new STPStartInfo();
-            stpOutput.CallToPostExecute = CallToPostExecute.WhenWorkItemNotCanceled;
-            stpOutput.PostExecuteWorkItemCallback = delegate (IWorkItemResult wir)
-            {
-                string filePath = null;
-                try
-                {
-                    filePath = wir.GetResult().ToString();
-                }
-                catch (Exception ex)
-                {
-                    Logger.Error(ex.Message + "\n" + ex.StackTrace);
-                }
-
-                currentOutputtingDictionary.TryRemove(filePath, out _);
-            };
-            RenewSmartThreadPoolOutput(stpOutput);
 
             Dictionary<Analyzer, Tuple<RunOption, CsvExplainer>> compilerDic = new Dictionary<Analyzer, Tuple<RunOption, CsvExplainer>>();
             int totalCount = 0;
@@ -2832,18 +2770,18 @@ namespace DataTransformer.ViewModel
                         return false;
                     }
                     long timeCostSs = GetNowSs() - startTime;
-                    if (enableTimeoutSetting && perTimeoutLimitOutput > 0 && timeCostSs >= perTimeoutLimitOutput)
+                    if (enableTimeoutSetting && perTimeoutLimitAnalyze > 0 && timeCostSs >= perTimeoutLimitAnalyze)
                     {
                         runEndThread.Interrupt();
                         runEndThread.Join();
 
                         if (!isAuto)
                         {
-                            CustomizableMessageBox.MessageBox.Show(new RefreshList { new ButtonSpacer(), Application.Current.FindResource("Ok").ToString() }, $"RunEnd\n{Application.Current.FindResource("Timeout").ToString()}. \n{perTimeoutLimitOutput / 1000.0}(s)", Application.Current.FindResource("Error").ToString(), MessageBoxImage.Error);
+                            CustomizableMessageBox.MessageBox.Show(new RefreshList { new ButtonSpacer(), Application.Current.FindResource("Ok").ToString() }, $"RunEnd\n{Application.Current.FindResource("Timeout").ToString()}. \n{perTimeoutLimitAnalyze / 1000.0}(s)", Application.Current.FindResource("Error").ToString(), MessageBoxImage.Error);
                         }
                         else
                         {
-                            Logger.Error($"RunEnd\n{Application.Current.FindResource("Timeout").ToString()}. \n{perTimeoutLimitOutput / 1000.0}(s)");
+                            Logger.Error($"RunEnd\n{Application.Current.FindResource("Timeout").ToString()}. \n{perTimeoutLimitAnalyze / 1000.0}(s)");
                         }
                         FinishRunning(true);
                         return false;
@@ -3179,19 +3117,6 @@ namespace DataTransformer.ViewModel
             }
         }
 
-        private void RenewSmartThreadPoolOutput(STPStartInfo stp)
-        {
-            if (smartThreadPoolOutput != null)
-            {
-                smartThreadPoolOutput.Dispose();
-            }
-            smartThreadPoolOutput = new SmartThreadPool(stp);
-            if (maxThreadCount > 0)
-            {
-                smartThreadPoolOutput.MaxThreads = maxThreadCount;
-            }
-        }
-
         private void SetAutoStatusAll()
         {
             List<String> rulesList = Directory.GetFiles(".\\Rules", "*.json").ToList();
@@ -3222,17 +3147,6 @@ namespace DataTransformer.ViewModel
                 try
                 {
                     smartThreadPoolAnalyze.Shutdown();
-                }
-                catch
-                {
-                    // DO NOTHING
-                }
-            }
-            if (smartThreadPoolOutput != null && !smartThreadPoolOutput.IsShuttingdown)
-            {
-                try
-                {
-                    smartThreadPoolOutput.Shutdown();
                 }
                 catch
                 {

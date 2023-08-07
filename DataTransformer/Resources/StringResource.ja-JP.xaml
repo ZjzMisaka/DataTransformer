@@ -23,16 +23,12 @@
     <sys:String x:Key="MenuEnableTimeoutSetting">タイムアウト設定を有効にする (_E)</sys:String>
     <sys:String x:Key="MenuTotalTimeoutLimitAnalyze">分析フェーズのタイムアウト (_T)</sys:String>
     <sys:String x:Key="MenuPerTimeoutLimitAnalyze">単一の分析のタイムアウト (_P)</sys:String>
-    <sys:String x:Key="MenuTotalTimeoutLimitOutput">出力ステージのタイムアウト (_T)</sys:String>
-    <sys:String x:Key="MenuPerTimeoutLimitOutput">単一出力タイムアウト (_P)</sys:String>
     <sys:String x:Key="MenuFileSystemWatcherInvokeDalay">ウォッチファイル反応時間 (_D)</sys:String>
     <sys:String x:Key="MenuFreshInterval">スレッド内のインターフェイスの更新間隔 (_F)</sys:String>
     <sys:String x:Key="MaxThreadCount">スレッドの最大数</sys:String>
     <sys:String x:Key="EnableTimeoutSetting">タイムアウト設定を有効にする</sys:String>
     <sys:String x:Key="TotalTimeoutLimitAnalyze">分析フェーズのタイムアウト (ms)</sys:String>
     <sys:String x:Key="PerTimeoutLimitAnalyze">単一の分析のタイムアウト (ms)</sys:String>
-    <sys:String x:Key="TotalTimeoutLimitOutput">出力ステージのタイムアウト (ms)</sys:String>
-    <sys:String x:Key="PerTimeoutLimitOutput">単一出力タイムアウト (ms)</sys:String>
     <sys:String x:Key="FileSystemWatcherInvokeDalay">ウォッチファイル反応時間 (ms)</sys:String>
     <sys:String x:Key="FreshInterval">スレッド内のインターフェイスの更新間隔 (ms)</sys:String>
     <sys:String x:Key="MenuSourceCode">ソフトウェアのソースコード (_C)</sys:String>

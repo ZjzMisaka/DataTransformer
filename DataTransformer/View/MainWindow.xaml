@@ -55,8 +55,6 @@
                                 <MenuItem Header="{DynamicResource MenuEnableTimeoutSetting}" Name="menu_enable_timeout_setting" Command="{Binding MenuSetCheckboxCommand}" CommandParameter="{Binding RelativeSource={RelativeSource Self}}" />
                                 <MenuItem Header="{DynamicResource MenuTotalTimeoutLimitAnalyze}" Name="menu_total_timeout_limit_analyze" Command="{Binding MenuSetStrCommand}" CommandParameter="{Binding RelativeSource={RelativeSource Self}}" />
                                 <MenuItem Header="{DynamicResource MenuPerTimeoutLimitAnalyze}" Name="menu_per_timeout_limit_analyze" Command="{Binding MenuSetStrCommand}" CommandParameter="{Binding RelativeSource={RelativeSource Self}}" />
-                                <MenuItem Header="{DynamicResource MenuTotalTimeoutLimitOutput}" Name="menu_total_timeout_limit_output" Command="{Binding MenuSetStrCommand}" CommandParameter="{Binding RelativeSource={RelativeSource Self}}" />
-                                <MenuItem Header="{DynamicResource MenuPerTimeoutLimitOutput}" Name="menu_per_timeout_limit_output" Command="{Binding MenuSetStrCommand}" CommandParameter="{Binding RelativeSource={RelativeSource Self}}" />
                                 <MenuItem Header="{DynamicResource MenuFileSystemWatcherInvokeDalay}" Name="menu_file_system_watcher_invoke_dalay" Command="{Binding MenuSetStrCommand}" CommandParameter="{Binding RelativeSource={RelativeSource Self}}" />
                                 <MenuItem Header="{DynamicResource MenuFreshInterval}" Name="menu_fresh_interval" Command="{Binding MenuSetStrCommand}" CommandParameter="{Binding RelativeSource={RelativeSource Self}}" />
                             </MenuItem>
