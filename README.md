@@ -18,12 +18,24 @@ Perform batch reading, analysis, and output operations of CSV by executing pre-w
 ### Search information setting interface
 **Used to find the specified CSV file in the specified path**
 - The search method can be selected all, complete match, partial contain and regular expression. 
+- Set the format of the input CSV
+    - Header list
+        - If it is blank or the quantity does not match the actual number of columns, use the index as the key for the script input parameters
+        - If the quantity matches the actual number of columns, use the actual column name as the key for the script input parameters. However, if the header list contains blanks, use the index as the key for the corresponding column's script input parameters
+    - Column separator
+    - Whether to use double quotes
+    - Whether to display the header row
 
 ### Processing logic (plug-in coding) interface
 **Used to set the processing logic for a certain type of CSV file and the output logic after processing**
 - Write code in the editor, and it will be executed in sequence during operation.
 - Parameters can be set, plug-in users can edit the parameters in the main interface, and pass them to the code to use at runtime.  
 - Parameter description and running log output can be multilingualized. 
+- Set the format of the output CSV
+    - Header list
+    - Column separator
+    - Whether to use double quotes
+    - Whether to display the header row
 
 #### Coding related
 - Automatic completion and coloring throughout the process, you can add dll files to the Dlls folder by yourself, and you can directly reference them after adding. 
