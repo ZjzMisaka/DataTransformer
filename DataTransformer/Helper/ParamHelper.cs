@@ -121,7 +121,7 @@ namespace DataTransformer.Helper
                     startIndex = index;
                 }
             }
-            catch (Exception e)
+            catch
             {
                 CustomizableMessageBox.MessageBox.Show(new RefreshList { new ButtonSpacer(), Application.Current.FindResource("Ok").ToString() }, Application.Current.FindResource("UnrecognizedParameter").ToString(), Application.Current.FindResource("Error").ToString(), MessageBoxImage.Error);
                 paramDicEachAnalyzer = null;
