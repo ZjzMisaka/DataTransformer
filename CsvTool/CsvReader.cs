@@ -59,10 +59,19 @@ namespace CsvTool
             }
             else
             {
+                
                 for (int i = 0; i < headers.Count; i++)
                 {
-                    dict[headers[i]] = dataList[i];
+                    if (headers[i].Trim() == "")
+                    {
+                        dict[i.ToString()] = dataList[i];
+                    }
+                    else
+                    {
+                        dict[headers[i]] = dataList[i];
+                    }
                 }
+                
             }
 
             return dict;

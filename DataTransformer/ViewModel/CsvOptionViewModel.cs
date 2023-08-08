@@ -267,14 +267,14 @@ namespace DataTransformer.ViewModel
         {
             if (inputOption != null)
             {
-                inputOption.headerList = inputOptionHeaderListDocument.Text.Replace("\r", "").Split('\n').Where(str => str.Trim() != "").ToList();
+                inputOption.headerList = inputOptionHeaderListDocument.Text.Replace("\r", "").Split('\n').ToList();
                 inputOption.spliter = inputOptionSpliterValue;
                 inputOption.hasQuotes = inputOptionHasQuotes;
                 inputOption.showHeader = inputOptionShowHeader;
             }
             else
             {
-                outputOption.headerList = outputOptionHeaderListDocument.Text.Replace("\r", "").Split('\n').Where(str => str.Trim() != "").ToList();
+                outputOption.headerList = outputOptionHeaderListDocument.Text.Replace("\r", "").Split('\n').ToList();
                 outputOption.spliter = outputOptionSpliterValue;
                 outputOption.hasQuotes = outputOptionHasQuotes;
                 outputOption.showHeader = outputOptionShowHeader;
