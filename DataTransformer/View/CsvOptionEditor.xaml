@@ -31,6 +31,7 @@
                             <RowDefinition Height="35px"></RowDefinition>
                             <RowDefinition Height="35px"></RowDefinition>
                             <RowDefinition Height="35px"></RowDefinition>
+                            <RowDefinition Height="35px"></RowDefinition>
                         </Grid.RowDefinitions>
                         <Grid.ColumnDefinitions>
                             <ColumnDefinition Width="auto"></ColumnDefinition>
@@ -53,6 +54,15 @@
 
                         <TextBlock Text="{DynamicResource ShowHeader}" Grid.Row="3" Grid.Column="0" VerticalAlignment="Center" Margin="10 0 0 0 "></TextBlock>
                         <CheckBox IsChecked="{Binding InputOptionShowHeader, Mode=TwoWay}" Grid.Row="3" Grid.Column="1" Margin="10 2" VerticalContentAlignment="Center" HorizontalAlignment="Stretch" VerticalAlignment="Stretch"></CheckBox>
+
+                        <TextBlock Text="{DynamicResource Encoding}" Grid.Row="4" Grid.Column="0" VerticalAlignment="Center" Margin="10 0 0 0 "></TextBlock>
+                        <ComboBox SelectedValue="{Binding InputOptionEncodingValue, Mode=TwoWay}" SelectedValuePath="Tag" Grid.Row="4" Grid.Column="4" Margin="10 2" VerticalContentAlignment="Center" HorizontalAlignment="Stretch" VerticalAlignment="Stretch">
+                            <ComboBoxItem Content="UTF-8" Tag="utf-8"></ComboBoxItem>
+                            <ComboBoxItem Content="Shift-JIS" Tag="shift_jis"></ComboBoxItem>
+                            <ComboBoxItem Content="Unicode" Tag="utf-16"></ComboBoxItem>
+                            <ComboBoxItem Content="Latin1" Tag="iso-8859-1"></ComboBoxItem>
+                            <ComboBoxItem Content="ASCII" Tag="us-ascii"></ComboBoxItem>
+                        </ComboBox>
                     </Grid>
                 </ScrollViewer>
             </TabItem>
@@ -62,6 +72,7 @@
                     <Grid>
                         <Grid.RowDefinitions>
                             <RowDefinition Height="100px"></RowDefinition>
+                            <RowDefinition Height="35px"></RowDefinition>
                             <RowDefinition Height="35px"></RowDefinition>
                             <RowDefinition Height="35px"></RowDefinition>
                             <RowDefinition Height="35px"></RowDefinition>
@@ -87,6 +98,15 @@
 
                         <TextBlock Text="{DynamicResource ShowHeader}" Grid.Row="3" Grid.Column="0" VerticalAlignment="Center" Margin="10 0 0 0 "></TextBlock>
                         <CheckBox IsChecked="{Binding OutputOptionShowHeader, Mode=TwoWay}" Grid.Row="3" Grid.Column="1" Margin="10 2" VerticalContentAlignment="Center" HorizontalAlignment="Stretch" VerticalAlignment="Stretch"></CheckBox>
+
+                        <TextBlock Text="{DynamicResource Encoding}" Grid.Row="4" Grid.Column="0" VerticalAlignment="Center" Margin="10 0 0 0 "></TextBlock>
+                        <ComboBox SelectedValue="{Binding OutputOptionEncodingValue, Mode=TwoWay}" SelectedValuePath="Tag" Grid.Row="4" Grid.Column="4" Margin="10 2" VerticalContentAlignment="Center" HorizontalAlignment="Stretch" VerticalAlignment="Stretch">
+                            <ComboBoxItem Content="UTF-8" Tag="utf-8"></ComboBoxItem>
+                            <ComboBoxItem Content="Shift-JIS" Tag="shift_jis"></ComboBoxItem>
+                            <ComboBoxItem Content="Unicode" Tag="utf-16"></ComboBoxItem>
+                            <ComboBoxItem Content="Latin1" Tag="iso-8859-1"></ComboBoxItem>
+                            <ComboBoxItem Content="ASCII" Tag="us-ascii"></ComboBoxItem>
+                        </ComboBox>
                     </Grid>
                 </ScrollViewer>
             </TabItem>

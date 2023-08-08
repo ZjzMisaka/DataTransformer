@@ -131,6 +131,20 @@ namespace DataTransformer.ViewModel
             }
         }
 
+        private string inputOptionEncodingValue;
+
+        public string InputOptionEncodingValue
+        {
+            get
+            {
+                return inputOptionEncodingValue;
+            }
+            set
+            {
+                SetProperty<string>(ref inputOptionEncodingValue, value);
+            }
+        }
+
         private ICSharpCode.AvalonEdit.Document.TextDocument outputOptionHeaderListDocument;
 
         public ICSharpCode.AvalonEdit.Document.TextDocument OutputOptionHeaderListDocument
@@ -187,6 +201,20 @@ namespace DataTransformer.ViewModel
             }
         }
 
+        private string outputOptionEncodingValue;
+
+        public string OutputOptionEncodingValue
+        {
+            get
+            {
+                return outputOptionEncodingValue;
+            }
+            set
+            {
+                SetProperty<string>(ref outputOptionEncodingValue, value);
+            }
+        }
+
         public ICommand WindowLoadedCommand { get; set; }
         public ICommand OkCommand { get; set; }
 
@@ -217,11 +245,13 @@ namespace DataTransformer.ViewModel
                     inputOptionHeaderListDocument = new ICSharpCode.AvalonEdit.Document.TextDocument(string.Join('\n', inputOption.headerList));
                 }
 
-                InputOptionSpliterValue = inputOption.spliter;
+                inputOptionSpliterValue = inputOption.spliter;
 
                 inputOptionHasQuotes = inputOption.hasQuotes;
 
                 inputOptionShowHeader = inputOption.showHeader;
+
+                inputOptionEncodingValue = inputOption.encoding;
             }
             else
             {
@@ -241,6 +271,8 @@ namespace DataTransformer.ViewModel
                 outputOptionHasQuotes = outputOption.hasQuotes;
 
                 outputOptionShowHeader = outputOption.showHeader;
+
+                outputOptionEncodingValue = outputOption.encoding;
             }
 
             ModernWpf.ThemeManager.Current.ActualApplicationThemeChanged += ActualApplicationThemeChanged;
@@ -271,6 +303,7 @@ namespace DataTransformer.ViewModel
                 inputOption.spliter = inputOptionSpliterValue;
                 inputOption.hasQuotes = inputOptionHasQuotes;
                 inputOption.showHeader = inputOptionShowHeader;
+                inputOption.encoding = inputOptionEncodingValue;
             }
             else
             {
@@ -278,6 +311,7 @@ namespace DataTransformer.ViewModel
                 outputOption.spliter = outputOptionSpliterValue;
                 outputOption.hasQuotes = outputOptionHasQuotes;
                 outputOption.showHeader = outputOptionShowHeader;
+                outputOption.encoding = outputOptionEncodingValue;
             }
 
             this.window.DialogResult = true;

@@ -103,6 +103,7 @@
     <sys:String x:Key="TAB">制表符</sys:String>
     <sys:String x:Key="HasQuotes">使用引号</sys:String>
     <sys:String x:Key="ShowHeader">显示标头</sys:String>
+    <sys:String x:Key="Encoding">编码</sys:String>
     <sys:String x:Key="FileName">文件名</sys:String>
     <sys:String x:Key="Timeout">超时</sys:String>
     <sys:String x:Key="TotalTimeout">总时间超时</sys:String>

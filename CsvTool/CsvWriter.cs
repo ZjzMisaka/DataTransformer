@@ -17,7 +17,7 @@ namespace CsvTool
 
         public void Write(IEnumerable<IEnumerable<string>> data, string filePath)
         {
-            StreamWriter writer = new StreamWriter(filePath);
+            StreamWriter writer = new StreamWriter(filePath, false, Encoding.GetEncoding(csvOption.encoding));
 
             if (csvOption.showHeader && csvOption.headerList != null)
             {
