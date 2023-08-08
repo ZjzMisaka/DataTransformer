@@ -391,6 +391,7 @@ namespace GlobalObjects
         }
     }
 
+    [SupportedOSPlatform("windows7.0")]
     public class Outputter
     {
         public CsvOption csvOption;
@@ -402,6 +403,54 @@ namespace GlobalObjects
         public Outputter(CsvOption csvOption)
         {
             this.csvOption = csvOption;
+        }
+
+        public Dictionary<string, string> ToDataWithHeaderDictionary(IEnumerable<string> rowData)
+        {
+            List<string> rowDataList = rowData.ToList();
+            Dictionary<string, string> dataWithHeader = new Dictionary<string, string>();
+            for (int i = 0; i < rowDataList.Count; ++i)
+            {
+                if (rowDataList[i] != "")
+                {
+                    if (rowDataList.Count == csvOption.headerList.Count)
+                    {
+                        if (csvOption.headerList[i].Trim() != "")
+                        {
+                            dataWithHeader[csvOption.headerList[i].Trim()] = rowDataList[i];
+                        }
+                        else
+                        {
+                            dataWithHeader[i.ToString()] = rowDataList[i];
+                        }
+                    }
+                    else
+                    {
+                        dataWithHeader[i.ToString()] = rowDataList[i];
+                    }
+                    
+                }
+            }
+            return dataWithHeader;
+        }
+
+        public IEnumerable<string> ToRowDataList(Dictionary<string, string> dataWithHeader)
+        {
+            List<string> rowData = new List<string>();
+
+            foreach (var header in csvOption.headerList)
+            {
+                if (dataWithHeader.TryGetValue(header, out string value))
+                {
+                    rowData.Add(value);
+                }
+                else
+                {
+                    rowData.Add(string.Empty);
+                }
+            }
+
+            return rowData;
         }
 
         public void SetData(IEnumerable<string> data)
@@ -429,19 +478,7 @@ namespace GlobalObjects
 
         public void SetData(string path, Dictionary<string, string> dataWithHeader)
         {
-            var data = new List<string>();
-
-            foreach (var header in csvOption.headerList)
-            {
-                if (dataWithHeader.TryGetValue(header, out string value))
-                {
-                    data.Add(value);
-                }
-                else
-                {
-                    data.Add(string.Empty);
-                }
-            }
+            List<string> rowData = ToRowDataList(dataWithHeader).ToList();
 
             lock (LockObj)
             {
@@ -450,7 +487,7 @@ namespace GlobalObjects
                     csvDatasDic[path] = new List<List<string>>();
                 }
 
-                csvDatasDic[path].Add(data);
+                csvDatasDic[path].Add(rowData);
             }
         }
     }
