@@ -13,7 +13,7 @@ namespace CsvTool
 
         public CsvReader(CsvOption csvOption, string filePath)
         {
-            reader = new StreamReader(filePath);
+            this.reader = new StreamReader(filePath);
             this.csvOption = csvOption;
         }
 
