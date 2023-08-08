@@ -8,38 +8,38 @@ namespace CsvTool
 {
     public class CsvReader
     {
-        private StreamReader _reader;
-        private CsvOption _csvOption;
+        private StreamReader reader;
+        private CsvOption csvOption;
 
         public CsvReader(CsvOption csvOption, string filePath)
         {
-            _reader = new StreamReader(filePath);
-            _csvOption = csvOption;
+            reader = new StreamReader(filePath);
+            this.csvOption = csvOption;
         }
 
         public void Dispose()
         {
-            _reader.Dispose();
+            reader.Dispose();
         }
 
         public Dictionary<string, string> ReadNext()
         {
-            string line = _reader.ReadLine();
+            string line = reader.ReadLine();
             if (line == null)
             {
                 return null;
             }
 
-            var data = ParseLine(line, Constant.splitorDic[_csvOption.spliter], _csvOption.hasQuotes);
+            IEnumerable<string> data = ParseLine(line, Constant.splitorDic[csvOption.spliter], csvOption.hasQuotes);
             return GetDataHeaderDictionary(data);
         }
 
         public IEnumerable<IEnumerable<string>> GetLists()
         {
             string line;
-            while ((line = _reader.ReadLine()) != null)
+            while ((line = reader.ReadLine()) != null)
             {
-                var data = ParseLine(line, Constant.splitorDic[_csvOption.spliter], _csvOption.hasQuotes);
+                IEnumerable<string> data = ParseLine(line, Constant.splitorDic[csvOption.spliter], csvOption.hasQuotes);
                 yield return data;
             }
         }
@@ -47,12 +47,22 @@ namespace CsvTool
         public Dictionary<string, string> GetDataHeaderDictionary(IEnumerable<string> data)
         {
             var dict = new Dictionary<string, string>();
-            var headers = _csvOption.headerList;
+            var headers = csvOption.headerList;
             var dataList = data.ToList();
 
-            for (int i = 0; i < headers.Count; i++)
+            if (headers.Count != dataList.Count)
             {
-                dict[headers[i]] = dataList[i];
+                for (int i = 0; i < dataList.Count; i++)
+                {
+                    dict[i.ToString()] = dataList[i];
+                }
+            }
+            else
+            {
+                for (int i = 0; i < headers.Count; i++)
+                {
+                    dict[headers[i]] = dataList[i];
+                }
             }
 
             return dict;
@@ -60,7 +70,7 @@ namespace CsvTool
 
         private IEnumerable<string> ParseLine(string line, string separator, bool hasQuotes)
         {
-            var fields = line.Split(new string[] { separator }, StringSplitOptions.None);
+            string[] fields = line.Split(new string[] { separator }, StringSplitOptions.None);
 
             if (hasQuotes)
             {
