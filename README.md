@@ -25,6 +25,7 @@ Perform batch reading, analysis, and output operations of CSV by executing pre-w
     - Column separator
     - Whether to use double quotes
     - Whether to display the header row
+    - Encoding of input file
 
 ### Processing logic (plug-in coding) interface
 **Used to set the processing logic for a certain type of CSV file and the output logic after processing**
@@ -36,6 +37,7 @@ Perform batch reading, analysis, and output operations of CSV by executing pre-w
     - Column separator
     - Whether to use double quotes
     - Whether to display the header row
+    - Encoding of output file
 
 #### Coding related
 - Automatic completion and coloring throughout the process, you can add dll files to the Dlls folder by yourself, and you can directly reference them after adding. 
