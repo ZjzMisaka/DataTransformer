@@ -3065,6 +3065,8 @@ namespace DataTransformer.ViewModel
                 }
 
                 AnalyzeRecords(csv.GetLists(), filePath, analyzer, param, isExecuteInSequence, runOption);
+
+                csv.Dispose();
             }
             catch
             {
