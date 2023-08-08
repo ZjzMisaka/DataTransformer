@@ -101,6 +101,10 @@ IEnumerable<IEnumerable<string>> CsvDatas
 void SetData(IEnumerable<string> data)
 // Add a row of data based on a dictionary of headers-data
 void SetData(Dictionary<string, string> dataWithHeader)
+// Convert a list of row data to a dictionary of headers-data [Needs to correctly set header list in output settings]
+Dictionary<string, string> ToDataWithHeaderDictionary(IEnumerable<string> rowData)
+// Convert a dictionary of headers-data to a list of row data [Needs to correctly set header list in output settings]
+IEnumerable<string> ToRowDataList(Dictionary<string, string> dataWithHeader)
 ```
 
 ##### Param (class)

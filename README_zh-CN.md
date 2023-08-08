@@ -101,6 +101,10 @@ IEnumerable<IEnumerable<string>> CsvDatas
 void SetData(IEnumerable<string> data)
 // 根据标头-数据的字典添加一行数据
 void SetData(Dictionary<string, string> dataWithHeader)
+// 将一行数据的List转换为标头-数据的字典 [需要正确设置输出设置中的标头列表]
+Dictionary<string, string> ToDataWithHeaderDictionary(IEnumerable<string> rowData)
+// 将标头-数据的字典转换为一行数据的List [需要正确设置输出设置中的标头列表]
+IEnumerable<string> ToRowDataList(Dictionary<string, string> dataWithHeader)
 ```
 
 ##### Param (类)

@@ -101,6 +101,10 @@ IEnumerable<IEnumerable<string>> CsvDatas
 void SetData(IEnumerable<string> data)
 // ヘッダー-データの辞書に基づいてデータ行を追加する
 void SetData(Dictionary<string, string> dataWithHeader)
+// 一行のデータのリストをヘッダー-データの辞書に変換する [出力設定でヘッダーリストを正しく設定する必要があります]
+Dictionary<string, string> ToDataWithHeaderDictionary(IEnumerable<string> rowData)
+// ヘッダー-データの辞書を一行のデータのリストに変換する [出力設定でヘッダーリストを正しく設定する必要があります]
+IEnumerable<string> ToRowDataList(Dictionary<string, string> dataWithHeader)
 ```
 
 ##### Param (クラス)
