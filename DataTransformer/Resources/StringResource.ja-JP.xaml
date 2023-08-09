@@ -103,6 +103,7 @@
     <sys:String x:Key="TAB">タブ</sys:String>
     <sys:String x:Key="HasQuotes">引用符を使用する</sys:String>
     <sys:String x:Key="ShowHeader">ヘッダーを表示します</sys:String>
+    <sys:String x:Key="Encoding">エンコーディング</sys:String>
     <sys:String x:Key="FileName">ファイルネーム</sys:String>
     <sys:String x:Key="Timeout">タイムアウト</sys:String>
     <sys:String x:Key="TotalTimeout">合計時間タイムアウト</sys:String>

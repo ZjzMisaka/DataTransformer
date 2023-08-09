@@ -103,6 +103,7 @@
     <sys:String x:Key="TAB">TAB</sys:String>
     <sys:String x:Key="HasQuotes">Has quotes</sys:String>
     <sys:String x:Key="ShowHeader">Show header</sys:String>
+    <sys:String x:Key="Encoding">Encoding</sys:String>
     <sys:String x:Key="FileName">File name</sys:String>
     <sys:String x:Key="Timeout">Timeout</sys:String>
     <sys:String x:Key="TotalTimeout">Total timeout</sys:String>

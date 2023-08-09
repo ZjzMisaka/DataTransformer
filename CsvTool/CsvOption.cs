@@ -12,5 +12,6 @@ namespace CsvTool
         public string spliter;
         public bool hasQuotes;
         public bool showHeader;
+        public string encoding;
     }
 }

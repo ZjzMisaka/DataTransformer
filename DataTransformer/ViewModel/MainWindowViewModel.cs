@@ -582,6 +582,7 @@ namespace DataTransformer.ViewModel
             StartCommand = new RelayCommand(Start);
 
             ModernWpf.ThemeManager.Current.ActualApplicationThemeChanged += ActualApplicationThemeChanged;
+            Encoding.RegisterProvider(CodePagesEncodingProvider.Instance);
         }
 
         private void WindowLoaded(RoutedEventArgs eventArgs)

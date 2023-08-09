@@ -1,30 +1,27 @@
-﻿using System;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using System.IO;
-using System.Linq;
 using System.Text;
-using System.Threading.Tasks;
 
 namespace CsvTool
 {
     public class CsvWriter
     {
-        private CsvOption _csvOption;
-        private string _separator;
+        private CsvOption csvOption;
+        private string separator;
 
         public CsvWriter(CsvOption csvOption)
         {
-            _csvOption = csvOption;
-            _separator = Constant.splitorDic[csvOption.spliter];
+            this.csvOption = csvOption;
+            this.separator = Constant.splitorDic[csvOption.spliter];
         }
 
         public void Write(IEnumerable<IEnumerable<string>> data, string filePath)
         {
-            StreamWriter writer = new StreamWriter(filePath);
+            StreamWriter writer = new StreamWriter(filePath, false, Encoding.GetEncoding(csvOption.encoding));
 
-            if (_csvOption.showHeader && _csvOption.headerList != null)
+            if (csvOption.showHeader && csvOption.headerList != null)
             {
-                WriteRow(_csvOption.headerList, writer);
+                WriteRow(csvOption.headerList, writer);
             }
 
             foreach (var row in data)
@@ -37,25 +34,25 @@ namespace CsvTool
 
         private void WriteRow(IEnumerable<string> row, StreamWriter writer)
         {
-            var finalRow = new StringBuilder();
-            foreach (var field in row)
+            StringBuilder finalRow = new StringBuilder();
+            foreach (string field in row)
             {
-                if (_csvOption.hasQuotes || needQuotes(field))
+                if (csvOption.hasQuotes || needQuotes(field))
                 {
-                    finalRow.Append("\"" + field.Replace("\"", "\"\"") + "\"" + _separator);
+                    finalRow.Append("\"" + field.Replace("\"", "\"\"") + "\"" + separator);
                 }
                 else
                 {
-                    finalRow.Append(field + _separator);
+                    finalRow.Append(field + separator);
                 }
             }
 
-            writer.WriteLine(finalRow.ToString().TrimEnd(_separator.ToCharArray()));
+            writer.WriteLine(finalRow.ToString().TrimEnd(separator.ToCharArray()));
         }
 
         private bool needQuotes(string field)
         {
-            if (_separator == "," && field.Contains(","))
+            if (separator == "," && field.Contains(","))
             {
                 return true;
             }
