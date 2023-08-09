@@ -12,7 +12,7 @@ using Microsoft.Toolkit.Mvvm.ComponentModel;
 using Microsoft.Toolkit.Mvvm.Input;
 using ModernWpf;
 using Newtonsoft.Json;
-using RoslynScriptRunner;
+using DynamicScriptRunner;
 using System;
 using System.Collections.Concurrent;
 using System.Collections.Generic;
