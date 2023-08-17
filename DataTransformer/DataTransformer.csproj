@@ -69,7 +69,7 @@
     <PackageReference Include="CustomizableMessageBox">
       <Version>2.3.4</Version>
     </PackageReference>
-    <PackageReference Include="DynamicScriptRunner" Version="1.5.5" />
+    <PackageReference Include="DynamicScriptExecutor" Version="1.6.0" />
     <PackageReference Include="gong-wpf-dragdrop">
       <Version>3.2.1</Version>
     </PackageReference>

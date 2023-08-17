@@ -2,6 +2,7 @@
 using CsvTool;
 using CustomizableMessageBox;
 using DataTransformer.Helper;
+using DynamicScriptExecutor;
 using GlobalObjects;
 using GongSolutions.Wpf.DragDrop;
 using ICSharpCode.AvalonEdit;
@@ -12,7 +13,6 @@ using Microsoft.Toolkit.Mvvm.ComponentModel;
 using Microsoft.Toolkit.Mvvm.Input;
 using ModernWpf;
 using Newtonsoft.Json;
-using DynamicScriptRunner;
 using System;
 using System.Collections.Concurrent;
 using System.Collections.Generic;
@@ -2548,7 +2548,7 @@ namespace DataTransformer.ViewModel
             };
             RenewSmartThreadPoolAnalyze(stpAnalyze);
 
-            Dictionary<Analyzer, Tuple<RunOption, CsvExplainer>> compilerDic = new Dictionary<Analyzer, Tuple<RunOption, CsvExplainer>>();
+            Dictionary<Analyzer, Tuple<ExecOption, CsvExplainer>> compilerDic = new Dictionary<Analyzer, Tuple<ExecOption, CsvExplainer>>();
             int totalCount = 0;
             for (int i = 0; i < csvExplainers.Count; ++i)
             {
@@ -2605,16 +2605,16 @@ namespace DataTransformer.ViewModel
                 }
                 filePathListDic.Add(csvExplainer, allFilePathList);
 
-                RunOption runOption = new RunOption();
-                runOption.ExtraDllFolderList = new List<string>
+                ExecOption execOption = new ExecOption();
+                execOption.ExtraDllFolderList = new List<string>
                 {
                     Path.Combine(Environment.CurrentDirectory, "Dlls")
                 };
-                runOption.ClassName = "AnalyzeCode.Analyze";
+                execOption.ClassName = "AnalyzeCode.Analyze";
                 InstanceObject instanceObj = null;
                 try
                 {
-                    instanceObj = new InstanceObject(analyzer.code, runOption);
+                    instanceObj = new InstanceObject(analyzer.code, execOption);
                 }
                 catch (Exception e)
                 {
@@ -2629,13 +2629,13 @@ namespace DataTransformer.ViewModel
                     return false;
                 }
 
-                runOption.InstanceObject = instanceObj;
+                execOption.InstanceObject = instanceObj;
 
-                GlobalObjects.GlobalObjects.SetGlobalParam(runOption, new Object());
-                Tuple<RunOption, CsvExplainer> cresultTuple = new Tuple<RunOption, CsvExplainer>(runOption, csvExplainer);
+                GlobalObjects.GlobalObjects.SetGlobalParam(execOption, new Object());
+                Tuple<ExecOption, CsvExplainer> cresultTuple = new Tuple<ExecOption, CsvExplainer>(execOption, csvExplainer);
                 compilerDic.Add(analyzer, cresultTuple);
 
-                runBeforeAnalyzeCsvThread = new Thread(() => RunBeforeAnalyzeCsv(runOption, ParamHelper.MergePublicParam(paramDicEachAnalyzer, analyzer.name), analyzer, allFilePathList, isExecuteInSequence));
+                runBeforeAnalyzeCsvThread = new Thread(() => RunBeforeAnalyzeCsv(execOption, ParamHelper.MergePublicParam(paramDicEachAnalyzer, analyzer.name), analyzer, allFilePathList, isExecuteInSequence));
                 runBeforeAnalyzeCsvThread.Start();
 
                 while (runBeforeAnalyzeCsvThread.IsAlive)
@@ -2679,7 +2679,7 @@ namespace DataTransformer.ViewModel
                     readFileParams.Add(analyzer);
                     readFileParams.Add(ParamHelper.MergePublicParam(paramDicEachAnalyzer, analyzer.name));
                     readFileParams.Add(isExecuteInSequence);
-                    readFileParams.Add(runOption);
+                    readFileParams.Add(execOption);
                     smartThreadPoolAnalyze.QueueWorkItem(new Func<List<object>, object>(ReadFile), readFileParams);
                 }
             }
@@ -2757,9 +2757,9 @@ namespace DataTransformer.ViewModel
             {
                 long startTime = GetNowSs();
 
-                RunOption runOption = compilerDic[analyzer].Item1;
+                ExecOption execOption = compilerDic[analyzer].Item1;
                 CsvExplainer csvExplainer = compilerDic[analyzer].Item2;
-                runEndThread = new Thread(() => RunEnd(runOption, ParamHelper.MergePublicParam(paramDicEachAnalyzer, analyzer.name), analyzer, filePathListDic[csvExplainer], isExecuteInSequence));
+                runEndThread = new Thread(() => RunEnd(execOption, ParamHelper.MergePublicParam(paramDicEachAnalyzer, analyzer.name), analyzer, filePathListDic[csvExplainer], isExecuteInSequence));
                 runEndThread.Start();
                 while (runEndThread.IsAlive)
                 {
@@ -2954,15 +2954,15 @@ namespace DataTransformer.ViewModel
             BtnStopIsEnabled = false;
         }
 
-        private void RunFunction(RunOption runOption, string analyzerName, string className, string functionName, object[] objList, int globalParamIndex)
+        private void RunFunction(ExecOption execOption, string analyzerName, string className, string functionName, object[] objList, int globalParamIndex)
         {
             try
             {
-                RunOption runOptionTemp = runOption.Copy();
-                runOptionTemp.MethodName = functionName;
-                runOptionTemp.ParamList = objList;
-                ScriptRunner.Run(runOptionTemp);
-                GlobalObjects.GlobalObjects.SetGlobalParam(runOption, objList[globalParamIndex]);
+                ExecOption execOptionTemp = execOption.Copy();
+                execOptionTemp.MethodName = functionName;
+                execOptionTemp.ParamList = objList;
+                ScriptExecutor.Exec(execOptionTemp);
+                GlobalObjects.GlobalObjects.SetGlobalParam(execOption, objList[globalParamIndex]);
             }
             catch (MissingMethodException e)
             {
@@ -2989,16 +2989,16 @@ namespace DataTransformer.ViewModel
             }
         }
 
-        private void RunBeforeAnalyzeCsv(RunOption runOption, Param param, Analyzer analyzer, List<String> allFilePathList, bool isExecuteInSequence)
+        private void RunBeforeAnalyzeCsv(ExecOption execOption, Param param, Analyzer analyzer, List<String> allFilePathList, bool isExecuteInSequence)
         {
-            object[] objList = new object[] { param, GlobalObjects.GlobalObjects.GetGlobalParam(runOption), allFilePathList, analyzer.globalizationSetter, isExecuteInSequence, analyzer.outputter };
-            RunFunction(runOption, analyzer.name, "AnalyzeCode.Analyze", "RunBeforeAnalyzeCsv", objList, 1);
+            object[] objList = new object[] { param, GlobalObjects.GlobalObjects.GetGlobalParam(execOption), allFilePathList, analyzer.globalizationSetter, isExecuteInSequence, analyzer.outputter };
+            RunFunction(execOption, analyzer.name, "AnalyzeCode.Analyze", "RunBeforeAnalyzeCsv", objList, 1);
         }
 
-        private void RunEnd(RunOption runOption, Param param, Analyzer analyzer, List<String> allFilePathList, bool isExecuteInSequence)
+        private void RunEnd(ExecOption execOption, Param param, Analyzer analyzer, List<String> allFilePathList, bool isExecuteInSequence)
         {
-            object[] objList = new object[] { param, GlobalObjects.GlobalObjects.GetGlobalParam(runOption), allFilePathList, analyzer.globalizationSetter, isExecuteInSequence, analyzer.outputter };
-            RunFunction(runOption, analyzer.name, "AnalyzeCode.Analyze", "RunEnd", objList, 1);
+            object[] objList = new object[] { param, GlobalObjects.GlobalObjects.GetGlobalParam(execOption), allFilePathList, analyzer.globalizationSetter, isExecuteInSequence, analyzer.outputter };
+            RunFunction(execOption, analyzer.name, "AnalyzeCode.Analyze", "RunEnd", objList, 1);
         }
 
         [DllImport("kernel32.dll")]
@@ -3040,7 +3040,7 @@ namespace DataTransformer.ViewModel
             Analyzer analyzer = (Analyzer)readFileParams[3];
             Param param = (Param)readFileParams[4];
             bool isExecuteInSequence = (bool)readFileParams[5];
-            RunOption runOption = (RunOption)readFileParams[6];
+            ExecOption execOption = (ExecOption)readFileParams[6];
 
             ConcurrentDictionary<ReadFileReturnType, object> methodResult = new ConcurrentDictionary<ReadFileReturnType, object>();
             methodResult.AddOrUpdate(ReadFileReturnType.ANALYZER, analyzer, (key, oldValue) => null);
@@ -3061,11 +3061,11 @@ namespace DataTransformer.ViewModel
                 int count = 0;
                 while ((recordDic = csv.ReadNext()) != null)
                 {
-                    Analyze(recordDic, filePath, analyzer, param, isExecuteInSequence, runOption);
+                    Analyze(recordDic, filePath, analyzer, param, isExecuteInSequence, execOption);
                     ++count;
                 }
 
-                AnalyzeRecords(csv.GetLists(), filePath, analyzer, param, isExecuteInSequence, runOption);
+                AnalyzeRecords(csv.GetLists(), filePath, analyzer, param, isExecuteInSequence, execOption);
 
                 csv.Dispose();
             }
@@ -3093,18 +3093,18 @@ namespace DataTransformer.ViewModel
             return (DateTime.Now.ToUniversalTime().Ticks - 621355968000000000) / 10000;
         }
 
-        private void Analyze(Dictionary<string, string> record, string filePath, Analyzer analyzer, Param param, bool isExecuteInSequence, RunOption runOption)
+        private void Analyze(Dictionary<string, string> record, string filePath, Analyzer analyzer, Param param, bool isExecuteInSequence, ExecOption execOption)
         {
             ++analyzeCsvInvokeCount;
-            object[] objList = new object[] { param, record, filePath, GlobalObjects.GlobalObjects.GetGlobalParam(runOption), analyzer.globalizationSetter, isExecuteInSequence, analyzeCsvInvokeCount, analyzer.outputter };
-            RunFunction(runOption, analyzer.name, "AnalyzeCode.Analyze", "AnalyzePerRecord", objList, 3);
+            object[] objList = new object[] { param, record, filePath, GlobalObjects.GlobalObjects.GetGlobalParam(execOption), analyzer.globalizationSetter, isExecuteInSequence, analyzeCsvInvokeCount, analyzer.outputter };
+            RunFunction(execOption, analyzer.name, "AnalyzeCode.Analyze", "AnalyzePerRecord", objList, 3);
         }
 
-        private void AnalyzeRecords(IEnumerable<IEnumerable<string>> records, string filePath, Analyzer analyzer, Param param, bool isExecuteInSequence, RunOption runOption)
+        private void AnalyzeRecords(IEnumerable<IEnumerable<string>> records, string filePath, Analyzer analyzer, Param param, bool isExecuteInSequence, ExecOption execOption)
         {
             ++analyzeCsvInvokeCount;
-            object[] objList = new object[] { param, records, filePath, GlobalObjects.GlobalObjects.GetGlobalParam(runOption), analyzer.globalizationSetter, isExecuteInSequence, analyzeCsvInvokeCount, analyzer.outputter };
-            RunFunction(runOption, analyzer.name, "AnalyzeCode.Analyze", "AnalyzeRecords", objList, 3);
+            object[] objList = new object[] { param, records, filePath, GlobalObjects.GlobalObjects.GetGlobalParam(execOption), analyzer.globalizationSetter, isExecuteInSequence, analyzeCsvInvokeCount, analyzer.outputter };
+            RunFunction(execOption, analyzer.name, "AnalyzeCode.Analyze", "AnalyzeRecords", objList, 3);
         }
 
         private void RenewSmartThreadPoolAnalyze(STPStartInfo stp)
