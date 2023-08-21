@@ -1,4 +1,6 @@
 ﻿using Amib.Threading;
+using CommunityToolkit.Mvvm.ComponentModel;
+using CommunityToolkit.Mvvm.Input;
 using CsvTool;
 using CustomizableMessageBox;
 using DataTransformer.Helper;
@@ -9,8 +11,6 @@ using ICSharpCode.AvalonEdit;
 using ICSharpCode.AvalonEdit.Document;
 using ICSharpCode.AvalonEdit.Highlighting;
 using Microsoft.CodeAnalysis;
-using Microsoft.Toolkit.Mvvm.ComponentModel;
-using Microsoft.Toolkit.Mvvm.Input;
 using ModernWpf;
 using Newtonsoft.Json;
 using System;

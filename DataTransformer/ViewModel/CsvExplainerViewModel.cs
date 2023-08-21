@@ -3,8 +3,6 @@ using DataTransformer.View;
 using DataTransformer.ViewModel;
 using DataTransformer.Helper;
 using GongSolutions.Wpf.DragDrop;
-using Microsoft.Toolkit.Mvvm.ComponentModel;
-using Microsoft.Toolkit.Mvvm.Input;
 using Newtonsoft.Json;
 using System;
 using System.Collections.Generic;
@@ -21,6 +19,8 @@ using System.Windows.Input;
 using static CustomizableMessageBox.MessageBox;
 using static System.Net.WebRequestMethods;
 using File = System.IO.File;
+using CommunityToolkit.Mvvm.ComponentModel;
+using CommunityToolkit.Mvvm.Input;
 
 namespace DataTransformer.ViewModel
 {
