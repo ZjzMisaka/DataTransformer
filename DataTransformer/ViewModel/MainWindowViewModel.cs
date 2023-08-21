@@ -3088,7 +3088,7 @@ namespace DataTransformer.ViewModel
 
         private long GetNowSs()
         {
-            return (DateTime.Now.ToUniversalTime().Ticks - 621355968000000000) / 10000;
+            return DateTimeOffset.UtcNow.ToUnixTimeMilliseconds();
         }
 
         private void Analyze(Dictionary<string, string> record, string filePath, Analyzer analyzer, Param param, bool isExecuteInSequence, ExecOption execOption)
