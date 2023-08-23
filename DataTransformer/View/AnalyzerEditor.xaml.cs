@@ -41,5 +41,10 @@ namespace DataTransformer
             InitializeComponent();
             this.DataContext = new AnalyzerViewModel();
         }
+
+        private void ItemsControl_Scroll(object sender, System.Windows.Controls.Primitives.ScrollEventArgs e)
+        {
+
+        }
     }
 }

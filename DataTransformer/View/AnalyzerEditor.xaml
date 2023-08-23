@@ -76,20 +76,97 @@
             <Button Name="btn_set_option" Content="{DynamicResource SetOption}" Width="auto" Grid.Row="0" Grid.ColumnSpan="3" HorizontalAlignment="Right" Command="{Binding BtnSetOptionClickCommand}" Margin="5 0"/>
             <Button Name="btn_delete" Content="{DynamicResource Delete}" IsEnabled="{Binding BtnDeleteIsEnabled}" Width="auto" HorizontalAlignment="Right" Command="{Binding BtnDeleteClickCommand}"/>
         </StackPanel>
-        <ItemsControl Name="items" ItemsSource="{Binding ItemsSource}" Grid.Row="2" Grid.Column="0" Grid.ColumnSpan="2">
-            <i:Interaction.Triggers>
-                <i:EventTrigger EventName="Loaded">
-                    <local:EventCommandAction Command="{Binding ItemLoadedCommand}" />
-                </i:EventTrigger>
-            </i:Interaction.Triggers>
-            <ItemsControl.ItemTemplate>
-                <DataTemplate>
-                    <roslynPad:RoslynCodeEditor Background="{Binding ThemeBackground, Mode=TwoWay}" Height="100px" x:Name="rce_editor" FontSize="14" SyntaxHighlighting="C#" ShowLineNumbers="True"  HorizontalAlignment="Stretch" VerticalAlignment="Stretch" HorizontalScrollBarVisibility="Auto" VerticalScrollBarVisibility="Auto">
-                        
-                    </roslynPad:RoslynCodeEditor>
-                </DataTemplate>
-            </ItemsControl.ItemTemplate>
-        </ItemsControl>
+        <Grid Grid.Row="2" Grid.Column="0" Grid.ColumnSpan="2">
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition Width="auto" MinWidth="5px"></ColumnDefinition>
+                <ColumnDefinition Width="auto"></ColumnDefinition>
+                <ColumnDefinition></ColumnDefinition>
+                <ColumnDefinition Width="auto"></ColumnDefinition>
+                <ColumnDefinition Width="auto" MinWidth="5px"></ColumnDefinition>
+            </Grid.ColumnDefinitions>
+            <Grid Grid.Row="0" Grid.Column="0">
+                <Grid.RowDefinitions>
+                    <RowDefinition Height="auto"></RowDefinition>
+                    <RowDefinition Height="*"></RowDefinition>
+                </Grid.RowDefinitions>
+                <ComboBox Grid.Row="0" ItemsSource="{Binding CsvExplainersItems, Mode=TwoWay}" SelectedItem="{Binding SelectedCsvExplainersItem, Mode=TwoWay}" SelectedIndex="{Binding SelectedCsvExplainersIndex, Mode=TwoWay}" Behavior:PreviewMouseLeftButtonDown.Command="{Binding CbCsvExplainersPreviewMouseLeftButtonDownCommand}" Behavior:SelectionChanged.Command="{Binding CbCsvExplainersSelectionChangedCommand}" Margin="5px, 2px" HorizontalAlignment="Stretch"></ComboBox>
+                <ScrollViewer Grid.Row="1" VerticalScrollBarVisibility="Auto">
+                    <ItemsControl ItemsSource="{Binding InputTitles}">
+                        <ItemsControl.ItemTemplate>
+                            <DataTemplate>
+                                <Button Content="{Binding}" Margin="5px, 2px" HorizontalAlignment="Stretch" Command="{Binding Path=DataContext.BtnTitleClickCommand, Source={x:Reference w_AnalyzerEditor}}" CommandParameter="{Binding}"/>
+                            </DataTemplate>
+                        </ItemsControl.ItemTemplate>
+                    </ItemsControl>
+                </ScrollViewer>
+            </Grid>
+            <GridSplitter x:Name="gs_gridsplitterbuttonL" Grid.Row="0" Grid.Column="1" HorizontalAlignment="Center" VerticalAlignment="Stretch" Panel.ZIndex="100">
+                <GridSplitter.Style>
+                    <Style TargetType="GridSplitter">
+                        <Setter Property="Width" Value="4" />
+                        <Setter Property="BorderBrush" Value="DarkGray" />
+                        <Setter Property="BorderThickness" Value="1, 0, 1, 0" />
+                        <Setter Property="Background" Value="{Binding ThemeBackground, Mode=TwoWay}" />
+                        <Style.Triggers>
+                            <Trigger Property="IsDragging" Value="True">
+                                <Setter Property="Width" Value="4" />
+                                <Setter Property="BorderBrush" Value="DarkGray" />
+                                <Setter Property="BorderThickness" Value="1, 0, 1, 0" />
+                                <Setter Property="Background" Value="DarkGray" />
+                            </Trigger>
+                        </Style.Triggers>
+                    </Style>
+                </GridSplitter.Style>
+            </GridSplitter>
+            <ItemsControl Name="items" ItemsSource="{Binding ItemsSource}" Grid.Row="0" Grid.Column="2">
+                <i:Interaction.Triggers>
+                    <i:EventTrigger EventName="Loaded">
+                        <local:EventCommandAction Command="{Binding ItemLoadedCommand}" />
+                    </i:EventTrigger>
+                </i:Interaction.Triggers>
+                <ItemsControl.ItemTemplate>
+                    <DataTemplate>
+                        <roslynPad:RoslynCodeEditor Background="{Binding ThemeBackground, Mode=TwoWay}" Height="100px" x:Name="rce_editor" FontSize="14" SyntaxHighlighting="C#" ShowLineNumbers="True"  HorizontalAlignment="Stretch" VerticalAlignment="Stretch" HorizontalScrollBarVisibility="Auto" VerticalScrollBarVisibility="Auto">
+
+                        </roslynPad:RoslynCodeEditor>
+                    </DataTemplate>
+                </ItemsControl.ItemTemplate>
+            </ItemsControl>
+            <GridSplitter x:Name="gs_gridsplitterbuttonR" Grid.Row="0" Grid.Column="3" HorizontalAlignment="Center" VerticalAlignment="Stretch" Panel.ZIndex="100">
+                <GridSplitter.Style>
+                    <Style TargetType="GridSplitter">
+                        <Setter Property="Width" Value="4" />
+                        <Setter Property="BorderBrush" Value="DarkGray" />
+                        <Setter Property="BorderThickness" Value="1, 0, 1, 0" />
+                        <Setter Property="Background" Value="{Binding ThemeBackground, Mode=TwoWay}" />
+                        <Style.Triggers>
+                            <Trigger Property="IsDragging" Value="True">
+                                <Setter Property="Width" Value="4" />
+                                <Setter Property="BorderBrush" Value="DarkGray" />
+                                <Setter Property="BorderThickness" Value="1, 0, 1, 0" />
+                                <Setter Property="Background" Value="DarkGray" />
+                            </Trigger>
+                        </Style.Triggers>
+                    </Style>
+                </GridSplitter.Style>
+            </GridSplitter>
+            <Grid Grid.Row="0" Grid.Column="4">
+                <Grid.RowDefinitions>
+                    <RowDefinition Height="auto"></RowDefinition>
+                    <RowDefinition Height="*"></RowDefinition>
+                </Grid.RowDefinitions>
+                <ComboBox Grid.Row="0" IsEnabled="False" Margin="5px, 2px" HorizontalAlignment="Stretch" SelectedItem="{Binding SelectedAnalyzersIndex}"></ComboBox>
+                <ScrollViewer Grid.Row="1" VerticalScrollBarVisibility="Auto">
+                    <ItemsControl ItemsSource="{Binding OutputTitles}">
+                        <ItemsControl.ItemTemplate>
+                            <DataTemplate>
+                                <Button Content="{Binding}" Margin="5px, 2px" HorizontalAlignment="Stretch" Command="{Binding Path=DataContext.BtnTitleClickCommand, Source={x:Reference w_AnalyzerEditor}}" CommandParameter="{Binding}"/>
+                            </DataTemplate>
+                        </ItemsControl.ItemTemplate>
+                    </ItemsControl>
+                </ScrollViewer>
+            </Grid>
+        </Grid>
         <Button Name="btn_save" Grid.Row="3" Grid.Column="0" Content="{DynamicResource Save}" Command="{Binding BtnSaveClickCommand}" Margin="10 2" HorizontalAlignment="Stretch"/>
         <Button Name="btn_exit" Grid.Row="3" Grid.Column="1" Content="{DynamicResource Close}" Command="{Binding BtnExitClickCommand}" Margin="10 2" HorizontalAlignment="Stretch">
             <i:Interaction.Triggers>

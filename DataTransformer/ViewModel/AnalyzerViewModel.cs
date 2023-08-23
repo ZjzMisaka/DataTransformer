@@ -38,6 +38,7 @@ using DataTransformer.View;
 using DataTransformer.ViewModel;
 using CommunityToolkit.Mvvm.ComponentModel;
 using CommunityToolkit.Mvvm.Input;
+using System.Xml.Linq;
 
 namespace DataTransformer.ViewModel
 {
@@ -155,6 +156,56 @@ namespace DataTransformer.ViewModel
             }
         }
 
+        private List<string> csvExplainersItems = new List<string>();
+        public List<string> CsvExplainersItems
+        {
+            get { return csvExplainersItems; }
+            set
+            {
+                SetProperty<List<string>>(ref csvExplainersItems, value);
+            }
+        }
+
+        private string selectedCsvExplainersItem = null;
+        public string SelectedCsvExplainersItem
+        {
+            get { return selectedCsvExplainersItem; }
+            set
+            {
+                SetProperty<string>(ref selectedCsvExplainersItem, value);
+            }
+        }
+
+        private int selectedCsvExplainersIndex = 0;
+        public int SelectedCsvExplainersIndex
+        {
+            get { return selectedCsvExplainersIndex; }
+            set
+            {
+                SetProperty<int>(ref selectedCsvExplainersIndex, value);
+            }
+        }
+
+        private ObservableCollection<string> inputTitles;
+        public ObservableCollection<string> InputTitles
+        {
+            get { return inputTitles; }
+            set
+            {
+                SetProperty<ObservableCollection<string>>(ref inputTitles, value);
+            }
+        }
+
+        private ObservableCollection<string> outputTitles;
+        public ObservableCollection<string> OutputTitles
+        {
+            get { return outputTitles; }
+            set
+            {
+                SetProperty<ObservableCollection<string>>(ref outputTitles, value);
+            }
+        }
+
         private ObservableCollection<DocumentViewModel> itemsSource;
 
         public ObservableCollection<DocumentViewModel> ItemsSource
@@ -177,6 +228,9 @@ namespace DataTransformer.ViewModel
         public ICommand CbAnalyzersPreviewMouseLeftButtonDownCommand { get; set; }
         public ICommand CbAnalyzersSelectionChangedCommand { get; set; }
         public ICommand BtnDeleteClickCommand { get; set; }
+        public ICommand CbCsvExplainersPreviewMouseLeftButtonDownCommand { get; set; }
+        public ICommand CbCsvExplainersSelectionChangedCommand { get; set; }
+        public ICommand BtnTitleClickCommand { get; set; }
         public ICommand BtnSetOptionClickCommand { get; set; }
         public ICommand BtnEditParamClickCommand { get; set; }
         public ICommand BtnEditGlobalizationClickCommand { get; set; }
@@ -186,6 +240,8 @@ namespace DataTransformer.ViewModel
         public AnalyzerViewModel()
         {
             _documents = new ObservableCollection<DocumentViewModel>();
+            InputTitles = new ObservableCollection<string>();
+            OutputTitles = new ObservableCollection<string>();
             ItemsSource = _documents;
             loadFailed = false;
 
@@ -199,7 +255,10 @@ namespace DataTransformer.ViewModel
             KeyBindingRenameSaveCommand = new RelayCommand(RenameSaveByKeyDown);
             CbAnalyzersPreviewMouseLeftButtonDownCommand = new RelayCommand(CbAnalyzersPreviewMouseLeftButtonDown);
             CbAnalyzersSelectionChangedCommand = new RelayCommand(CbAnalyzersSelectionChanged);
+            BtnTitleClickCommand = new RelayCommand<string>(BtnTitleClick);
             BtnDeleteClickCommand = new RelayCommand(BtnDeleteClick);
+            CbCsvExplainersPreviewMouseLeftButtonDownCommand = new RelayCommand(CbCsvExplainersPreviewMouseLeftButtonDown);
+            CbCsvExplainersSelectionChangedCommand = new RelayCommand(CbCsvExplainersSelectionChanged);
             BtnSetOptionClickCommand = new RelayCommand(BtnSetOptionClick);
             BtnEditParamClickCommand = new RelayCommand(BtnEditParamClick);
             BtnEditGlobalizationClickCommand = new RelayCommand(BtnEditGlobalizationClick);
@@ -619,6 +678,20 @@ namespace DataTransformer.ViewModel
 
             paramDicForChange = analyzer.paramDic;
             globalizationSetterForChange = analyzer.globalizationSetter;
+
+            if (this.analyzer.outputter.csvOption.headerList == null)
+            {
+                return;
+            }
+            for (int i = 0; i < this.analyzer.outputter.csvOption.headerList.Count; ++i)
+            {
+                string header = this.analyzer.outputter.csvOption.headerList[i];
+                if (header == "")
+                {
+                    header = $"column[{i}]";
+                }
+                outputTitles.Add(header);
+            }
         }
 
         private void BtnDeleteClick()
@@ -631,6 +704,47 @@ namespace DataTransformer.ViewModel
                 SelectedAnalyzersIndex = 0;
             }
         }
+
+        private void BtnTitleClick(string title)
+        {
+            if (editor == null)
+            {
+                return;
+            }
+            editor.Document.Insert(editor.SelectionStart, title);
+        }
+
+        private void CbCsvExplainersPreviewMouseLeftButtonDown()
+        {
+            CsvExplainersItems = FileHelper.GetCsvExplainersList();
+        }
+
+        private void CbCsvExplainersSelectionChanged()
+        {
+            if (SelectedCsvExplainersIndex == 0)
+            {
+                InputTitles.Clear();
+                return;
+            }
+            CsvExplainer csvExplainer = null;
+            csvExplainer = JsonHelper.TryDeserializeObject<CsvExplainer>($".\\CsvExplainers\\{SelectedCsvExplainersItem}.json");
+            if (csvExplainer == null || csvExplainer.inputOption.headerList == null)
+            {
+                InputTitles.Clear();
+                return;
+            }
+            for (int i = 0; i < csvExplainer.inputOption.headerList.Count; ++i)
+            {
+                string header = csvExplainer.inputOption.headerList[i];
+                if (header == "")
+                {
+                    header = $"column[{i}]";
+                }
+                InputTitles.Add(header);
+            }
+        }
+
+
         private void BtnSetOptionClick()
         {
             CsvOptionEditor csvOptionEditor = new CsvOptionEditor(this.analyzer.outputter.csvOption, false);
