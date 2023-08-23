@@ -81,7 +81,7 @@
     <sys:String x:Key="Start">開始</sys:String>
     <sys:String x:Key="AnalyzerEditor">ロジックエディタ</sys:String>
     <sys:String x:Key="EditParameter">パラメータ編集</sys:String>
-    <sys:String x:Key="SetOption">オプションの設定</sys:String>
+    <sys:String x:Key="SetOption">オプション</sys:String>
     <sys:String x:Key="Internationalization">多言語化</sys:String>
     <sys:String x:Key="CsvExplainerEditor">検索情報エディタ</sys:String>
     <sys:String x:Key="PathList">パス一覧</sys:String>

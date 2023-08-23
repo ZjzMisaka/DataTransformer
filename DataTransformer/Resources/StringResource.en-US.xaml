@@ -81,7 +81,7 @@
     <sys:String x:Key="Start">Start</sys:String>
     <sys:String x:Key="AnalyzerEditor">Analyzere ditor</sys:String>
     <sys:String x:Key="EditParameter">Edit parameter</sys:String>
-    <sys:String x:Key="SetOption">Set option</sys:String>
+    <sys:String x:Key="SetOption">Option</sys:String>
     <sys:String x:Key="Internationalization">Internationalization</sys:String>
     <sys:String x:Key="CsvExplainerEditor">Csv explainer editor</sys:String>
     <sys:String x:Key="PathList">Path list</sys:String>

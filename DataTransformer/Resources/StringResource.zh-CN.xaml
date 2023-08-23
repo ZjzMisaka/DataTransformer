@@ -81,7 +81,7 @@
     <sys:String x:Key="Start">开始</sys:String>
     <sys:String x:Key="AnalyzerEditor">逻辑编辑器</sys:String>
     <sys:String x:Key="EditParameter">编辑参数</sys:String>
-    <sys:String x:Key="SetOption">设置选项</sys:String>
+    <sys:String x:Key="SetOption">选项</sys:String>
     <sys:String x:Key="Internationalization">多语言</sys:String>
     <sys:String x:Key="CsvExplainerEditor">检索信息编辑器</sys:String>
     <sys:String x:Key="PathList">路径列表</sys:String>
