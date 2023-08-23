@@ -44,7 +44,6 @@ Perform batch reading, analysis, and output operations of CSV by executing pre-w
 - Can use additional provided functions and properties to perform on-the-fly. 
     - Real-time output of Log in the Log area of the main interface. 
     - Hang and wait, read user input. 
-    - Additional Excel file operations. 
 - When a compilation error or a running error occurs, the relevant debugging information will appear in the log area at the bottom of the main interface. 
 
 ##### GlobalDic (static class)
