@@ -738,7 +738,7 @@ namespace DataTransformer.ViewModel
                 string header = csvExplainer.inputOption.headerList[i];
                 if (header == "")
                 {
-                    header = $"column[{i}]";
+                    header = i.ToString();
                 }
                 InputTitles.Add(header);
             }
