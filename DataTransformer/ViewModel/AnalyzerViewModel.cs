@@ -716,7 +716,9 @@ namespace DataTransformer.ViewModel
             {
                 return;
             }
+            editor.Document.Remove(editor.SelectionStart, editor.SelectionLength);
             editor.Document.Insert(editor.SelectionStart, title);
+            editor.Focus();
         }
 
         private void CbCsvExplainersPreviewMouseLeftButtonDown()
