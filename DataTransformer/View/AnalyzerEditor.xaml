@@ -155,7 +155,7 @@
                     <RowDefinition Height="auto"></RowDefinition>
                     <RowDefinition Height="*"></RowDefinition>
                 </Grid.RowDefinitions>
-                <ComboBox Grid.Row="0" IsEnabled="False" Margin="5px, 2px" HorizontalAlignment="Stretch" SelectedItem="{Binding SelectedAnalyzersIndex}"></ComboBox>
+                <ComboBox Grid.Row="0" ItemsSource="{Binding AnalyzersItems, Mode=TwoWay}" SelectedIndex="{Binding SelectedAnalyzersIndex, Mode=TwoWay}" Margin="5px, 2px" HorizontalAlignment="Stretch" IsEnabled="False"></ComboBox>
                 <ScrollViewer Grid.Row="1" VerticalScrollBarVisibility="Auto">
                     <ItemsControl ItemsSource="{Binding OutputTitles}">
                         <ItemsControl.ItemTemplate>
