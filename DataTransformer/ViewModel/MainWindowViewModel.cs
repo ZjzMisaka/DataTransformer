@@ -2720,7 +2720,7 @@ namespace DataTransformer.ViewModel
                         long value = new long();
                         if (currentAnalizingDictionary.TryGetValue(key, out value))
                         {
-                            long timeCostSs = GetNowSs() - currentAnalizingDictionary[key];
+                            long timeCostSs = GetNowSs() - value;
                             if (enableTimeoutSetting && perTimeoutLimitAnalyze > 0 && timeCostSs >= perTimeoutLimitAnalyze)
                             {
                                 smartThreadPoolAnalyze.Dispose();
