@@ -655,6 +655,7 @@ namespace DataTransformer.ViewModel
         {
             if (editor == null)
             {
+                OutputTitles.Clear();
                 return;
             }
 
@@ -666,12 +667,14 @@ namespace DataTransformer.ViewModel
                 editor.Text = GlobalObjects.GlobalObjects.GetDefaultCode();
                 paramDicForChange = new Dictionary<string, ParamInfo>();
                 globalizationSetterForChange = new GlobalizationSetter();
+                OutputTitles.Clear();
                 return;
             }
             this.analyzer = JsonHelper.TryDeserializeObject<Analyzer>($".\\Analyzers\\{SelectedAnalyzersItem}.json");
             if (analyzer == null)
             {
                 SelectedAnalyzersIndex = 0;
+                OutputTitles.Clear();
                 return;
             }
             editor.Text = analyzer.code;
@@ -681,8 +684,10 @@ namespace DataTransformer.ViewModel
 
             if (this.analyzer.outputter.csvOption.headerList == null)
             {
+                OutputTitles.Clear();
                 return;
             }
+            OutputTitles.Clear();
             for (int i = 0; i < this.analyzer.outputter.csvOption.headerList.Count; ++i)
             {
                 string header = this.analyzer.outputter.csvOption.headerList[i];
@@ -690,7 +695,7 @@ namespace DataTransformer.ViewModel
                 {
                     header = i.ToString();
                 }
-                outputTitles.Add(header);
+                OutputTitles.Add(header);
             }
         }
 
@@ -733,6 +738,7 @@ namespace DataTransformer.ViewModel
                 InputTitles.Clear();
                 return;
             }
+            InputTitles.Clear();
             for (int i = 0; i < csvExplainer.inputOption.headerList.Count; ++i)
             {
                 string header = csvExplainer.inputOption.headerList[i];
