@@ -688,7 +688,7 @@ namespace DataTransformer.ViewModel
                 string header = this.analyzer.outputter.csvOption.headerList[i];
                 if (header == "")
                 {
-                    header = $"column[{i}]";
+                    header = i.ToString();
                 }
                 outputTitles.Add(header);
             }
