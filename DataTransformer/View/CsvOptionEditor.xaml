@@ -20,7 +20,7 @@
     <Grid>
         <Grid.RowDefinitions>
             <RowDefinition Height="*"></RowDefinition>
-            <RowDefinition Height="35px"></RowDefinition>
+            <RowDefinition Height="45px"></RowDefinition>
         </Grid.RowDefinitions>
         <TabControl Grid.Row="0">
             <TabItem Name="t_input" Header="{DynamicResource Input}" IsEnabled="{Binding IsInputOption}" IsSelected="{Binding IsInputOption}">
@@ -111,6 +111,6 @@
                 </ScrollViewer>
             </TabItem>
         </TabControl>
-        <Button Command="{Binding OkCommand}" Content="OK" Grid.Row="1" Margin="0, 5, 0, 0" HorizontalAlignment="Stretch" VerticalAlignment="Center"></Button>
+        <Button Command="{Binding OkCommand}" Content="OK" Grid.Row="1" Margin="5, 10, 5, 5" HorizontalAlignment="Stretch" VerticalAlignment="Center"></Button>
     </Grid>
 </Window>
