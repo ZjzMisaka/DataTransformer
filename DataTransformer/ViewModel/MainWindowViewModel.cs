@@ -2255,7 +2255,6 @@ namespace DataTransformer.ViewModel
 
             ResetLog(false);
 
-            SetStartRunningBtnState();
             if (!CbExecuteInSequenceIsChecked)
             {
                 _ = StartLogic(csvExplainers, analyzer, paramDicEachAnalyzer, TbBasePathText, TbOutputPathText, TbOutputNameText, false, CbExecuteInSequenceIsChecked);
@@ -2279,7 +2278,6 @@ namespace DataTransformer.ViewModel
                 }
             }
             SaveParam(paramStr, false);
-            SetFinishRunningBtnState();
         }
 
         // ---------------------------------------------------- Common Logic
@@ -2393,7 +2391,6 @@ namespace DataTransformer.ViewModel
 
                             ResetLog(true);
 
-                            SetStartRunningBtnState();
                             if (!rule.executeInSequence)
                             {
                                 _ = StartLogic(csvExplainers, analyzer, paramDicEachAnalyzer, rule.basePath, rule.outputPath, rule.outputName, true, rule.executeInSequence);
@@ -2416,7 +2413,6 @@ namespace DataTransformer.ViewModel
                                     }
                                 }
                             }
-                            SetFinishRunningBtnState();
                         }
                         finally
                         {
@@ -2911,6 +2907,20 @@ namespace DataTransformer.ViewModel
                     {
                         TeLog.IsReadOnly = true;
                     }
+
+                    if (this.powerPool != null)
+                    {
+                        if (this.powerPool.RunningThreadCount > 0)
+                        {
+                            BtnStartIsEnabled = false;
+                            BtnStopIsEnabled = true;
+                        }
+                        else
+                        {
+                            BtnStartIsEnabled = true;
+                            BtnStopIsEnabled = false;
+                        }
+                    }
                 });
 
                 Thread.Sleep(freshInterval);
@@ -2928,18 +2938,6 @@ namespace DataTransformer.ViewModel
 
             TbStatusText = "";
             LProcessContent = "";
-        }
-
-        private void SetStartRunningBtnState()
-        {
-            BtnStartIsEnabled = false;
-            BtnStopIsEnabled = true;
-        }
-
-        private void SetFinishRunningBtnState()
-        {
-            BtnStartIsEnabled = true;
-            BtnStopIsEnabled = false;
         }
 
         private void RunFunction(ExecOption execOption, string analyzerName, string className, string functionName, object[] objList, int globalParamIndex)
