@@ -1,5 +1,4 @@
-﻿using Amib.Threading;
-using CommunityToolkit.Mvvm.ComponentModel;
+﻿using CommunityToolkit.Mvvm.ComponentModel;
 using CommunityToolkit.Mvvm.Input;
 using CsvTool;
 using CustomizableMessageBox;
@@ -13,6 +12,7 @@ using ICSharpCode.AvalonEdit.Highlighting;
 using Microsoft.CodeAnalysis;
 using ModernWpf;
 using Newtonsoft.Json;
+using PowerThreadPool;
 using System;
 using System.Collections.Concurrent;
 using System.Collections.Generic;
@@ -42,15 +42,13 @@ namespace DataTransformer.ViewModel
     [SupportedOSPlatform("windows7.0")]
     class MainWindowViewModel : ObservableObject, IDropTarget
     {
+        private PowerPool powerPool;
         private enum ReadFileReturnType { ANALYZER, FILEPATH };
-        private SmartThreadPool smartThreadPoolAnalyze = null;
         private Thread runningThread;
         private Thread runBeforeAnalyzeCsvThread;
-        private Thread runBeforeSetResultThread;
         private Thread runEndThread;
         private Thread fileSystemWatcherInvokeThread;
         private ConcurrentDictionary<string, long> currentAnalizingDictionary;
-        private ConcurrentDictionary<string, Analyzer> analyzerListForSetResult;
         private Dictionary<FileSystemWatcher, string> fileSystemWatcherDic;
         private Stopwatch stopwatchBeforeFileSystemWatcherInvoke;
         private int analyzeCsvInvokeCount;
@@ -2506,6 +2504,19 @@ namespace DataTransformer.ViewModel
             }
         }
 
+        private void ThreadCallback<T>(ExecuteResult<T> res)
+        {
+            ConcurrentDictionary<ReadFileReturnType, Object> methodResult = res.Result as ConcurrentDictionary<ReadFileReturnType, Object>;
+
+            if (methodResult.ContainsKey(ReadFileReturnType.FILEPATH))
+            {
+                string filePath = methodResult[ReadFileReturnType.FILEPATH].ToString();
+
+                currentAnalizingDictionary.TryRemove(filePath, out _);
+            }
+        }
+
+
         private async Task<bool> StartLogic(List<CsvExplainer> csvExplainers, List<Analyzer> analyzers, Dictionary<string, Dictionary<string, string>> paramDicEachAnalyzer, string basePath, string outputPath, string outputName, bool isAuto, bool isExecuteInSequence)
         {
             Dictionary<CsvExplainer, List<string>> filePathListDic = new Dictionary<CsvExplainer, List<string>>();
@@ -2514,7 +2525,6 @@ namespace DataTransformer.ViewModel
             Running.UserStop = false;
 
             analyzeCsvInvokeCount = 0;
-            analyzerListForSetResult = new ConcurrentDictionary<string, Analyzer>();
             currentAnalizingDictionary = new ConcurrentDictionary<string, long>();
             GlobalObjects.GlobalObjects.ClearGlobalParamDic();
 
@@ -2524,29 +2534,7 @@ namespace DataTransformer.ViewModel
 
             runNotSuccessed = false;
 
-            STPStartInfo stpAnalyze = new STPStartInfo();
-            stpAnalyze.CallToPostExecute = CallToPostExecute.WhenWorkItemNotCanceled;
-            stpAnalyze.PostExecuteWorkItemCallback = delegate (IWorkItemResult wir)
-            {
-                ConcurrentDictionary<ReadFileReturnType, Object> methodResult = null;
-                try
-                {
-                    methodResult = (ConcurrentDictionary<ReadFileReturnType, Object>)wir.GetResult();
-                }
-                catch (Exception ex)
-                {
-                    Logger.Error(ex.Message + "\n" + ex.StackTrace);
-                }
-
-                if (methodResult.ContainsKey(ReadFileReturnType.FILEPATH))
-                {
-                    string filePath = methodResult[ReadFileReturnType.FILEPATH].ToString();
-                    analyzerListForSetResult.TryAdd(filePath, (Analyzer)methodResult[ReadFileReturnType.ANALYZER]);
-
-                    currentAnalizingDictionary.TryRemove(filePath, out _);
-                }
-            };
-            RenewSmartThreadPoolAnalyze(stpAnalyze);
+            RenewSmartThreadPoolAnalyze();
 
             Dictionary<Analyzer, Tuple<ExecOption, CsvExplainer>> compilerDic = new Dictionary<Analyzer, Tuple<ExecOption, CsvExplainer>>();
             int totalCount = 0;
@@ -2680,13 +2668,13 @@ namespace DataTransformer.ViewModel
                     readFileParams.Add(ParamHelper.MergePublicParam(paramDicEachAnalyzer, analyzer.name));
                     readFileParams.Add(isExecuteInSequence);
                     readFileParams.Add(execOption);
-                    smartThreadPoolAnalyze.QueueWorkItem(new Func<List<object>, object>(ReadFile), readFileParams);
+                    powerPool.QueueWorkItem(new Func<List<object>, object>(ReadFile), readFileParams, ThreadCallback);
                 }
             }
 
             long startSs = GetNowSs();
-            smartThreadPoolAnalyze.Join();
-            while (smartThreadPoolAnalyze.CurrentWorkItemsCount > 0)
+            // powerPool.Wait();
+            while (powerPool.RunningThreadCount > 0)
             {
                 try
                 {
@@ -2694,7 +2682,7 @@ namespace DataTransformer.ViewModel
                     long totalTimeCostSs = nowSs - startSs;
                     if (Running.UserStop || (enableTimeoutSetting && totalTimeoutLimitAnalyze > 0 && totalTimeCostSs >= totalTimeoutLimitAnalyze))
                     {
-                        smartThreadPoolAnalyze.Dispose();
+                        powerPool.Stop();
                         if (enableTimeoutSetting && totalTimeoutLimitAnalyze > 0 && totalTimeCostSs >= totalTimeoutLimitAnalyze)
                         {
                             if (!isAuto)
@@ -2723,7 +2711,7 @@ namespace DataTransformer.ViewModel
                             long timeCostSs = GetNowSs() - value;
                             if (enableTimeoutSetting && perTimeoutLimitAnalyze > 0 && timeCostSs >= perTimeoutLimitAnalyze)
                             {
-                                smartThreadPoolAnalyze.Dispose();
+                                powerPool.Stop();
                                 if (!isAuto)
                                 {
                                     CustomizableMessageBox.MessageBox.Show(new RefreshList { new ButtonSpacer(), Application.Current.FindResource("Ok").ToString() }, $"{key.Split('|')[1]}\n{Application.Current.FindResource("Timeout").ToString()}. \n{perTimeoutLimitAnalyze / 1000.0}(s)", Application.Current.FindResource("Error").ToString(), MessageBoxImage.Error);
@@ -2739,19 +2727,19 @@ namespace DataTransformer.ViewModel
                         }
                     }
 
-                    LProcessContent = $"{smartThreadPoolAnalyze.CurrentWorkItemsCount}/{totalCount} | {Application.Current.FindResource("ActiveThreads").ToString()}: {smartThreadPoolAnalyze.ActiveThreads} | {Application.Current.FindResource("InUseThreads").ToString()}: {smartThreadPoolAnalyze.InUseThreads}";
+                    LProcessContent = $"{Application.Current.FindResource("RunningThreads").ToString()}: {powerPool.RunningThreadCount} | {Application.Current.FindResource("WaitingThreads").ToString()}: {powerPool.WaitingThreadCount}";
                     TbStatusText = $"{sb}";
                     await Task.Delay(freshInterval);
                 }
                 catch (Exception e)
                 {
-                    smartThreadPoolAnalyze.Dispose();
+                    powerPool.Stop();
                     Logger.Error($"{Application.Current.FindResource("ExceptionHasBeenThrowed").ToString()} \n{e.Message}");
                     FinishRunning(true);
                     return false;
                 }
             }
-            smartThreadPoolAnalyze.Dispose();
+            powerPool.Stop();
 
             foreach (Analyzer analyzer in compilerDic.Keys)
             {
@@ -3105,17 +3093,21 @@ namespace DataTransformer.ViewModel
             RunFunction(execOption, analyzer.name, "AnalyzeCode.Analyze", "AnalyzeRecords", objList, 3);
         }
 
-        private void RenewSmartThreadPoolAnalyze(STPStartInfo stp)
+        private void RenewSmartThreadPoolAnalyze()
         {
-            if (smartThreadPoolAnalyze != null)
+            if (powerPool != null)
             {
-                smartThreadPoolAnalyze.Dispose();
+                powerPool.Stop();
             }
-            smartThreadPoolAnalyze = new SmartThreadPool(stp);
+
+            ThreadPoolOption threadPoolOption = new ThreadPoolOption();
             if (maxThreadCount > 0)
             {
-                smartThreadPoolAnalyze.MaxThreads = maxThreadCount;
+                threadPoolOption.MaxThreads = maxThreadCount;
             }
+            powerPool = new PowerPool(threadPoolOption);
+
+            Running.Controller = new PowerPoolController(powerPool);
         }
 
         private void SetAutoStatusAll()
@@ -3143,11 +3135,11 @@ namespace DataTransformer.ViewModel
 
         private void CheckAndCloseThreads(bool isCloseWindow)
         {
-            if (smartThreadPoolAnalyze != null && !smartThreadPoolAnalyze.IsShuttingdown)
+            if (powerPool != null)
             {
                 try
                 {
-                    smartThreadPoolAnalyze.Shutdown();
+                    powerPool.Stop();
                 }
                 catch
                 {
@@ -3158,11 +3150,6 @@ namespace DataTransformer.ViewModel
             {
                 runBeforeAnalyzeCsvThread.Interrupt();
                 runBeforeAnalyzeCsvThread.Join();
-            }
-            if (runBeforeSetResultThread != null && runBeforeSetResultThread.IsAlive)
-            {
-                runBeforeSetResultThread.Interrupt();
-                runBeforeSetResultThread.Join();
             }
             if (runEndThread != null && runEndThread.IsAlive)
             {

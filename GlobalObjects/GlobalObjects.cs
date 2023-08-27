@@ -1,6 +1,7 @@
 ﻿using CsvTool;
 using CustomizableMessageBox;
 using ModernWpf;
+using PowerThreadPool;
 using System;
 using System.Collections.Concurrent;
 using System.Collections.Generic;
@@ -492,7 +493,34 @@ namespace GlobalObjects
         }
     }
 
-    public static class Running {
+    public class PowerPoolController
+    {
+        private PowerPool powerPool;
+        public PowerPoolController(PowerPool powerPool)
+        { 
+            this.powerPool = powerPool;
+        }
+
+        public bool CheckIfRequestedStop()
+        {
+            return powerPool.CheckIfRequestedStop();
+        }
+
+        public void StopIfRequested()
+        {
+            powerPool.StopIfRequested();
+        }
+
+        public void PauseIfRequested()
+        {
+            powerPool.PauseIfRequested();
+        }
+    }
+
+    public static class Running 
+    {
+        private static PowerPoolController controller;
+        public static PowerPoolController Controller { get => controller; set => controller = value; }
         private static bool userStop = false;
         public static bool UserStop { get => userStop; set => userStop = value; }
         
