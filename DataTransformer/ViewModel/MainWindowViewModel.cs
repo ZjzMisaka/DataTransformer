@@ -13,6 +13,7 @@ using Microsoft.CodeAnalysis;
 using ModernWpf;
 using Newtonsoft.Json;
 using PowerThreadPool;
+using PowerThreadPool.Option;
 using System;
 using System.Collections.Concurrent;
 using System.Collections.Generic;
