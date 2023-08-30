@@ -697,6 +697,9 @@ namespace DataTransformer.ViewModel
                 }
             });
             runningThread.Start();
+
+            powerPool = new PowerPool(new ThreadPoolOption());
+            Running.Controller = new PowerPoolController(powerPool);
         }
         private void WindowClosing(CancelEventArgs eventArgs)
         {
@@ -2671,7 +2674,7 @@ namespace DataTransformer.ViewModel
 
             long startSs = GetNowSs();
             // powerPool.Wait();
-            while (powerPool.RunningThreadCount > 0)
+            while (powerPool.RunningWorkerCount > 0)
             {
                 try
                 {
@@ -2724,7 +2727,7 @@ namespace DataTransformer.ViewModel
                         }
                     }
 
-                    LProcessContent = $"{Application.Current.FindResource("RunningThreads").ToString()}: {powerPool.RunningThreadCount} | {Application.Current.FindResource("WaitingThreads").ToString()}: {powerPool.WaitingThreadCount}";
+                    LProcessContent = $"{Application.Current.FindResource("RunningThreads").ToString()}: {powerPool.RunningWorkerCount} | {Application.Current.FindResource("WaitingThreads").ToString()}: {powerPool.WaitingWorkCount}";
                     TbStatusText = $"{sb}";
                     await Task.Delay(freshInterval);
                 }
@@ -2911,7 +2914,7 @@ namespace DataTransformer.ViewModel
 
                     if (this.powerPool != null)
                     {
-                        if (Running.NowRunning || this.powerPool.RunningThreadCount > 0)
+                        if (Running.NowRunning || this.powerPool.RunningWorkerCount > 0)
                         {
                             BtnStartIsEnabled = false;
                             BtnStopIsEnabled = true;
@@ -3104,9 +3107,8 @@ namespace DataTransformer.ViewModel
             {
                 threadPoolOption.MaxThreads = maxThreadCount;
             }
-            powerPool = new PowerPool(threadPoolOption);
-
-            Running.Controller = new PowerPoolController(powerPool);
+            threadPoolOption.DestroyThreadOption = new DestroyThreadOption() { MinThreads = 0 };
+            powerPool.ThreadPoolOption = threadPoolOption;
         }
 
         private void SetAutoStatusAll()
