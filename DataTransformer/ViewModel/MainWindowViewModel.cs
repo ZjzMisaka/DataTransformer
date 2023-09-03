@@ -2674,7 +2674,7 @@ namespace DataTransformer.ViewModel
 
             long startSs = GetNowSs();
             // powerPool.Wait();
-            while (powerPool.RunningWorkerCount > 0)
+            while (powerPool.ThreadPoolRunning)
             {
                 try
                 {
@@ -2914,7 +2914,7 @@ namespace DataTransformer.ViewModel
 
                     if (this.powerPool != null)
                     {
-                        if (Running.NowRunning || this.powerPool.RunningWorkerCount > 0)
+                        if (Running.NowRunning || this.powerPool.ThreadPoolRunning)
                         {
                             BtnStartIsEnabled = false;
                             BtnStopIsEnabled = true;
