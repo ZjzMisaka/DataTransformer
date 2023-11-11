@@ -698,7 +698,7 @@ namespace DataTransformer.ViewModel
             });
             runningThread.Start();
 
-            powerPool = new PowerPool(new ThreadPoolOption());
+            powerPool = new PowerPool(new PowerPoolOption());
             Running.Controller = new PowerPoolController(powerPool);
         }
         private void WindowClosing(CancelEventArgs eventArgs)
@@ -2674,7 +2674,7 @@ namespace DataTransformer.ViewModel
 
             long startSs = GetNowSs();
             // powerPool.Wait();
-            while (powerPool.ThreadPoolRunning)
+            while (powerPool.PoolRunning)
             {
                 try
                 {
@@ -2914,7 +2914,7 @@ namespace DataTransformer.ViewModel
 
                     if (this.powerPool != null)
                     {
-                        if (Running.NowRunning || this.powerPool.ThreadPoolRunning)
+                        if (Running.NowRunning || this.powerPool.PoolRunning)
                         {
                             BtnStartIsEnabled = false;
                             BtnStopIsEnabled = true;
@@ -3102,13 +3102,13 @@ namespace DataTransformer.ViewModel
                 powerPool.Stop();
             }
 
-            ThreadPoolOption threadPoolOption = new ThreadPoolOption();
+            PowerPoolOption threadPoolOption = new PowerPoolOption();
             if (maxThreadCount > 0)
             {
                 threadPoolOption.MaxThreads = maxThreadCount;
             }
             threadPoolOption.DestroyThreadOption = new DestroyThreadOption() { MinThreads = 0 };
-            powerPool.ThreadPoolOption = threadPoolOption;
+            powerPool.PowerPoolOption = threadPoolOption;
         }
 
         private void SetAutoStatusAll()
