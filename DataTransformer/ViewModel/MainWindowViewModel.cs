@@ -3138,14 +3138,7 @@ namespace DataTransformer.ViewModel
         {
             if (powerPool != null)
             {
-                try
-                {
-                    powerPool.Stop();
-                }
-                catch
-                {
-                    // DO NOTHING
-                }
+                powerPool.Dispose();
             }
             if (runBeforeAnalyzeCsvThread != null && runBeforeAnalyzeCsvThread.IsAlive)
             {
